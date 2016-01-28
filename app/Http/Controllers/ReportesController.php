@@ -17,9 +17,11 @@ class ReportesController extends Controller
     public function tipoSujetoAgredido(){
 
         $years = Agredido::years()->get();
+        $response = Agredido::agredidosByYear()->get();
 
-        //$response = Agredido::agredidosByYear(2012)->get();
-
-        return $years;
+        return $response = array(
+            'years' => $years,
+            'data' => $response
+        );
     }
 }

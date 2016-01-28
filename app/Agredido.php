@@ -78,13 +78,12 @@ class Agredido extends Model
             ->GroupBy('alertas.year');
     }
 
-    public function scopeAgredidosByYear($query, $year){
-        $query->Join('tiposujetoagredidos', 'agredidos.tiposujetoagredidos_id', '=', 'tiposujetoagredidos.id')
+    public function scopeAgredidosByYear($query){
+        $query->select('agresions.agresion', 'alertas.year', DB::raw('Count(agredidos.agresions_id) as total'))
             ->Join('agresions', 'agredidos.agresions_id', '=', 'agresions.id')
-            ->Join('agresioncategorias', 'agresions.agresioncategorias_id', '=', 'agresioncategorias.id')
-            ->Join('alertas', 'agredidos.alertas_id', '=', 'alertas.id')
-            ->select(DB::raw('agredidos.agresions_id as id, agresions.agresion, Count(agredidos.agresions_id) as contador'))
-            ->where('alertas.year', '=', $year)
-            ->groupBy('agresions.agresion');
+            ->Join('alertas', 'alertas.id', '=', 'agredidos.alertas_id')
+            ->groupBy('alertas.year', 'agresions.agresion');
+
+
     }
 }

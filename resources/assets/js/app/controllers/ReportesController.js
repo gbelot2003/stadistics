@@ -4,13 +4,24 @@ var ReportesController = function($scope, $http, high) {
     $scope.testVar = 'Esta es el area de clientes Controller!';
 
     $http.get('api/reportes/tipo-sujeto-agredido').success(function(data){
-       $scope.data = data;
 
+       $scope.data = data;
+        var years = $scope.data.years;
         var arr = [];
-        data.forEach(function(e){
-            arr.push(e.y);
+
+        $scope.agresion = data.data;
+        var agresion = [];
+
+        years.forEach(function(e){
+            arr.push(e.year);
         });
-        console.log(arr);
+
+        $scope.agresion.forEach(function(e){
+            agresion.push(e.agresion);
+        });
+
+        console.log(agresion);
+
         $scope.chartConfig = {
             options: {
                 chart: {
@@ -19,9 +30,6 @@ var ReportesController = function($scope, $http, high) {
             },
             title: {
                 text: 'Tipo Sujeto Agredido'
-            },
-            xAxis:{
-                categories: arr
             },
             plotOptions: {
                 line: {
@@ -32,7 +40,7 @@ var ReportesController = function($scope, $http, high) {
                 }
             },
             series: [{
-                name: 'Años', data: arr
+                name: arr, data: data.data
             }]
         };
     });
