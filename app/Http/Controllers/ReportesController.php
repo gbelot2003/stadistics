@@ -14,13 +14,17 @@ use Illuminate\Support\Facades\DB;
 class ReportesController extends Controller
 {
 
-    public function tipoSujetoAgredido(){
-
+    public function yearscope(){
         $years = Agredido::years()->get();
-        $response = Agredido::agredidosByYear()->get();
+        return $years;
+    }
+
+    public function tipoSujetoAgredido($year){
+
+        $response = Agredido::agredidosByYear($year)->get();
 
         return $response = array(
-            'years' => $years,
+            'year' => $response->year,
             'data' => $response
         );
     }

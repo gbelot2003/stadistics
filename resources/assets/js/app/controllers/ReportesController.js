@@ -6,11 +6,12 @@ var ReportesController = function($scope, $http, high) {
     $http.get('api/reportes/tipo-sujeto-agredido').success(function(data){
 
        $scope.data = data;
-        var years = $scope.data.years;
-        var arr = [];
+       var years = $scope.data.years;
+       $scope.agresion = data.data;
 
-        $scope.agresion = data.data;
         var agresion = [];
+        var arr = [];
+        var total = [];
 
         years.forEach(function(e){
             arr.push(e.year);
@@ -18,18 +19,23 @@ var ReportesController = function($scope, $http, high) {
 
         $scope.agresion.forEach(function(e){
             agresion.push(e.agresion);
+            total.push(e.total)
         });
 
         console.log(agresion);
+        console.log(total);
 
         $scope.chartConfig = {
             options: {
                 chart: {
-                    type: 'bar'
+                    type: 'area'
                 }
             },
             title: {
                 text: 'Tipo Sujeto Agredido'
+            },
+            xAxis: {
+                categories: [agresion]
             },
             plotOptions: {
                 line: {
