@@ -28,8 +28,8 @@ class DatabaseSeeder extends Seeder
 		$this->call('TipoagresorsTableSeeder');
 		$this->call('TiposistemasTableSeeder');
 		$this->call('TiposujetoagredidosTableSeeder');
-		$this->call('AlertasTableSeeder');
-		$this->call('AgredidosTableSeeder');
-		$this->call('AgresorsTableSeeder');
+		//$this->call('AlertasTableSeeder');
+		//$this->call('AgredidosTableSeeder');
+		//$this->call('AgresorsTableSeeder');
 	}
 }
