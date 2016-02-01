@@ -9,7 +9,7 @@
 <body>
 <header>
     <nav class="navbar navbar-inverse">
-        <menu-nav></menu-nav>
+       @include('partials.nav')
     </nav>
 </header>
 <main class="container">
