@@ -9,14 +9,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">Sistema de Alertas</a>
+        {!! Html::link('/', 'inicio', 'class="navbar-brand"') !!}
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" uib-collapse="navCollapsed">
         <ul class="nav navbar-nav">
-            <li class="">{!! html::link('/', 'inicio') !!}}</li>
-            <li class="">{!! html::link('/reportes', 'Reportes') !!}}</li>
+            <li class="{{ Request::is( '/') ? "active" : '' }}">{!! Html::link('/', 'inicio') !!}</li>
+            <li class="{{ Request::is( 'reportes') ? "active" : '' }}">{!! Html::link('/reportes', 'Reportes') !!}</li>
         </ul>
     </div><!-- /.navbar-collapse -->
 </div><!-- /.container-fluid -->

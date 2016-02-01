@@ -1,4 +1,4 @@
 @extends('main')
 @section('content')
-    <h3>Main Page</h3>
+    <h3>Repostes</h3>
 @stop

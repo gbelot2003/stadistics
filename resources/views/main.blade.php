@@ -15,13 +15,11 @@
 <main class="container">
     <div class="row">
         <div class="col-md-3" id="aside">
-            <h3>Sub-Menu</h3>
-            <ul>
-                <li>Crear</li>
-                <li>Editar</li>
-            </ul>
+            @include('partials.aside')
         </div>
-        <div class="nga-default nga-stagger nga-slide-down col-md-9" ng-view></div>
+        <div class="col-md-9">
+            @yield('content')
+        </div>
     </div>
 </main>
 </body>
