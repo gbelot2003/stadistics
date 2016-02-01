@@ -14,14 +14,14 @@ use Illuminate\Support\Facades\DB;
 class ReportesController extends Controller
 {
 
-    public function __construct()
-    {
-        $menuNav = NULL;
-    }
-
     public function index()
     {
         return View('reportes.index');
+    }
+
+    public function tipoSujetoAgredido()
+    {
+        return View('reportes.tipoSujetoAgredido');
     }
 
     /**
@@ -33,18 +33,4 @@ class ReportesController extends Controller
         return $years;
     }
 
-    /**
-     * @param $year
-     * @return array
-     */
-    public function tipoSujetoAgredido($year)
-    {
-
-        $response = Agredido::agredidosByYear($year)->get();
-
-        return $response = array(
-            'year' => $response->year,
-            'data' => $response
-        );
-    }
 }
