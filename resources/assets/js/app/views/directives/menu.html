@@ -16,7 +16,20 @@
         <div class="collapse navbar-collapse" uib-collapse="navCollapsed">
             <ul class="nav navbar-nav">
                 <li ng-class="{ active: activePath=='/' }" ><a href="#/">Inicio</a></li>
-                <li ng-class="{ active: activePath=='/reportes' }" ><a href="#/reportes">Reportes</a></li>
+                <li uib-dropdown  ng-class="{ active: activePath=='/reportes/*' }">
+                    <a uib-dropdown-toggle>Reportes<span class="caret"></span></a>
+                    <ul uib-dropdown-menu>
+                        <li><a ui-sref="#/reportes/tipo-sujeto-agredido">Tipo de Sujeto Agredido</a></li>
+                        <li><a ui-sref="#/reportes/sujeto-agredido-por-genero">Reporte por Género</a></li>
+                        <li><a ui-sref="#/reportes/medio-o-sistema">Medio o Sistema</a></li>
+                        <li><a ui-sref="#/reportes/tipo-de-medio">Tipo de Medio</a></li>
+                        <li><a ui-sref="#/reportes/agresiones-directas">Agresiones Directas</a></li>
+                        <li><a ui-sref="#/reportes/agresiones-indirectas">Agresiones Indirectas </a></li>
+                        <li><a ui-sref="#/reportes/tipo-de-agresor">Tipo de Agente Agresor </a></li>
+                        <li><a ui-sref="#/reportes/locacion">Locación por Departamento </a></li>
+                        <li><a ui-sref="#/reportes/ocurrencias-menuales">Ocurrencias por Mes </a></li>
+                    </ul>
+                </li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
