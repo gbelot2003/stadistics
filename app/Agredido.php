@@ -68,22 +68,32 @@ class Agredido extends Model
     }
 
     /**
-     * Scope Query for Guet the years related to Agredido
-     *
      * @param $query
      */
     public function scopeYears($query){
         $query->Join('alertas', 'agredidos.alertas_id', '=', 'alertas.id')
+            ->where('published_state', '=', 1)
             ->select('alertas.year')
-            ->GroupBy('alertas.year');
+            ->GroupBy('alertas.year')
+            ->orderBy('alertas.year', 'Asc');
     }
 
-    public function scopeAgredidosByYear($query){
-        $query->select('agresions.agresion', 'alertas.year', DB::raw('Count(agredidos.agresions_id) as total'))
+    /**
+     * @param $query
+     */
+    public function scopeAgresionesByYear($query){
+        $ddiez = DB::raw('SUM(IF(alertas.year = 2010, 1, 0)) ddiez');
+        $donce = DB::raw('SUM(IF(alertas.year = 2011, 1, 0)) as donce');
+        $ddoce = DB::raw('SUM(IF(alertas.year = 2012, 1, 0)) as ddoce');
+        $dtrece = DB::raw('SUM(IF(alertas.year = 2013, 1, 0)) as dtrece');
+        $dcatroce = DB::raw('SUM(IF(alertas.year = 2014, 1, 0)) as dcatroce');
+        $dquince = DB::raw('SUM(IF(alertas.year = 2014, 1, 0)) as dquince');
+
+        $query->select('agresions.agresion', $ddiez, $donce, $ddoce,$dtrece, $dcatroce, $dquince)
             ->Join('agresions', 'agredidos.agresions_id', '=', 'agresions.id')
             ->Join('alertas', 'alertas.id', '=', 'agredidos.alertas_id')
-            ->groupBy('alertas.year', 'agresions.agresion');
-
-
+            ->groupBy('agresions.agresion')
+            ->where('alertas.published_state', '=', 1);
     }
+
 }

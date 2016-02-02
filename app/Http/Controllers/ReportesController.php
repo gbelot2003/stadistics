@@ -19,13 +19,10 @@ class ReportesController extends Controller
         return $years;
     }
 
-    public function tipoSujetoAgredido($year){
+    public function tipoSujetoAgredido(){
 
-        $response = Agredido::agredidosByYear($year)->get();
+        $response = Agredido::agresionesByYear()->get();
 
-        return $response = array(
-            'year' => $response->year,
-            'data' => $response
-        );
+        return $response;
     }
 }

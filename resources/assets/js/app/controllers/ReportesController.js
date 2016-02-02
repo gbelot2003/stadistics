@@ -6,36 +6,34 @@ var ReportesController = function($scope, $http, high) {
     $http.get('api/reportes/tipo-sujeto-agredido').success(function(data){
 
        $scope.data = data;
-       var years = $scope.data.years;
-       $scope.agresion = data.data;
 
         var agresion = [];
-        var arr = [];
-        var total = [];
+        var _2010 = [];
+        var _2011 = [];
+        var _2012 = [];
+        var _2013 = [];
 
-        years.forEach(function(e){
-            arr.push(e.year);
-        });
-
-        $scope.agresion.forEach(function(e){
+        $scope.data.forEach(function(e){
             agresion.push(e.agresion);
-            total.push(e.total)
+            _2010.push(parseInt(e.ddiez));
+            _2011.push(parseInt(e.donce));
+            _2012.push(parseInt(e.ddoce));
+            _2013.push(parseInt(e.dtrece));
         });
 
-        console.log(agresion);
-        console.log(total);
+        console.log(_2012);
 
         $scope.chartConfig = {
             options: {
                 chart: {
-                    type: 'area'
+                    type: 'bar'
                 }
             },
             title: {
                 text: 'Tipo Sujeto Agredido'
             },
             xAxis: {
-                categories: [agresion]
+                categories: agresion
             },
             plotOptions: {
                 line: {
@@ -46,7 +44,13 @@ var ReportesController = function($scope, $http, high) {
                 }
             },
             series: [{
-                name: arr, data: data.data
+                name: "Año 2010", data: _2010
+            }, {
+                name: "Año 2011", data: _2011
+            }, {
+                name: "Año 2012", data: _2012
+            }, {
+                name: "Año 2013", data: _2013
             }]
         };
     });
