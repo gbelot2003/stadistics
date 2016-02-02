@@ -26,9 +26,9 @@ class Agredido extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function alertas(){
+    public function alertas()
+    {
         return  $this->belongsTo('App\Alerta', 'alertas_id', 'id');
-
     }
 
     /**
@@ -36,7 +36,8 @@ class Agredido extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function generos(){
+    public function generos()
+    {
         return $this->belongsTo('App\Genero', 'generos_id', 'id');
     }
 
@@ -45,7 +46,8 @@ class Agredido extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function tiposujetoagredido(){
+    public function tiposujetoagredido()
+    {
         return  $this->belongsTo('App\Tiposujetoagredido', 'tiposujetoagredidos_id', 'id');
     }
 
@@ -54,7 +56,8 @@ class Agredido extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function tipomedio(){
+    public function tipomedio()
+    {
         return $this->belongsTo('App\Tiposistema', 'medios_id', 'id');
     }
 
@@ -63,19 +66,34 @@ class Agredido extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function agresiones(){
+    public function agresiones()
+    {
         return $this->belongsTo('App\Agresion', 'agresions_id', 'id');
     }
 
     /**
      * @param $query
      */
-    public function scopeYears($query){
+    public function scopeYears($query)
+    {
         $query->Join('alertas', 'agredidos.alertas_id', '=', 'alertas.id')
             ->where('published_state', '=', 1)
             ->select('alertas.year')
             ->GroupBy('alertas.year')
-            ->orderBy('alertas.year', 'Asc');
+            ->orderBy('alertas.year', 'DESC');
+    }
+
+    /**
+     * @param $query
+     * @param $years
+     */
+    public function scopeSujetoAgredido($query, $years)
+    {
+        $query->select('tiposujetoagredidos.id as sid', 'tiposujetoagredidos.tiposujetoagredido', DB::raw('Count(agredidos.id) as total'))
+            ->Join('alertas', 'agredidos.alertas_id', '=', 'alertas.id')
+            ->Join('tiposujetoagredidos', 'agredidos.tiposujetoagredidos_id', '=', 'tiposujetoagredidos.id')
+            ->where('alertas.year', '=', $years)
+            ->GroupBy('agredidos.tiposujetoagredidos_id');
     }
 
     /**

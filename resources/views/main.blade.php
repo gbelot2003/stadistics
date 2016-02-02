@@ -14,14 +14,14 @@
 </header>
 <main class="container">
     <div class="row">
-        <div class="col-md-3" id="aside">
+        <div class="col-md-2" id="aside">
             <h3>Sub-Menu</h3>
             <ul>
                 <li>Crear</li>
                 <li>Editar</li>
             </ul>
         </div>
-        <div class="nga-default nga-stagger nga-slide-down col-md-9" ng-view></div>
+        <div class="nga-default nga-stagger nga-slide-down col-md-10" ng-view></div>
     </div>
 </main>
 </body>
