@@ -17,17 +17,17 @@
             <ul class="nav navbar-nav">
                 <li ng-class="{ active: activePath=='/' }" ><a href="#/">Inicio</a></li>
                 <li uib-dropdown  ng-class="{ active: activePath=='/reportes/*' }">
-                    <a uib-dropdown-toggle>Reportes<span class="caret"></span></a>
+                    <a uib-dropdown-toggle >Reportes<span class="caret"></span></a>
                     <ul uib-dropdown-menu>
-                        <li><a ui-sref="#/reportes/tipo-sujeto-agredido">Tipo de Sujeto Agredido</a></li>
-                        <li><a ui-sref="#/reportes/sujeto-agredido-por-genero">Reporte por Género</a></li>
-                        <li><a ui-sref="#/reportes/medio-o-sistema">Medio o Sistema</a></li>
-                        <li><a ui-sref="#/reportes/tipo-de-medio">Tipo de Medio</a></li>
-                        <li><a ui-sref="#/reportes/agresiones-directas">Agresiones Directas</a></li>
-                        <li><a ui-sref="#/reportes/agresiones-indirectas">Agresiones Indirectas </a></li>
-                        <li><a ui-sref="#/reportes/tipo-de-agresor">Tipo de Agente Agresor </a></li>
-                        <li><a ui-sref="#/reportes/locacion">Locación por Departamento </a></li>
-                        <li><a ui-sref="#/reportes/ocurrencias-menuales">Ocurrencias por Mes </a></li>
+                        <li ng-class="{ active: activePath=='/reportes/tipo-sujeto-agredido' }"><a href="#/reportes/tipo-sujeto-agredido">Tipo de Sujeto Agredido</a></li>
+                        <li ng-class="{ active: activePath=='/reportes/sujeto-agredido-por-genero' }"><a href="#/reportes/sujeto-agredido-por-genero">Reporte por Género</a></li>
+                        <li ng-class="{ active: activePath=='/reportes/medio-o-sistema' }"><a href="#/reportes/medio-o-sistema">Medio o Sistema</a></li>
+                        <li ng-class="{ active: activePath=='/reportes/tipo-de-medio' }"><a href="#/reportes/tipo-de-medio">Tipo de Medio</a></li>
+                        <li ng-class="{ active: activePath=='/reportes/agresiones-directas' }"><a href="#/reportes/agresiones-directas">Agresiones Directas</a></li>
+                        <li ng-class="{ active: activePath=='/reportes/agresiones-indirectas' }"><a href="#/reportes/agresiones-indirectas">Agresiones Indirectas </a></li>
+                        <li ng-class="{ active: activePath=='/reportes/tipo-de-agresor' }"><a href="#/reportes/tipo-de-agresor">Tipo de Agente Agresor </a></li>
+                        <li ng-class="{ active: activePath=='/reportes/locacion' }"><a href="#/reportes/locacion">Locación por Departamento </a></li>
+                        <li ng-class="{ active: activePath=='/reportes/ocurrencias-menuales' }"><a href="#/reportes/ocurrencias-menuales">Ocurrencias por Mes </a></li>
                     </ul>
                 </li>
             </ul>

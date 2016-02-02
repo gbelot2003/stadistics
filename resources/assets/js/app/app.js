@@ -43,7 +43,7 @@ app.config(function($routeProvider, $locationProvider){
         .when('/reportes/agresiones-indirectas', { controller:'AgresionesIndirectasController', templateUrl:'./js/app/views/reportes/agresionIndirecta.html' })
         .when('/reportes/tipo-de-agresor', { controller:'TipoAgresorController', templateUrl:'./js/app/views/reportes/tipoAgresor.html' })
         .when('/reportes/locacion', { controller:'LocacionController', templateUrl:'./js/app/views/reportes/locacion.html' })
-        .when('/reportes/ocurrencias-menuales', { controller:'OcurrenciaMensualController', templateUrl:'./js/app/views/reportes/ocurrenciaMenual.html' })
+        .when('/reportes/ocurrencias-menuales', { controller:'OcurrenciaMensualController', templateUrl:'./js/app/views/reportes/ocurrenciaMensual.html' })
         .otherwise({redirectTo: '/'});
 
     $locationProvider.html5Mode(false);

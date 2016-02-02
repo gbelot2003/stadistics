@@ -2,4 +2,4 @@
 var MedioSistemaController = function($scope, $http, high){
 
 };
-module.exports = MedioSistemaController
+module.exports = MedioSistemaController;
