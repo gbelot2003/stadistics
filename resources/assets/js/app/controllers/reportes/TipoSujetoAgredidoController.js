@@ -1,15 +1,19 @@
 'use strict';
 var TipoSujetoAgredidoController = function($scope, $http, high){
 
+    $scope.traza = 1;
+    $scope.changeTraza = function(traza){
+        $scope.traza = traza;
+    };
 
     $scope.selectedYears = {};
-
-//-- add the id to an array with a true-ey value
     $scope.addOrRemoveClassFromYear = function(id) {
-        if($scope.selectedYears[id]) {
-            $scope.selectedYears[id] = false;
-        } else {
-            $scope.selectedYears[id] = true;
+        if($scope.traza == 1){
+            if($scope.selectedYears[id]) {
+                $scope.selectedYears[id] = false;
+            } else {
+                $scope.selectedYears[id] = true;
+            }
         }
     };
 

@@ -43139,14 +43139,19 @@ module.exports = TipoMedioController;
 'use strict';
 var TipoSujetoAgredidoController = function TipoSujetoAgredidoController($scope, $http, high) {
 
-    $scope.selectedYears = {};
+    $scope.traza = 1;
+    $scope.changeTraza = function (traza) {
+        $scope.traza = traza;
+    };
 
-    //-- add the id to an array with a true-ey value
+    $scope.selectedYears = {};
     $scope.addOrRemoveClassFromYear = function (id) {
-        if ($scope.selectedYears[id]) {
-            $scope.selectedYears[id] = false;
-        } else {
-            $scope.selectedYears[id] = true;
+        if ($scope.traza == 1) {
+            if ($scope.selectedYears[id]) {
+                $scope.selectedYears[id] = false;
+            } else {
+                $scope.selectedYears[id] = true;
+            }
         }
     };
 
