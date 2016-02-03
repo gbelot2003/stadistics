@@ -4,7 +4,7 @@
 
         <div class="col-md-12">
             <ul class="nav nav-pills">
-                <li ng-repeat="year in years" role="presentation"  ng-click="addOrRemoveClassFromYear($index)" ng-class="{selected: selectedYears[$index]}">
+                <li ng-repeat="year in years" role="presentation"  ng-click="addOrRemoveClassFromYear($index)" ng-class="{active: selectedYears[$index]}">
                     <a ng-click="getData(year.year)" >{{ year.year }}</a>
                 </li>
             </ul>

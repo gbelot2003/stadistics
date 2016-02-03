@@ -6,8 +6,6 @@ var TipoSujetoAgredidoController = function($scope, $http, high){
 
 //-- add the id to an array with a true-ey value
     $scope.addOrRemoveClassFromYear = function(id) {
-
-        //-- Set selected peeps as true/false
         if($scope.selectedYears[id]) {
             $scope.selectedYears[id] = false;
         } else {
