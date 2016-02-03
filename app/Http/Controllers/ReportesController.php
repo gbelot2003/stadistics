@@ -13,18 +13,18 @@ use Illuminate\Support\Facades\DB;
 
 class ReportesController extends Controller
 {
+
+    public function setYears()
+    {
+        return $years = Agredido::years()->get();
+    }
+
     /**
-     * @param $years
+     * @param $year
      * @return array
      */
     public function tipoSujetoAgredido($year){
-        $years = Agredido::years()->get();
         $response = Agredido::sujetoAgredido($year)->get();
-
-        return $response = array(
-            'data' => $response,
-            'year' => $years
-        );
-
+        return $response;
     }
 }
