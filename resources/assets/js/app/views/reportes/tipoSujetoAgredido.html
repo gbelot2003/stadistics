@@ -16,12 +16,6 @@
 
             <uib-tabset>
 
-                <uib-tab heading="Estadisticas" ng-click="changeTraza(1)">
-
-                    <highchart id="chart1" config="chartConfig"></highchart>
-
-                </uib-tab>
-
                 <uib-tab heading="Listados" ng-click="changeTraza(2)">
 
                     <table class="table-hover table-bordered table">
@@ -42,6 +36,12 @@
                         </tr>
                         </tbody>
                     </table>
+
+                </uib-tab>
+
+                <uib-tab heading="Estadisticas" ng-click="changeTraza(1)">
+                    {{ traza }}
+                    <highchart id="chart1" config="chartConfig"></highchart>
 
                 </uib-tab>
 

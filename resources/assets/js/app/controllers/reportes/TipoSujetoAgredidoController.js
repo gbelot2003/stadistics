@@ -3,12 +3,17 @@ var TipoSujetoAgredidoController = function($scope, $http, high){
 
     $scope.traza = 1;
     $scope.changeTraza = function(traza){
+        if (traza == 1){
+            traza = 2
+        } else {
+            traza = 1
+        }
         $scope.traza = traza;
     };
 
     $scope.selectedYears = {};
     $scope.addOrRemoveClassFromYear = function(id) {
-        if($scope.traza == 1){
+        if($scope.traza == 2){
             if($scope.selectedYears[id]) {
                 $scope.selectedYears[id] = false;
             } else {

@@ -14,6 +14,7 @@ var app = angular.module('adminApp', [routes, animate, uibs, high]);
 /** Controllers **/
 var menuController = require('./controllers/menuController');
 var WelcomeCtrl = require('./controllers/WelcomeCtrl');
+var AlertasCtrl = require('./controllers/alertas/AlertasController');
 var Reportes = require('./controllers/ReportesController');
 var TipoSujetoAgredido = require('./controllers/reportes/TipoSujetoAgredidoController');
 var SujetoAgredidoGenero = require('./controllers/reportes/SujetoAgredidoGeneroController');
@@ -34,8 +35,11 @@ app.config(function($routeProvider, $locationProvider){
 
     $routeProvider
         .when('/', { controller: 'WelcomeCtrl', templateUrl: './js/app/views/index.html' })
+        .when('/alertas/',{ controller: 'AlertasController', templateUrl: './js/app/views/alertas/alertas.html'})
+
         .when('/reportes', { controller: 'ReportesController', templateUrl: './js/app/views/reportes/index.html' })
         .when('/reportes/tipo-sujeto-agredido',{ controller: 'TipoSujetoAgredidoController', templateUrl: './js/app/views/reportes/tipoSujetoAgredido.html' })
+
         .when('/reportes/sujeto-agredido-por-genero',{ controller: 'SujetoAgredidoGeneroController', templateUrl: './js/app/views/reportes/sujetoAgredidoGenero.html' })
         .when('/reportes/medio-o-sistema', { controller:'MedioSistemaController', templateUrl:'./js/app/views/reportes/medioSistema.html' })
         .when('/reportes/tipo-de-medio', { controller:'TipoMedioController', templateUrl:'./js/app/views/reportes/tipoMedio.html' })
@@ -53,6 +57,7 @@ app.config(function($routeProvider, $locationProvider){
 /** Instances **/
 app.controller('menuController', ['$scope', menuController]);
 app.controller('WelcomeCtrl', ['$scope', WelcomeCtrl]);
+app.controller('AlertasController', ['$scope', AlertasCtrl]);
 app.controller('ReportesController', ['$scope', '$http', Reportes]);
 app.controller('TipoSujetoAgredidoController', ['$scope', '$http', TipoSujetoAgredido]);
 app.controller('SujetoAgredidoGeneroController', ['$scope', '$http', SujetoAgredidoGenero]);

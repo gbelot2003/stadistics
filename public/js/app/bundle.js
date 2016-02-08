@@ -15,6 +15,7 @@ var app = angular.module('adminApp', [routes, animate, uibs, high]);
 /** Controllers **/
 var menuController = require('./controllers/menuController');
 var WelcomeCtrl = require('./controllers/WelcomeCtrl');
+var AlertasCtrl = require('./controllers/alertas/AlertasController');
 var Reportes = require('./controllers/ReportesController');
 var TipoSujetoAgredido = require('./controllers/reportes/TipoSujetoAgredidoController');
 var SujetoAgredidoGenero = require('./controllers/reportes/SujetoAgredidoGeneroController');
@@ -33,14 +34,15 @@ app.directive('menuNav', menu);
 /** Config **/
 app.config(function ($routeProvider, $locationProvider) {
 
-    $routeProvider.when('/', { controller: 'WelcomeCtrl', templateUrl: './js/app/views/index.html' }).when('/reportes', { controller: 'ReportesController', templateUrl: './js/app/views/reportes/index.html' }).when('/reportes/tipo-sujeto-agredido', { controller: 'TipoSujetoAgredidoController', templateUrl: './js/app/views/reportes/tipoSujetoAgredido.html' }).when('/reportes/sujeto-agredido-por-genero', { controller: 'SujetoAgredidoGeneroController', templateUrl: './js/app/views/reportes/sujetoAgredidoGenero.html' }).when('/reportes/medio-o-sistema', { controller: 'MedioSistemaController', templateUrl: './js/app/views/reportes/medioSistema.html' }).when('/reportes/tipo-de-medio', { controller: 'TipoMedioController', templateUrl: './js/app/views/reportes/tipoMedio.html' }).when('/reportes/agresiones-directas', { controller: 'AgresionesDirectasController', templateUrl: './js/app/views/reportes/agresionDirecta.html' }).when('/reportes/agresiones-indirectas', { controller: 'AgresionesIndirectasController', templateUrl: './js/app/views/reportes/agresionIndirecta.html' }).when('/reportes/tipo-de-agresor', { controller: 'TipoAgresorController', templateUrl: './js/app/views/reportes/tipoAgresor.html' }).when('/reportes/locacion', { controller: 'LocacionController', templateUrl: './js/app/views/reportes/locacion.html' }).when('/reportes/ocurrencias-menuales', { controller: 'OcurrenciaMensualController', templateUrl: './js/app/views/reportes/ocurrenciaMensual.html' }).otherwise({ redirectTo: '/' });
+        $routeProvider.when('/', { controller: 'WelcomeCtrl', templateUrl: './js/app/views/index.html' }).when('/alertas/', { controller: 'AlertasController', templateUrl: './js/app/views/alertas/alertas.html' }).when('/reportes', { controller: 'ReportesController', templateUrl: './js/app/views/reportes/index.html' }).when('/reportes/tipo-sujeto-agredido', { controller: 'TipoSujetoAgredidoController', templateUrl: './js/app/views/reportes/tipoSujetoAgredido.html' }).when('/reportes/sujeto-agredido-por-genero', { controller: 'SujetoAgredidoGeneroController', templateUrl: './js/app/views/reportes/sujetoAgredidoGenero.html' }).when('/reportes/medio-o-sistema', { controller: 'MedioSistemaController', templateUrl: './js/app/views/reportes/medioSistema.html' }).when('/reportes/tipo-de-medio', { controller: 'TipoMedioController', templateUrl: './js/app/views/reportes/tipoMedio.html' }).when('/reportes/agresiones-directas', { controller: 'AgresionesDirectasController', templateUrl: './js/app/views/reportes/agresionDirecta.html' }).when('/reportes/agresiones-indirectas', { controller: 'AgresionesIndirectasController', templateUrl: './js/app/views/reportes/agresionIndirecta.html' }).when('/reportes/tipo-de-agresor', { controller: 'TipoAgresorController', templateUrl: './js/app/views/reportes/tipoAgresor.html' }).when('/reportes/locacion', { controller: 'LocacionController', templateUrl: './js/app/views/reportes/locacion.html' }).when('/reportes/ocurrencias-menuales', { controller: 'OcurrenciaMensualController', templateUrl: './js/app/views/reportes/ocurrenciaMensual.html' }).otherwise({ redirectTo: '/' });
 
-    $locationProvider.html5Mode(false);
+        $locationProvider.html5Mode(false);
 });
 
 /** Instances **/
 app.controller('menuController', ['$scope', menuController]);
 app.controller('WelcomeCtrl', ['$scope', WelcomeCtrl]);
+app.controller('AlertasController', ['$scope', AlertasCtrl]);
 app.controller('ReportesController', ['$scope', '$http', Reportes]);
 app.controller('TipoSujetoAgredidoController', ['$scope', '$http', TipoSujetoAgredido]);
 app.controller('SujetoAgredidoGeneroController', ['$scope', '$http', SujetoAgredidoGenero]);
@@ -52,7 +54,7 @@ app.controller('TipoAgresorController', ['$scope', '$http', TipoAgresorControlle
 app.controller('LocacionController', ['$scope', '$http', LocacionController]);
 app.controller('OcurrenciaMensualController', ['$scope', '$http', OcurrenciaMensualController]);
 
-},{"./controllers/ReportesController":11,"./controllers/WelcomeCtrl":12,"./controllers/menuController":13,"./controllers/reportes/AgresionesDirectasController":14,"./controllers/reportes/AgresionesIndirectasController":15,"./controllers/reportes/LocacionController":16,"./controllers/reportes/MedioSistemaController":17,"./controllers/reportes/OcurrenciaMensualController":18,"./controllers/reportes/SujetoAgredidoGeneroController":19,"./controllers/reportes/TipoAgresorController":20,"./controllers/reportes/TipoMedioController":21,"./controllers/reportes/TipoSujetoAgredidoController":22,"./directives/menu":23,"angular":9,"angular-animate":3,"angular-route":5,"angular-ui-bootstrap":7,"highcharts-ng":10}],2:[function(require,module,exports){
+},{"./controllers/ReportesController":11,"./controllers/WelcomeCtrl":12,"./controllers/alertas/AlertasController":13,"./controllers/menuController":14,"./controllers/reportes/AgresionesDirectasController":15,"./controllers/reportes/AgresionesIndirectasController":16,"./controllers/reportes/LocacionController":17,"./controllers/reportes/MedioSistemaController":18,"./controllers/reportes/OcurrenciaMensualController":19,"./controllers/reportes/SujetoAgredidoGeneroController":20,"./controllers/reportes/TipoAgresorController":21,"./controllers/reportes/TipoMedioController":22,"./controllers/reportes/TipoSujetoAgredidoController":23,"./directives/menu":24,"angular":9,"angular-animate":3,"angular-route":5,"angular-ui-bootstrap":7,"highcharts-ng":10}],2:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.9
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -43084,6 +43086,12 @@ var WelcomeCtrl = function WelcomeCtrl($scope) {
 module.exports = WelcomeCtrl;
 
 },{}],13:[function(require,module,exports){
+'use strict';
+var AlertasController = function AlertasController($scope, $http, high) {};
+
+module.exports = AlertasController;
+
+},{}],14:[function(require,module,exports){
 "use strict";
 
 var menuController = function menuController($scope, $location) {
@@ -43095,58 +43103,63 @@ var menuController = function menuController($scope, $location) {
 
 module.exports = menuController;
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 var AgresionesDirectasController = function AgresionesDirectasController($scope, $http, high) {};
 module.exports = AgresionesDirectasController;
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 var AgresionesIndirectasController = function AgresionesIndirectasController($scope, $http, high) {};
 module.exports = AgresionesIndirectasController;
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 var LocacionController = function LocacionController($scope, $http, high) {};
 module.exports = LocacionController;
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 var MedioSistemaController = function MedioSistemaController($scope, $http, high) {};
 module.exports = MedioSistemaController;
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 var OcurrenciaMensualController = function OcurrenciaMensualController($scope, $http, high) {};
 module.exports = OcurrenciaMensualController;
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 var SujetoAgredidoGeneroController = function SujetoAgredidoGeneroController($scope, $http, high) {};
 module.exports = SujetoAgredidoGeneroController;
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 var TipoAgresorController = function TipoAgresorController($scope, $http, high) {};
 module.exports = TipoAgresorController;
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 var TipoMedioController = function TipoMedioController($scope, $http, high) {};
 module.exports = TipoMedioController;
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 var TipoSujetoAgredidoController = function TipoSujetoAgredidoController($scope, $http, high) {
 
     $scope.traza = 1;
     $scope.changeTraza = function (traza) {
+        if (traza == 1) {
+            traza = 2;
+        } else {
+            traza = 1;
+        }
         $scope.traza = traza;
     };
 
     $scope.selectedYears = {};
     $scope.addOrRemoveClassFromYear = function (id) {
-        if ($scope.traza == 1) {
+        if ($scope.traza == 2) {
             if ($scope.selectedYears[id]) {
                 $scope.selectedYears[id] = false;
             } else {
@@ -43180,7 +43193,7 @@ var TipoSujetoAgredidoController = function TipoSujetoAgredidoController($scope,
 };
 module.exports = TipoSujetoAgredidoController;
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 var menu = function menu() {
