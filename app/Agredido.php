@@ -182,13 +182,22 @@ class Agredido extends Model
      */
     public function scopeAgredidosByDepartment($query, $years)
     {
-        $query->select()
-            ->groupBy();
+        $query->select('departamentos.zona as zona', 'departamentos.departamento as medio', 'departamentos.id as id', DB::raw('Count(alertas.departamentos_id) AS Contador'))
+            ->Join('alertas', 'alertas.id', '=', 'agredidos.id')
+            ->Join('departamentos', 'alertas.departamentos_id', '=', 'departamentos.id')
+            ->where('alertas.year', '=', $years)
+            ->where('alertas.published_state', '=', 1)
+            ->groupBy('departamentos.departamento');
     }
 
+    /**
+     *
+     *
+     * @param $query
+     * @param $years
+     */
     public function scopeAgredidosByMonth($query, $years)
     {
-
     }
 
 }
