@@ -14,17 +14,36 @@ use Illuminate\Support\Facades\DB;
 class ReportesController extends Controller
 {
 
+    /**
+     * recuperar años desde base de datos
+     *
+     * @return mixed
+     */
     public function setYears()
     {
         return $years = Agredido::years()->get();
     }
 
     /**
+     *
      * @param $year
      * @return array
      */
-    public function tipoSujetoAgredido($year){
+    public function tipoSujetoAgredido($year)
+    {
         $response = Agredido::sujetoAgredido($year)->get();
         return $response;
     }
+
+    /**
+     *
+     * @param $yers
+     * @return mixed
+     */
+    public function tipoAgredidoPorGenero($yers)
+    {
+        $response = Agredido::agredidosGender($yers)->get();
+        return $response;
+    }
+
 }

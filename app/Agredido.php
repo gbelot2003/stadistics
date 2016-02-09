@@ -93,13 +93,15 @@ class Agredido extends Model
             ->Join('alertas', 'agredidos.alertas_id', '=', 'alertas.id')
             ->Join('tiposujetoagredidos', 'agredidos.tiposujetoagredidos_id', '=', 'tiposujetoagredidos.id')
             ->where('alertas.year', '=', $years)
+            ->where('alertas.published_state', '=', 1)
             ->GroupBy('agredidos.tiposujetoagredidos_id');
     }
 
     /**
      * @param $query
      */
-    public function scopeAgresionesByYear($query){
+    public function scopeAgresionesByYear($query)
+    {
         $ddiez = DB::raw('SUM(IF(alertas.year = 2010, 1, 0)) ddiez');
         $donce = DB::raw('SUM(IF(alertas.year = 2011, 1, 0)) as donce');
         $ddoce = DB::raw('SUM(IF(alertas.year = 2012, 1, 0)) as ddoce');
@@ -112,6 +114,21 @@ class Agredido extends Model
             ->Join('alertas', 'alertas.id', '=', 'agredidos.alertas_id')
             ->groupBy('agresions.agresion')
             ->where('alertas.published_state', '=', 1);
+    }
+
+    public function scopeAgredidosGender($query, $years)
+    {
+        $male = DB::raw('SUM(IF(agredidos.generos_id = 1, 1, 0)) as male');
+        $female = DB::raw('SUM(IF(agredidos.generos_id = 2, 1, 0)) as female');
+        $lgtbi = DB::raw('SUM(IF(agredidos.generos_id = 3, 1, 0)) as lgtbi');
+        $none = DB::raw('SUM(IF(agredidos.generos_id = 4, 1, 0)) as none');
+
+        $query->select('tiposujetoagredidos.id as sid', 'tiposujetoagredidos.tiposujetoagredido', $male, $female, $lgtbi, $none)
+            ->Join('tiposujetoagredidos', 'tiposujetoagredidos.id', '=', 'agredidos.tiposujetoagredidos_id')
+            ->Join('alertas', 'alertas.id', '=', 'agredidos.id')
+            ->where('alertas.year', '=', $years)
+            ->where('alertas.published_state', '=', 1)
+            ->groupBy('agredidos.tiposujetoagredidos_id');
     }
 
 }
