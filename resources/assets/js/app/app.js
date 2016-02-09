@@ -63,8 +63,8 @@ app.controller('TipoSujetoAgredidoController', ['$scope', '$http', TipoSujetoAgr
 app.controller('SujetoAgredidoGeneroController', ['$scope', '$http', SujetoAgredidoGenero]);
 app.controller('MedioSistemaController', ['$scope', '$http', MedioSistema]);
 app.controller('TipoMedioController', ['$scope', '$http', TipoMedio]);
-app.controller('AgresionesDirectas', ['$scope', '$http', AgresionesDirectas]);
-app.controller('AgresionesIndirectas', ['$scope', '$http', AgresionesIndirectas]);
+app.controller('AgresionesDirectasController', ['$scope', '$http', AgresionesDirectas]);
+app.controller('AgresionesIndirectasController', ['$scope', '$http', AgresionesIndirectas]);
 app.controller('TipoAgresorController', ['$scope', '$http', TipoAgresorController]);
 app.controller('LocacionController', ['$scope', '$http', LocacionController]);
 app.controller('OcurrenciaMensualController', ['$scope', '$http', OcurrenciaMensualController]);

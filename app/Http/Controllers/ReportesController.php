@@ -26,6 +26,7 @@ class ReportesController extends Controller
 
     /**
      *
+     *
      * @param $year
      * @return array
      */
@@ -36,6 +37,7 @@ class ReportesController extends Controller
     }
 
     /**
+     *
      *
      * @param $yers
      * @return mixed
@@ -48,6 +50,7 @@ class ReportesController extends Controller
 
     /**
      *
+     *
      * @param $years
      * @return mixed
      */
@@ -55,6 +58,22 @@ class ReportesController extends Controller
     {
         $response = Agredido::agredidosPorMedio($years)->get();
         return $response;
+    }
+
+
+    public function tipoMedioSistema($years)
+    {
+
+    }
+
+    public function datosPorDepartamentos($years)
+    {
+
+    }
+
+    public function datosPorMes($years)
+    {
+
     }
 
 }

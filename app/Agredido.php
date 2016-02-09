@@ -72,6 +72,8 @@ class Agredido extends Model
     }
 
     /**
+     *
+     *
      * @param $query
      */
     public function scopeYears($query)
@@ -84,6 +86,8 @@ class Agredido extends Model
     }
 
     /**
+     *
+     *
      * @param $query
      * @param $years
      */
@@ -98,6 +102,8 @@ class Agredido extends Model
     }
 
     /**
+     *
+     *
      * @param $query
      */
     public function scopeAgresionesByYear($query)
@@ -117,6 +123,7 @@ class Agredido extends Model
     }
 
     /**
+     *
      *
      * @param $query
      * @param $years
@@ -138,16 +145,49 @@ class Agredido extends Model
 
     /***
      *
+     *
      * @param $query
      * @param $years
      */
-    public function scopeAgredidosPorMedio($query, $years)
+    public function scopeAgredidosByMedia($query, $years)
     {
         $query->select('agredidos.medios as medio', 'agredidos.id as sid', DB::raw('Count(agredidos.id) as contador'))
             ->Join('alertas', 'alertas.id', '=', 'agredidos.id')
             ->where('alertas.year', '=', $years)
             ->where('alertas.published_state', '=', 1)
             ->groupBy('agredidos.medios');
+    }
+
+    /**
+     *
+     *
+     * @param $query
+     * @param $years
+     */
+    public function scopeTypeOfMedia($query, $years)
+    {
+        $query->select('agredidos.medios_id as medioId', 'tiposistemas.tiposistema as medio', 'agredidos.id as id', DB::raw('Count(agredidos.id) AS Contador'))
+            ->Join('alertas', 'alertas.id', '=', 'agredidos.id')
+            ->Join('tiposistemas', 'agredidos.medios_id', '=', 'tiposistemas.id')
+            ->where('alertas.year', '=', $years)
+            ->where('alertas.published_state', '=', 1)
+            ->groupBy('agredidos.medios_id');
+    }
+
+    /**
+     *
+     *
+     * @param $query
+     * @param $years
+     */
+    public function scopeAgredidosByDepartment($query, $years)
+    {
+        $query->select()
+            ->groupBy();
+    }
+
+    public function scopeAgredidosByMonth($query, $years)
+    {
 
     }
 
