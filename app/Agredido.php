@@ -116,6 +116,11 @@ class Agredido extends Model
             ->where('alertas.published_state', '=', 1);
     }
 
+    /**
+     *
+     * @param $query
+     * @param $years
+     */
     public function scopeAgredidosGender($query, $years)
     {
         $male = DB::raw('SUM(IF(agredidos.generos_id = 1, 1, 0)) as male');
@@ -129,6 +134,21 @@ class Agredido extends Model
             ->where('alertas.year', '=', $years)
             ->where('alertas.published_state', '=', 1)
             ->groupBy('agredidos.tiposujetoagredidos_id');
+    }
+
+    /***
+     *
+     * @param $query
+     * @param $years
+     */
+    public function scopeAgredidosPorMedio($query, $years)
+    {
+        $query->select('agredidos.medios as medio', 'agredidos.id as sid', DB::raw('Count(agredidos.id) as contador'))
+            ->Join('alertas', 'alertas.id', '=', 'agredidos.id')
+            ->where('alertas.year', '=', $years)
+            ->where('alertas.published_state', '=', 1)
+            ->groupBy('agredidos.medios');
+
     }
 
 }

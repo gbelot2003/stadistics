@@ -46,4 +46,15 @@ class ReportesController extends Controller
         return $response;
     }
 
+    /**
+     *
+     * @param $years
+     * @return mixed
+     */
+    public function medioSistema($years)
+    {
+        $response = Agredido::agredidosPorMedio($years)->get();
+        return $response;
+    }
+
 }

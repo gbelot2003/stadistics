@@ -43105,27 +43105,66 @@ module.exports = menuController;
 
 },{}],15:[function(require,module,exports){
 'use strict';
-var AgresionesDirectasController = function AgresionesDirectasController($scope, $http, high) {};
+var AgresionesDirectasController = function AgresionesDirectasController($scope, $http, high) {
+
+    $http.get("api/reportes/years").success(function (data) {
+        $scope.years = data;
+    });
+};
 module.exports = AgresionesDirectasController;
 
 },{}],16:[function(require,module,exports){
 'use strict';
-var AgresionesIndirectasController = function AgresionesIndirectasController($scope, $http, high) {};
+var AgresionesIndirectasController = function AgresionesIndirectasController($scope, $http, high) {
+
+    $http.get("api/reportes/years").success(function (data) {
+        $scope.years = data;
+    });
+};
 module.exports = AgresionesIndirectasController;
 
 },{}],17:[function(require,module,exports){
 'use strict';
-var LocacionController = function LocacionController($scope, $http, high) {};
+var LocacionController = function LocacionController($scope, $http, high) {
+
+    $http.get("api/reportes/years").success(function (data) {
+        $scope.years = data;
+    });
+};
 module.exports = LocacionController;
 
 },{}],18:[function(require,module,exports){
 'use strict';
-var MedioSistemaController = function MedioSistemaController($scope, $http, high) {};
+var MedioSistemaController = function MedioSistemaController($scope, $http, high) {
+
+    $http.get("api/reportes/years").success(function (data) {
+        $scope.years = data;
+    });
+
+    $scope.getData = function ($year) {
+        $http.get('api/reportes/medio-o-sistema/' + $year).success(function (data) {
+
+            $scope.datos = data;
+
+            $scope._total = 0;
+            $scope.datos.forEach(function (e) {
+                $scope._total += e.total;
+            });
+        });
+    };
+
+    $scope.getData(2016);
+};
 module.exports = MedioSistemaController;
 
 },{}],19:[function(require,module,exports){
 'use strict';
-var OcurrenciaMensualController = function OcurrenciaMensualController($scope, $http, high) {};
+var OcurrenciaMensualController = function OcurrenciaMensualController($scope, $http, high) {
+
+    $http.get("api/reportes/years").success(function (data) {
+        $scope.years = data;
+    });
+};
 module.exports = OcurrenciaMensualController;
 
 },{}],20:[function(require,module,exports){
@@ -43154,12 +43193,22 @@ module.exports = SujetoAgredidoGeneroController;
 
 },{}],21:[function(require,module,exports){
 'use strict';
-var TipoAgresorController = function TipoAgresorController($scope, $http, high) {};
+var TipoAgresorController = function TipoAgresorController($scope, $http, high) {
+
+    $http.get("api/reportes/years").success(function (data) {
+        $scope.years = data;
+    });
+};
 module.exports = TipoAgresorController;
 
 },{}],22:[function(require,module,exports){
 'use strict';
-var TipoMedioController = function TipoMedioController($scope, $http, high) {};
+var TipoMedioController = function TipoMedioController($scope, $http, high) {
+
+    $http.get("api/reportes/years").success(function (data) {
+        $scope.years = data;
+    });
+};
 module.exports = TipoMedioController;
 
 },{}],23:[function(require,module,exports){
