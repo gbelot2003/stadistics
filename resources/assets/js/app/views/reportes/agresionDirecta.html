@@ -12,6 +12,29 @@
 
         <hr />
 
+        <div class="col-md-12">
+            <uib-tabset>
+                <uib-tab heading="Listados" ng-click="changeTraza(2)">
+                    <table class="table-hover table-bordered table">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Agresiones</th>
+                            <th>Cantidad</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="data in datos">
+                            <td>{{ data.catId }}</td>
+                            <td>{{ data.categoria }}</td>
+                            <td>{{ data.counter }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+
     </div>
 </div>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Agredido;
+use App\Agresor;
 use App\Alerta;
 use App\Tiposujetoagredido;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class ReportesController extends Controller
 {
 
     /**
-     * recuperar años desde base de datos
+     * Recuperar años desde base de datos
      *
      * @return mixed
      */
@@ -25,7 +26,7 @@ class ReportesController extends Controller
     }
 
     /**
-     *
+     * Reporte de agresiones por Tipo de Sujeto Agredido
      *
      * @param $year
      * @return array
@@ -37,7 +38,7 @@ class ReportesController extends Controller
     }
 
     /**
-     *
+     * Reporte de agresiones por Genero
      *
      * @param $yers
      * @return mixed
@@ -49,31 +50,100 @@ class ReportesController extends Controller
     }
 
     /**
-     *
+     * Reporte de agresiones por Medio
      *
      * @param $years
      * @return mixed
      */
     public function medioSistema($years)
     {
-        $response = Agredido::agredidosPorMedio($years)->get();
+        $response = Agredido::agredidosByMedia($years)->get();
         return $response;
     }
 
-
+    /**
+     * Reporte de Agresiones por Tipo o Sistemea
+     *
+     * @param $years
+     * @return mixed
+     */
     public function tipoMedioSistema($years)
     {
-
+        $response = Agredido::typeOfMedia($years)->get();
+        return $response;
     }
 
-    public function datosPorDepartamentos($years)
+    /**
+     * Reporte por Tipo de Agresor
+     *
+     * @param $years
+     * @return mixed
+     */
+    public function tipoByAgresor($years)
     {
-
+        $response = Agresor::typeByAgresor($years)->get();
+        return $response;
     }
 
-    public function datosPorMes($years)
+    /**
+     * Reporte por Agresiones Directas
+     *
+     * @param $years
+     * @return mixed
+     */
+    public function agresionDirecta($years)
     {
+        $response = Agredido::agresonesDirectas($years, 1)->get();
+        return $response;
+    }
 
+    /**
+     * Reporte por Agresiones Indirectas
+     *
+     * @param $years
+     * @return mixed
+     */
+    public function agresionIndirecta($years)
+    {
+        $response = Agredido::agresonesDirectas($years, 2)->get();
+        return $response;
+    }
+
+    /**
+     * Resultado de Agresiones por Categoria y año
+     *
+     * @param $years
+     * @param $catId
+     * @return mixed
+     */
+    public function agresionesByCategory($years, $catId)
+    {
+        $response = Agredido::agresionesByCatId($years, $catId)->get();
+        return $response;
+    }
+
+    /**
+     * Reporte de agresiones por Departamento
+     *
+     * @param $years
+     * @return mixed
+     */
+    public function dataByDepartamentos($years)
+    {
+        $response = Agredido::agredidosByDepartment($years)->get();
+        return $response;
+    }
+
+    /**
+     * Reporte de agresiones por Mes
+     *
+     * @param $years
+     * @return mixed
+     */
+    public function dataByMes($years)
+    {
+        $response = Agredido::agredidosByMonth($years)->get();
+        return $response;
     }
 
 }

@@ -86,7 +86,7 @@ class Agredido extends Model
     }
 
     /**
-     *
+     * Consulta por Sujeto Agredido
      *
      * @param $query
      * @param $years
@@ -102,28 +102,7 @@ class Agredido extends Model
     }
 
     /**
-     *
-     *
-     * @param $query
-     */
-    public function scopeAgresionesByYear($query)
-    {
-        $ddiez = DB::raw('SUM(IF(alertas.year = 2010, 1, 0)) ddiez');
-        $donce = DB::raw('SUM(IF(alertas.year = 2011, 1, 0)) as donce');
-        $ddoce = DB::raw('SUM(IF(alertas.year = 2012, 1, 0)) as ddoce');
-        $dtrece = DB::raw('SUM(IF(alertas.year = 2013, 1, 0)) as dtrece');
-        $dcatroce = DB::raw('SUM(IF(alertas.year = 2014, 1, 0)) as dcatroce');
-        $dquince = DB::raw('SUM(IF(alertas.year = 2014, 1, 0)) as dquince');
-
-        $query->select('agresions.agresion', $ddiez, $donce, $ddoce,$dtrece, $dcatroce, $dquince)
-            ->Join('agresions', 'agredidos.agresions_id', '=', 'agresions.id')
-            ->Join('alertas', 'alertas.id', '=', 'agredidos.alertas_id')
-            ->groupBy('agresions.agresion')
-            ->where('alertas.published_state', '=', 1);
-    }
-
-    /**
-     *
+     * Consulta de Sujetos agredidos por Genero
      *
      * @param $query
      * @param $years
@@ -144,7 +123,7 @@ class Agredido extends Model
     }
 
     /***
-     *
+     * Consulta de agredidos por Medio
      *
      * @param $query
      * @param $years
@@ -159,7 +138,7 @@ class Agredido extends Model
     }
 
     /**
-     *
+     * Consulta de agredidos por Tipo de Medio o Sistema
      *
      * @param $query
      * @param $years
@@ -175,14 +154,53 @@ class Agredido extends Model
     }
 
     /**
+     * Consulta por Agresiones segun Tipo
      *
+     * @param $query
+     * @param $years
+     * @param $type
+     */
+    public function scopeAgresonesDirectas($query, $years, $type)
+    {
+        $query->select('agresioncategorias.id as catId', 'agresioncategorias.agresioncategoria as categoria', DB::raw('Count(agredidos.id) as counter'))
+            ->Join('alertas', 'alertas.id', '=', 'agredidos.id')
+            ->Join('agresions', 'agredidos.agresions_id', '=', 'agresions.id')
+            ->Join('agresioncategorias', 'agresions.agresioncategorias_id', '=', 'agresioncategorias.id')
+            ->where('alertas.year', '=', $years)
+            ->where('alertas.published_state', '=', 1)
+            ->where('agresioncategorias.tipoagresion_id', '=', $type)
+            ->groupBy('agresioncategorias.id', 'agresioncategorias.agresioncategoria')
+            ->orderBy('agresioncategorias.id');
+    }
+
+    /**
+     * Sub Consulta de Agresiones segun Categoria
+     *
+     * @param $query
+     * @param $years
+     * @param $catId
+     */
+    public function scopeAgresionesByCatId($query, $years, $catId)
+    {
+        $query->select('agredidos.agresions_id as id', 'agresions.agresion as agresion', DB::raw('Count(agredidos.agresions_id) as counter'))
+            ->Join('alertas', 'alertas.id', '=', 'agredidos.id')
+            ->Join('agresions', 'agredidos.agresions_id', '=', 'agresions.id')
+            ->Join('agresioncategorias', 'agresions.agresioncategorias_id', '=', 'agresioncategorias.id')
+            ->where('alertas.year', '=', $years)
+            ->where('agresions.agresioncategorias_id', '=', $catId)
+            ->where('alertas.published_state', '=', 1)
+            ->groupBy();
+    }
+
+    /**
+     * Consulta de Agresiones por Departamentos
      *
      * @param $query
      * @param $years
      */
     public function scopeAgredidosByDepartment($query, $years)
     {
-        $query->select('departamentos.zona as zona', 'departamentos.departamento as medio', 'departamentos.id as id', DB::raw('Count(alertas.departamentos_id) AS Contador'))
+        $query->select('departamentos.zona as zona', 'departamentos.departamento as departamento', 'departamentos.id as id', DB::raw('Count(alertas.departamentos_id) AS contador'))
             ->Join('alertas', 'alertas.id', '=', 'agredidos.id')
             ->Join('departamentos', 'alertas.departamentos_id', '=', 'departamentos.id')
             ->where('alertas.year', '=', $years)
@@ -191,13 +209,19 @@ class Agredido extends Model
     }
 
     /**
-     *
+     * Consulta de Agresiones por Mes
      *
      * @param $query
      * @param $years
      */
     public function scopeAgredidosByMonth($query, $years)
     {
+        $query->select('mes.id', 'mes.mes as mes', DB::raw('Count(alertas.mes_id) as contador'))
+            ->Join('alertas', 'alertas.id', '=', 'agredidos.id')
+            ->Join('mes', 'alertas.mes_id', '=', 'mes.id')
+            ->where('alertas.year', '=', $years)
+            ->where('alertas.published_state', '=', 1)
+            ->groupBy('mes.mes');
     }
 
 }
