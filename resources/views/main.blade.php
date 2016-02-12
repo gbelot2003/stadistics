@@ -15,17 +15,14 @@
 <main class="container">
     <div class="row">
         <div class="col-md-2" id="aside">
-            <h3>Sub-Menu</h3>
-            <ul>
-                <li>Crear</li>
-                <li>Editar</li>
-            </ul>
+            <years-nav></years-nav>
         </div>
         <div class="nga-default nga-stagger nga-slide-down col-md-10" ng-view></div>
     </div>
 </main>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script src="js/app/bundle.js"></script>
 <script src="http://code.highcharts.com/stock/highstock.src.js"></script>
 </html>

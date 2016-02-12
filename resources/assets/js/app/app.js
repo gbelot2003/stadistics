@@ -1,6 +1,5 @@
 'use strict';
 
-require('underscore');
 require('angular');
 
 /** libraries injected require **/
@@ -26,10 +25,13 @@ var AgresionesIndirectas = require('./controllers/reportes/AgresionesIndirectasC
 var TipoAgresorController = require('./controllers/reportes/TipoAgresorController');
 var LocacionController = require('./controllers/reportes/LocacionController');
 var OcurrenciaMensualController = require('./controllers/reportes/OcurrenciaMensualController');
+var TipoSujetoAgredidotest = require('./controllers/reportes/TipoSujetoAgredidoTestController');
 
 /** Directives **/
 var menu = require('./directives/menu');
+var years = require('./directives/years');
 app.directive('menuNav', menu);
+app.directive('yearsNav', years);
 
 /** Config **/
 app.config(function($routeProvider, $locationProvider){
@@ -49,6 +51,7 @@ app.config(function($routeProvider, $locationProvider){
         .when('/reportes/tipo-de-agresor', { controller:'TipoAgresorController', templateUrl:'./js/app/views/reportes/tipoAgresor.html' })
         .when('/reportes/locacion', { controller:'LocacionController', templateUrl:'./js/app/views/reportes/locacion.html' })
         .when('/reportes/ocurrencias-menuales', { controller:'OcurrenciaMensualController', templateUrl:'./js/app/views/reportes/ocurrenciaMensual.html' })
+        .when('/reportes/test', {controller:'TipoSujetoAgredidoTestController', templateUrl: './js/app/views/test1.html'})
         .otherwise({redirectTo: '/'});
 
     $locationProvider.html5Mode(false);
@@ -69,3 +72,4 @@ app.controller('AgresionesIndirectasController', ['$scope', '$http', AgresionesI
 app.controller('TipoAgresorController', ['$scope', '$http', TipoAgresorController]);
 app.controller('LocacionController', ['$scope', '$http', LocacionController]);
 app.controller('OcurrenciaMensualController', ['$scope', '$http', OcurrenciaMensualController]);
+app.controller('TipoSujetoAgredidoTestController', ['$scope', '$http', TipoSujetoAgredidotest]);
