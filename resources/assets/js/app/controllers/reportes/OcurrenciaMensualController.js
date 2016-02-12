@@ -10,10 +10,6 @@ var OcurrenciaMensualController = function($scope, $http, high){
 
             $scope.datos = data;
 
-            $scope._total = 0;
-            $scope.datos.forEach(function(e){
-                $scope._total += e.total;
-            });
         });
     };
 

@@ -1,5 +1,6 @@
 'use strict';
 
+require('underscore');
 require('angular');
 
 /** libraries injected require **/

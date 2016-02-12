@@ -14,4 +14,11 @@ Route::get('api/reportes/agresiones-por-categoria/{year}/{catId}', 'ReportesCont
 Route::get('api/reportes/agredidos-por-departamento/{year}', 'ReportesController@dataByDepartamentos');
 Route::get('api/reportes/agredidos-por-mes/{year}', 'ReportesController@dataByMes');
 
+/**
+ * Pruebas
+ */
+
+Route::get('api/reportes/tipo-sujeto-agredido-test', 'ReportesController@tipoSujetoAgredidoTest');
+
+
 

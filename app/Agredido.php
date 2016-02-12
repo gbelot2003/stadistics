@@ -224,4 +224,24 @@ class Agredido extends Model
             ->groupBy('mes.mes');
     }
 
+    /**
+     * Consulta por Sujeto Agredido
+     *
+     * @param $query
+     * @param $years
+     */
+
+    /**
+     * Prueba de Consulta Tipo Sujeto Agredido
+     *
+     * @param $query
+     */
+    public function scopeSujetoAgredidoTest($query)
+    {
+        $query->select('alertas.year', 'tiposujetoagredidos.id as sid', 'tiposujetoagredidos.tiposujetoagredido', DB::raw('Count(agredidos.id) as total'))
+            ->Join('alertas', 'agredidos.alertas_id', '=', 'alertas.id')
+            ->Join('tiposujetoagredidos', 'agredidos.tiposujetoagredidos_id', '=', 'tiposujetoagredidos.id')
+            ->where('alertas.published_state', '=', 1)
+            ->GroupBy('alertas.year', 'agredidos.tiposujetoagredidos_id');
+    }
 }

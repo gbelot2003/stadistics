@@ -146,4 +146,17 @@ class ReportesController extends Controller
         return $response;
     }
 
+
+    /**
+     * Prueba Tipo Sujeto Agredio
+     *
+     * @param $years
+     * @return mixed
+     */
+    public function tipoSujetoAgredidoTest()
+    {
+        $response = Agredido::sujetoAgredidoTest()->get();
+        return $response;
+    }
+
 }

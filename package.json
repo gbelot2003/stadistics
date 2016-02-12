@@ -23,6 +23,7 @@
     "babel-runtime": "^5.8.34",
     "bootstrap-sass": "^3.3.6",
     "jquery": "^2.1.4",
-    "ng-fx": "^2.0.4"
+    "ng-fx": "^2.0.4",
+    "underscore": "^1.8.3"
   }
 }
