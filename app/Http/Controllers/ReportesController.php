@@ -18,6 +18,8 @@ class ReportesController extends Controller
     /**
      * Recuperar años desde base de datos
      *
+     * @route "api/reportes/years"
+     *
      * @return mixed
      */
     public function setYears()
@@ -26,7 +28,9 @@ class ReportesController extends Controller
     }
 
     /**
-     * Reporte de agresiones por Tipo de Sujeto Agredido
+     * Reporte de agresiones porTipo de Sujeto Agredidos
+     *
+     * @route "api/reportes/tipo-sujeto-agredido/{year}"
      *
      * @param $year
      * @return array
@@ -40,6 +44,8 @@ class ReportesController extends Controller
     /**
      * Reporte de agresiones por Genero
      *
+     * @route "api/reportes/sujeto-agredido-por-genero/{year}"
+     *
      * @param $yers
      * @return mixed
      */
@@ -51,6 +57,8 @@ class ReportesController extends Controller
 
     /**
      * Reporte de agresiones por Medio
+     *
+     * @route "api/reportes/medio-o-sistema/{year}"
      *
      * @param $years
      * @return mixed
@@ -64,6 +72,8 @@ class ReportesController extends Controller
     /**
      * Reporte de Agresiones por Tipo o Sistemea
      *
+     * @route "api/reportes/tipo-de-medio/{year}"
+     *
      * @param $years
      * @return mixed
      */
@@ -75,6 +85,8 @@ class ReportesController extends Controller
 
     /**
      * Reporte por Tipo de Agresor
+     *
+     * @route "api/reportes/tipo-de-agresor/{year}"
      *
      * @param $years
      * @return mixed
@@ -88,6 +100,8 @@ class ReportesController extends Controller
     /**
      * Reporte por Agresiones Directas
      *
+     * @route "api/reportes/agresion-directa/{year}"
+     *
      * @param $years
      * @return mixed
      */
@@ -100,6 +114,8 @@ class ReportesController extends Controller
     /**
      * Reporte por Agresiones Indirectas
      *
+     * @route "api/reportes/agresion-indirecta/{year}"
+     *
      * @param $years
      * @return mixed
      */
@@ -111,6 +127,8 @@ class ReportesController extends Controller
 
     /**
      * Resultado de Agresiones por Categoria y año
+     *
+     * @route "api/reportes/agresiones-por-categoria/{year}/{catId}"
      *
      * @param $years
      * @param $catId
@@ -125,6 +143,8 @@ class ReportesController extends Controller
     /**
      * Reporte de agresiones por Departamento
      *
+     * @route "api/reportes/agredidos-por-departamento/{year}"
+     *
      * @param $years
      * @return mixed
      */
@@ -137,6 +157,8 @@ class ReportesController extends Controller
     /**
      * Reporte de agresiones por Mes
      *
+     * @route "api/reportes/agredidos-por-mes/{year}"
+     *
      * @param $years
      * @return mixed
      */
@@ -148,9 +170,10 @@ class ReportesController extends Controller
 
 
     /**
-     * Prueba Tipo Sujeto Agredio
+     * Test Action 1
      *
-     * @param $years
+     * @route "api/reportes/tipo-sujeto-agredido-test"
+     *
      * @return mixed
      */
     public function tipoSujetoAgredidoTest()

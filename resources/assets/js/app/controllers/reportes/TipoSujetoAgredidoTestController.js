@@ -8,7 +8,6 @@ var TipoSujetoAgredidoTestController = function($scope, $http, high){
         data.forEach(function(e){
            anios.push(e.year);
             tipo.push(e.tiposujetoagredido);
-
         });
         //console.log(_.uniq(anios));
         //console.log(_.uniq(tipo));

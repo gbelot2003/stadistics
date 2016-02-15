@@ -1,54 +1,8 @@
 <div class="col-md-12">
     <h3>Reporte por Tipo de Sujeto Agredido</h3>
     <div class="row">
-
         <div class="col-md-12">
-            <ul class="nav nav-pills">
-                <li ng-repeat="year in years" role="presentation"  ng-click="addOrRemoveClassFromYear($index)" ng-class="{active: selectedYears[$index]}">
-                    <a ng-click="getData(year.year)" >{{ year.year }}</a>
-                </li>
-            </ul>
-        </div>
-
-        <hr />
-
-        <div class="col-md-12">
-
-            <uib-tabset>
-
-                <uib-tab heading="Listados" ng-click="changeTraza(2)">
-
-                    <table class="table-hover table-bordered table">
-                        <thead>
-                        <tr>
-                            <th>Id {{ traza }}</th>
-                            <th>Tipo de Sujeto Agredido</th>
-                            <th>Cantidad 2012</th>
-                            <th>%</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="data in datos">
-                            <td>{{ data.sid }}</td>
-                            <td><a href="#/listados/tipo-sujeto-agredidos/{{ data.sid }}">{{ data.tiposujetoagredido }}</a></td>
-                            <td>{{ data.total }}</td>
-                            <td>{{ formatPorcent(data.total) }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-
-                </uib-tab>
-
-                <uib-tab heading="Estadisticas" ng-click="changeTraza(1)">
-                    {{ traza }}
-                    <highchart id="chart1" config="chartConfig"></highchart>
-
-                </uib-tab>
-
-            </uib-tabset>
-        </div>
-        <div>
-
+            <highchart id="chart1" config="chartConfig"></highchart>
         </div>
     </div>
 </div>

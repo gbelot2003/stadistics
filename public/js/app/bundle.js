@@ -43070,49 +43070,103 @@ module.exports = TipoMedioController;
 'use strict';
 var TipoSujetoAgredidoController = function TipoSujetoAgredidoController($scope, $http, high) {
 
-    $scope.traza = 1;
-    $scope.changeTraza = function (traza) {
-        if (traza == 1) {
-            traza = 2;
-        } else {
-            traza = 1;
-        }
-        $scope.traza = traza;
-    };
-
-    $scope.selectedYears = {};
-    $scope.addOrRemoveClassFromYear = function (id) {
-        if ($scope.traza == 2) {
-            if ($scope.selectedYears[id]) {
-                $scope.selectedYears[id] = false;
-            } else {
-                $scope.selectedYears[id] = true;
-            }
-        }
-    };
-
-    $scope.formatPorcent = function (number) {
-        var retotal = number * $scope._total / 100;
-        return retotal + "%";
-    };
-
-    $http.get("api/reportes/years").success(function (data) {
-        $scope.years = data;
-    });
-
-    $scope.getData = function ($year) {
-        $http.get('api/reportes/tipo-sujeto-agredido/' + $year).success(function (data) {
-
-            $scope.datos = data;
-
-            $scope._total = 0;
-            $scope.datos.forEach(function (e) {
-                $scope._total += e.total;
+    var anios = function anios() {
+        var annios = {};
+        var defer = $q.defer();
+        $http.get('api/reportes/years').success(function (data) {
+            data.forEach(function (e) {
+                annios.push(e.year);
             });
+            defer.resolve(data);
         });
+        return defer.promise;
     };
 
-    $scope.getData(2016);
+    anios();
+    console.log(anios);
+
+    /* $http.get('api/reportes/tipo-sujeto-agredido-test').success(function(data){
+           var anios = [];
+         var tipo = [];
+         var total = [];
+         data.forEach(function(e){
+             anios.push(e.year);
+             tipo.push(e.tiposujetoagredido);//
+             total.push(e.total);
+         });get()
+    
+           var tipou = _.uniq(tipo);
+           var rseries = [
+             {'years' : _.uniq(anios)}
+         ];
+         var year = _.uniq(anios);
+         var groups = _.where(total, year);
+           console.log(year);
+    
+         $scope.chartConfig = {
+             chart: {
+                 type: 'bar'
+             },
+             title: {
+                 text: 'Historic World Population by Region'
+             },
+             subtitle: {
+                 text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
+             },
+             xAxis: {
+                 categories: [tipou],
+                 title: {
+                     text: null
+                 }
+             },
+             yAxis: {
+                 min: 0,
+                 title: {
+                     text: 'Tipos de Sujeto Agredido (años)',
+                     align: 'high'
+                 },
+                 labels: {
+                     overflow: 'justify'
+                 }
+             },
+             tooltip: {
+                 valueSuffix: ' millions'
+             },
+             plotOptions: {
+                 bar: {
+                     dataLabels: {
+                         enabled: true
+                     }
+                 }
+             },
+             legend: {
+                 layout: 'vertical',
+                 align: 'right',
+                 verticalAlign: 'top',
+                 x: -40,
+                 y: 80,
+                 floating: true,
+                 borderWidth: 1,
+                 backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                 shadow: true
+             },
+             credits: {
+                 enabled: false
+             },
+             series: [{
+                 name: 'Year 1800',
+                 data: [107, 31, 635, 203, 2]
+             }, {
+                 name: 'Year 1900',
+                 data: [133, 156, 947, 408, 6]
+             }, {
+                 name: 'Year 2012',
+                 data: [1052, 954, 4250, 740, 38]
+             }]
+         }
+     }).error(function(data){
+         console.log(data)
+     });*/
 };
 module.exports = TipoSujetoAgredidoController;
 
