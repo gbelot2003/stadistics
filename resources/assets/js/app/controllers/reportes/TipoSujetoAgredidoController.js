@@ -1,10 +1,15 @@
 'use strict';
-var TipoSujetoAgredidoController = function($scope, $http, high){
+var TipoSujetoAgredidoController = function($scope, $http, yearsService, high){
 
+    var years = yearsService;
+    console.log(years);
+    var anios = [];
+    anios =  _.each(years.anios, anios);
+    //var anios = _.flatten(this.years);
 
+    $http.get('api/reportes/tipo-sujeto-agredido/' + 2015).success(function(data){
 
-    $http.get('api/reportes/tipo-sujeto-agredido/2013').success(function(data){
-        var anios = [];
+        console.log(anios);
         var tiposujeto = [];
         var utiposujeto = [];
         var totales = [];
@@ -16,7 +21,6 @@ var TipoSujetoAgredidoController = function($scope, $http, high){
         });
 
         utiposujeto = _.uniq(tiposujeto);
-
 
         $('#chart1').highcharts({
             chart: {
@@ -45,7 +49,7 @@ var TipoSujetoAgredidoController = function($scope, $http, high){
                 }
             },
             tooltip: {
-                valueSuffix: 'Agresiones'
+                valueSuffix: ' agresiones'
             },
             plotOptions: {
                 bar: {

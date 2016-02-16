@@ -37,9 +37,9 @@ app.directive('yearsNav', years);
 /** Config **/
 app.config(function ($routeProvider, $locationProvider) {
 
-        $routeProvider.when('/', { controller: 'WelcomeCtrl', templateUrl: './js/app/views/index.html' }).when('/alertas/', { controller: 'AlertasController', templateUrl: './js/app/views/alertas/alertas.html' }).when('/reportes', { controller: 'ReportesController', templateUrl: './js/app/views/reportes/index.html' }).when('/reportes/tipo-sujeto-agredido', { controller: 'TipoSujetoAgredidoController', templateUrl: './js/app/views/reportes/tipoSujetoAgredido.html' }).when('/reportes/sujeto-agredido-por-genero', { controller: 'SujetoAgredidoGeneroController', templateUrl: './js/app/views/reportes/sujetoAgredidoGenero.html' }).when('/reportes/medio-o-sistema', { controller: 'MedioSistemaController', templateUrl: './js/app/views/reportes/medioSistema.html' }).when('/reportes/tipo-de-medio', { controller: 'TipoMedioController', templateUrl: './js/app/views/reportes/tipoMedio.html' }).when('/reportes/agresiones-directas', { controller: 'AgresionesDirectasController', templateUrl: './js/app/views/reportes/agresionDirecta.html' }).when('/reportes/agresiones-indirectas', { controller: 'AgresionesIndirectasController', templateUrl: './js/app/views/reportes/agresionIndirecta.html' }).when('/reportes/tipo-de-agresor', { controller: 'TipoAgresorController', templateUrl: './js/app/views/reportes/tipoAgresor.html' }).when('/reportes/locacion', { controller: 'LocacionController', templateUrl: './js/app/views/reportes/locacion.html' }).when('/reportes/ocurrencias-menuales', { controller: 'OcurrenciaMensualController', templateUrl: './js/app/views/reportes/ocurrenciaMensual.html' }).when('/reportes/test', { controller: 'TipoSujetoAgredidoTestController', templateUrl: './js/app/views/test1.html' }).otherwise({ redirectTo: '/' });
+    $routeProvider.when('/', { controller: 'WelcomeCtrl', templateUrl: './js/app/views/index.html' }).when('/alertas/', { controller: 'AlertasController', templateUrl: './js/app/views/alertas/alertas.html' }).when('/reportes', { controller: 'ReportesController', templateUrl: './js/app/views/reportes/index.html' }).when('/reportes/tipo-sujeto-agredido', { controller: 'TipoSujetoAgredidoController', templateUrl: './js/app/views/reportes/tipoSujetoAgredido.html' }).when('/reportes/sujeto-agredido-por-genero', { controller: 'SujetoAgredidoGeneroController', templateUrl: './js/app/views/reportes/sujetoAgredidoGenero.html' }).when('/reportes/medio-o-sistema', { controller: 'MedioSistemaController', templateUrl: './js/app/views/reportes/medioSistema.html' }).when('/reportes/tipo-de-medio', { controller: 'TipoMedioController', templateUrl: './js/app/views/reportes/tipoMedio.html' }).when('/reportes/agresiones-directas', { controller: 'AgresionesDirectasController', templateUrl: './js/app/views/reportes/agresionDirecta.html' }).when('/reportes/agresiones-indirectas', { controller: 'AgresionesIndirectasController', templateUrl: './js/app/views/reportes/agresionIndirecta.html' }).when('/reportes/tipo-de-agresor', { controller: 'TipoAgresorController', templateUrl: './js/app/views/reportes/tipoAgresor.html' }).when('/reportes/locacion', { controller: 'LocacionController', templateUrl: './js/app/views/reportes/locacion.html' }).when('/reportes/ocurrencias-menuales', { controller: 'OcurrenciaMensualController', templateUrl: './js/app/views/reportes/ocurrenciaMensual.html' }).when('/reportes/test', { controller: 'TipoSujetoAgredidoTestController', templateUrl: './js/app/views/test1.html' }).otherwise({ redirectTo: '/' });
 
-        $locationProvider.html5Mode(false);
+    $locationProvider.html5Mode(false);
 });
 
 /** Instances **/
@@ -47,7 +47,7 @@ app.controller('menuController', ['$scope', menuController]);
 app.controller('WelcomeCtrl', ['$scope', WelcomeCtrl]);
 app.controller('AlertasController', ['$scope', AlertasCtrl]);
 app.controller('ReportesController', ['$scope', '$http', Reportes]);
-app.controller('TipoSujetoAgredidoController', ['$scope', '$http', TipoSujetoAgredido]);
+app.controller('TipoSujetoAgredidoController', ['$scope', '$http', 'yearsService', TipoSujetoAgredido]);
 app.controller('SujetoAgredidoGeneroController', ['$scope', '$http', SujetoAgredidoGenero]);
 app.controller('MedioSistemaController', ['$scope', '$http', MedioSistema]);
 app.controller('TipoMedioController', ['$scope', '$http', TipoMedio]);
@@ -57,6 +57,14 @@ app.controller('TipoAgresorController', ['$scope', '$http', TipoAgresorControlle
 app.controller('LocacionController', ['$scope', '$http', LocacionController]);
 app.controller('OcurrenciaMensualController', ['$scope', '$http', OcurrenciaMensualController]);
 app.controller('TipoSujetoAgredidoTestController', ['$scope', '$http', TipoSujetoAgredidotest]);
+
+/** Factorys **/
+app.factory('yearsService', function () {
+    var tyears = [2016, 2015, 2014, 2013, 2012, 2011, 2010];
+    return {
+        anios: tyears
+    };
+});
 
 },{"./controllers/ReportesController":11,"./controllers/WelcomeCtrl":12,"./controllers/alertas/AlertasController":13,"./controllers/menuController":14,"./controllers/reportes/AgresionesDirectasController":15,"./controllers/reportes/AgresionesIndirectasController":16,"./controllers/reportes/LocacionController":17,"./controllers/reportes/MedioSistemaController":18,"./controllers/reportes/OcurrenciaMensualController":19,"./controllers/reportes/SujetoAgredidoGeneroController":20,"./controllers/reportes/TipoAgresorController":21,"./controllers/reportes/TipoMedioController":22,"./controllers/reportes/TipoSujetoAgredidoController":23,"./controllers/reportes/TipoSujetoAgredidoTestController":24,"./directives/menu":25,"./directives/years":26,"angular":9,"angular-animate":3,"angular-route":5,"angular-ui-bootstrap":7,"highcharts-ng":10}],2:[function(require,module,exports){
 /**
@@ -43277,10 +43285,17 @@ module.exports = TipoMedioController;
 
 },{}],23:[function(require,module,exports){
 'use strict';
-var TipoSujetoAgredidoController = function TipoSujetoAgredidoController($scope, $http, high) {
+var TipoSujetoAgredidoController = function TipoSujetoAgredidoController($scope, $http, yearsService, high) {
 
-    $http.get('api/reportes/tipo-sujeto-agredido/2013').success(function (data) {
-        var anios = [];
+    var years = yearsService;
+    console.log(years);
+    var anios = [];
+    anios = _.each(years.anios, anios);
+    //var anios = _.flatten(this.years);
+
+    $http.get('api/reportes/tipo-sujeto-agredido/' + 2015).success(function (data) {
+
+        console.log(anios);
         var tiposujeto = [];
         var utiposujeto = [];
         var totales = [];
@@ -43320,7 +43335,7 @@ var TipoSujetoAgredidoController = function TipoSujetoAgredidoController($scope,
                 }
             },
             tooltip: {
-                valueSuffix: 'Agresiones'
+                valueSuffix: ' agresiones'
             },
             plotOptions: {
                 bar: {
