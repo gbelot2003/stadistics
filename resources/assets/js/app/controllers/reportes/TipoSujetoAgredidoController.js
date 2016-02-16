@@ -1,21 +1,24 @@
 'use strict';
-var TipoSujetoAgredidoController = function($scope, $http, high){
+var TipoSujetoAgredidoController = function($scope, $http, yearsService, high){
 
-    var anios = function(){
-        var annios = {};
-        var defer = $q.defer();
-        $http.get('api/reportes/years').success(function(data){
-            data.forEach(function(e){
-                annios.push(e.year);
-            });
-            defer.resolve(data);
+    yearsService.anios().success(function(data, $http){
+
+        var anios = [];
+        var tiposujeto = [];
+        var count = [];
+        var series = [];
+        data.forEach(function(e){
+            anios.push(e.year);
+            tiposujeto.push(e.tiposujetoagredido)
         });
-        return defer.promise;
-    };
+        var ydata = _.uniq(anios);
+        var utiposujeto = _.uniq(tiposujeto);
 
-    anios();
-    console.log(anios);
-
+        ydata.forEach(function(e){
+            series.push(_.where(data, {year: e}));
+        });
+        console.log(series);
+    });
 
    /* $http.get('api/reportes/tipo-sujeto-agredido-test').success(function(data){
 
