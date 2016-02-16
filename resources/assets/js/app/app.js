@@ -64,7 +64,7 @@ app.controller('menuController', ['$scope', menuController]);
 app.controller('WelcomeCtrl', ['$scope', WelcomeCtrl]);
 app.controller('AlertasController', ['$scope', AlertasCtrl]);
 app.controller('ReportesController', ['$scope', '$http', Reportes]);
-app.controller('TipoSujetoAgredidoController', ['$scope', '$http', 'yearsService' ,TipoSujetoAgredido]);
+app.controller('TipoSujetoAgredidoController', ['$scope', '$http' ,TipoSujetoAgredido]);
 app.controller('SujetoAgredidoGeneroController', ['$scope', '$http', SujetoAgredidoGenero]);
 app.controller('MedioSistemaController', ['$scope', '$http', MedioSistema]);
 app.controller('TipoMedioController', ['$scope', '$http', TipoMedio]);
@@ -74,13 +74,3 @@ app.controller('TipoAgresorController', ['$scope', '$http', TipoAgresorControlle
 app.controller('LocacionController', ['$scope', '$http', LocacionController]);
 app.controller('OcurrenciaMensualController', ['$scope', '$http', OcurrenciaMensualController]);
 app.controller('TipoSujetoAgredidoTestController', ['$scope', '$http', TipoSujetoAgredidotest]);
-
-app.factory('yearsService', function($http){
-    var anios = function(){
-        return $http.get('api/reportes/tipo-sujeto-agredido-test');
-    };
-
-    return {
-        anios: anios
-    }
-});

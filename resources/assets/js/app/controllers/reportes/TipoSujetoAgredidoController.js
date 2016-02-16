@@ -1,61 +1,35 @@
 'use strict';
-var TipoSujetoAgredidoController = function($scope, $http, yearsService, high){
+var TipoSujetoAgredidoController = function($scope, $http, high){
 
-    yearsService.anios().success(function(data, $http){
 
+
+    $http.get('api/reportes/tipo-sujeto-agredido/2013').success(function(data){
         var anios = [];
         var tiposujeto = [];
-        var count = [];
-        var series = [];
+        var utiposujeto = [];
+        var totales = [];
+        var utotales = [];
+
         data.forEach(function(e){
-            anios.push(e.year);
             tiposujeto.push(e.tiposujetoagredido)
+            totales.push(e.total)
         });
-        var ydata = _.uniq(anios);
-        var utiposujeto = _.uniq(tiposujeto);
 
-        ydata.forEach(function(e){
-            series.push(_.where(data, {year: e}));
-        });
-        console.log(series);
-    });
-
-   /* $http.get('api/reportes/tipo-sujeto-agredido-test').success(function(data){
-
-        var anios = [];
-        var tipo = [];
-        var total = [];
-        data.forEach(function(e){
-            anios.push(e.year);
-            tipo.push(e.tiposujetoagredido);//
-            total.push(e.total);
-        });get()
+        utiposujeto = _.uniq(tiposujeto);
 
 
-
-        var tipou = _.uniq(tipo);
-
-        var rseries = [
-            {'years' : _.uniq(anios)}
-        ];
-        var year = _.uniq(anios);
-        var groups = _.where(total, year);
-
-        console.log(year);
-
-
-        $scope.chartConfig = {
+        $('#chart1').highcharts({
             chart: {
                 type: 'bar'
             },
             title: {
-                text: 'Historic World Population by Region'
+                text: 'Tipos de Sujeto Agredido'
             },
             subtitle: {
-                text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
+                text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>'
             },
             xAxis: {
-                categories: [tipou],
+                categories: utiposujeto,
                 title: {
                     text: null
                 }
@@ -63,7 +37,7 @@ var TipoSujetoAgredidoController = function($scope, $http, yearsService, high){
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Tipos de Sujeto Agredido (años)',
+                    text: 'Agresiones (Por Tipo de Sujeto)',
                     align: 'high'
                 },
                 labels: {
@@ -71,7 +45,7 @@ var TipoSujetoAgredidoController = function($scope, $http, yearsService, high){
                 }
             },
             tooltip: {
-                valueSuffix: ' millions'
+                valueSuffix: 'Agresiones'
             },
             plotOptions: {
                 bar: {
@@ -95,21 +69,11 @@ var TipoSujetoAgredidoController = function($scope, $http, yearsService, high){
                 enabled: false
             },
             series: [{
-                name: 'Year 1800',
-                data: [107, 31, 635, 203, 2]
-            }, {
-                name: 'Year 1900',
-                data: [133, 156, 947, 408, 6]
-            }, {
-                name: 'Year 2012',
-                data: [1052, 954, 4250, 740, 38]
+                name: 'Year 2013',
+                data: totales
             }]
-        }
-    }).error(function(data){
-        console.log(data)
-    });*/
-
-
+        });
+    });
 
 };
 module.exports = TipoSujetoAgredidoController;
