@@ -74,7 +74,7 @@ app.controller('OcurrenciaMensualController', ['$scope', '$http', OcurrenciaMens
 app.controller('TipoSujetoAgredidoTestController', ['$scope', '$http', TipoSujetoAgredidotest]);
 
 /** Factorys **/
-app.factory('yearsService', function(){
+app.factory('yearsService', function($http){
     var tyears = [2016, 2015, 2014, 2013, 2012, 2011, 2010];
     return {
         anios: tyears

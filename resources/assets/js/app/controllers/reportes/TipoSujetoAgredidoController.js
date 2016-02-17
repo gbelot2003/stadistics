@@ -1,39 +1,39 @@
 'use strict';
 var TipoSujetoAgredidoController = function($scope, $http, yearsService, high){
 
-    var years = yearsService;
-    console.log(years);
-    var anios = [];
-    anios =  _.each(years.anios, anios);
-    //var anios = _.flatten(this.years);
-
-    $http.get('api/reportes/tipo-sujeto-agredido/' + 2015).success(function(data){
-
-        console.log(anios);
-        var tiposujeto = [];
-        var utiposujeto = [];
+    $http.get('api/reportes/tipo-sujeto-agredido-test/').success(function(data){
+        var tipos = [];
+        var uniqtipos = [];
+        var years = [];
+        var uniqyears = [];
         var totales = [];
-        var utotales = [];
+        var series = [];
+        var sortotal = [];
 
         data.forEach(function(e){
-            tiposujeto.push(e.tiposujetoagredido)
-            totales.push(e.total)
+            tipos.push(e.tiposujetoagredido);
+            years.push(e.year);
+            totales.push({year: e.year, total: e.total})
         });
+        uniqtipos = _.uniq(tipos);
+        uniqyears = _.uniq(years);
 
-        utiposujeto = _.uniq(tiposujeto);
+        sortotal =  _.groupBy(totales, 'year');
 
-        $('#chart1').highcharts({
+        console.log(sortotal)
+
+        $('#container').highcharts({
             chart: {
                 type: 'bar'
             },
             title: {
-                text: 'Tipos de Sujeto Agredido'
+                text: 'Historic World Population by Region'
             },
             subtitle: {
-                text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>'
+                text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
             },
             xAxis: {
-                categories: utiposujeto,
+                categories: uniqtipos,
                 title: {
                     text: null
                 }
@@ -41,7 +41,7 @@ var TipoSujetoAgredidoController = function($scope, $http, yearsService, high){
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Agresiones (Por Tipo de Sujeto)',
+                    text: 'Population (millions)',
                     align: 'high'
                 },
                 labels: {
@@ -49,7 +49,7 @@ var TipoSujetoAgredidoController = function($scope, $http, yearsService, high){
                 }
             },
             tooltip: {
-                valueSuffix: ' agresiones'
+                valueSuffix: ' millions'
             },
             plotOptions: {
                 bar: {
@@ -72,12 +72,108 @@ var TipoSujetoAgredidoController = function($scope, $http, yearsService, high){
             credits: {
                 enabled: false
             },
-            series: [{
-                name: 'Year 2013',
-                data: totales
-            }]
+            series: sortotal
         });
     });
 
+
+/*
+    dates.forEach(function (e) {
+        $http.get('api/reportes/tipo-sujeto-agredido/' + e).success(function(data){
+            var tiposujeto = [];
+            var totales = [];
+            var utotatal = [];
+
+            var series = [];
+            data.forEach(function(e){
+                tiposujeto.push(e.tiposujetoagredido);
+                totales.push(e.total);
+            });
+
+            utotatal = _.pluck(totales);
+            console.log(utotatal)
+            series = {
+                'año': e,
+                'data': totales
+            };
+
+            $('#container').highcharts({
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Historic World Population by Region'
+                },
+                subtitle: {
+                    text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
+                },
+                xAxis: {
+                    categories: [tiposujeto],
+                    title: {
+                        text: null
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Population (millions)',
+                        align: 'high'
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    }
+                },
+                tooltip: {
+                    valueSuffix: ' millions'
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -40,
+                    y: 80,
+                    floating: true,
+                    borderWidth: 1,
+                    backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                    shadow: true
+                },
+                credits: {
+                    enabled: false
+                },
+                series: series
+            });
+
+        });
+    });
+*/
+
+/*    $http.get('api/reportes/tipo-sujeto-agredido/' + 2015).success(function(data){
+
+        var tiposujeto = [];
+        var utiposujeto = [];
+        var totales = [];
+        var utotales = [];
+
+        data.forEach(function(e){
+            tiposujeto.push(e.tiposujetoagredido);
+            totales.push(e.total);
+        });
+
+        utiposujeto = _.uniq(tiposujeto);
+    });*/
+
+
+/*    $scope.$watch('product', function(newValue){
+        if(typeof newValue != 'undefined'){
+            $scope.myFunction();
+        }
+    });*/
 };
 module.exports = TipoSujetoAgredidoController;
