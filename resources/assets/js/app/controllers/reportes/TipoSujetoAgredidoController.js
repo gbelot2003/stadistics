@@ -20,32 +20,27 @@ var TipoSujetoAgredidoController = function($scope, $http, yearsService, high){
                 ordena.push(orderByYears(e, data));
             });
 
-
+            series = matchBySid(sid, ordena);
             console.log(ordena)
         });
 
-/*        function matchBySid(sid, data){
+        function matchBySid(sid, data){
             var variables = [];
             var result = [];
 
             data.forEach(function(e){
                 variables.push(e);
             });
+            result = _.pluck(variables);
+            console.log(result);
 
-            variables.forEach(function(e){
-                if(e.sid === sid){
-                    result.push(e);
-                } else {
-                    result.push(0);
-                }
-            })
-        }*/
+        }
 
         function orderByYears(year, data){
             var result = [];
             data.forEach(function(e){
                 if(e.year === year){
-                    result.push(e.total)
+                    result.push({'year': e.year, 'total':e.total})
                 }
             });
             return result;

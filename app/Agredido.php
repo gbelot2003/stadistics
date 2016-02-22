@@ -238,7 +238,7 @@ class Agredido extends Model
      */
     public function scopeSujetoAgredidoTest($query)
     {
-        $query->select('alertas.year as name', 'tiposujetoagredidos.id as sid', 'tiposujetoagredidos.tiposujetoagredido', DB::raw('Count(agredidos.id) as data'))
+        $query->select('alertas.year as year', 'tiposujetoagredidos.id as sid', 'tiposujetoagredidos.tiposujetoagredido', DB::raw('Count(agredidos.id) as total'))
             ->Join('alertas', 'agredidos.alertas_id', '=', 'alertas.id')
             ->Join('tiposujetoagredidos', 'agredidos.tiposujetoagredidos_id', '=', 'tiposujetoagredidos.id')
             ->where('alertas.published_state', '=', 1)
