@@ -1,136 +1,88 @@
 'use strict';
 var TipoSujetoAgredidoController = function($scope, $http, yearsService, high){
 
-    $http.get('api/reportes/tipo-sujeto-agredido-test/').success(function(data){
+    var anios = yearsService.anios;
+    $scope.carga = function(){
+
+        var data = [];
         var tipos = [];
-        var uniqtipos = [];
-        var years = [];
-        var uniqyears = [];
-        var totales = [];
+        var sid = [];
+        var ordena = [];
         var series = [];
-        var sortotal = [];
 
-        data.forEach(function(e){
-            tipos.push(e.tiposujetoagredido);
-            years.push(e.year);
-            totales.push({year: e.year, total: e.total})
-        });
-        uniqtipos = _.uniq(tipos);
-        uniqyears = _.uniq(years);
+        /** Constructor **/
+        $http.get('api/reportes/tipo-sujeto-agredido-test/').then(function successCallback(response){
+            data = response.data;
+            tipos = types(data);
+            sid = getSids(data);
 
-        sortotal =  _.groupBy(totales, 'year');
-
-        console.log(sortotal)
-
-        $('#container').highcharts({
-            chart: {
-                type: 'bar'
-            },
-            title: {
-                text: 'Historic World Population by Region'
-            },
-            subtitle: {
-                text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
-            },
-            xAxis: {
-                categories: uniqtipos,
-                title: {
-                    text: null
-                }
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'Population (millions)',
-                    align: 'high'
-                },
-                labels: {
-                    overflow: 'justify'
-                }
-            },
-            tooltip: {
-                valueSuffix: ' millions'
-            },
-            plotOptions: {
-                bar: {
-                    dataLabels: {
-                        enabled: true
-                    }
-                }
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'top',
-                x: -40,
-                y: 80,
-                floating: true,
-                borderWidth: 1,
-                backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-                shadow: true
-            },
-            credits: {
-                enabled: false
-            },
-            series: sortotal
-        });
-    });
-
-
-/*
-    dates.forEach(function (e) {
-        $http.get('api/reportes/tipo-sujeto-agredido/' + e).success(function(data){
-            var tiposujeto = [];
-            var totales = [];
-            var utotatal = [];
-
-            var series = [];
-            data.forEach(function(e){
-                tiposujeto.push(e.tiposujetoagredido);
-                totales.push(e.total);
+            anios.forEach(function(e){
+                ordena.push(orderByYears(e, data));
             });
 
-            utotatal = _.pluck(totales);
-            console.log(utotatal)
-            series = {
-                'año': e,
-                'data': totales
-            };
 
-            $('#container').highcharts({
-                chart: {
-                    type: 'bar'
-                },
-                title: {
-                    text: 'Historic World Population by Region'
-                },
-                subtitle: {
-                    text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
-                },
+            console.log(ordena)
+        });
+
+/*        function matchBySid(sid, data){
+            var variables = [];
+            var result = [];
+
+            data.forEach(function(e){
+                variables.push(e);
+            });
+
+            variables.forEach(function(e){
+                if(e.sid === sid){
+                    result.push(e);
+                } else {
+                    result.push(0);
+                }
+            })
+        }*/
+
+        function orderByYears(year, data){
+            var result = [];
+            data.forEach(function(e){
+                if(e.year === year){
+                    result.push(e.total)
+                }
+            });
+            return result;
+        }
+
+        function types (data){
+            var myType = [];
+            data.forEach(function(e){
+                myType.push(e.tiposujetoagredido)
+            });
+            var UTypes = _.uniq(myType);
+            return UTypes;
+        }
+
+        function getSids(object){
+            var myType = [];
+            data.forEach(function(e){
+                myType.push(e.sid)
+            });
+            var UTypes = _.uniq(myType);
+            return UTypes;
+
+        }
+
+        function makeCharts(series){
+
+            $('#chart1').highcharts({
+                chart: {type: 'bar'},
+                title: {text: 'Estadisticas por Tipos de Sujetos Agredidos'},
+                subtitle: {text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>'},
                 xAxis: {
-                    categories: [tiposujeto],
-                    title: {
-                        text: null
-                    }
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        text: 'Population (millions)',
-                        align: 'high'
-                    },
-                    labels: {
-                        overflow: 'justify'
-                    }
-                },
-                tooltip: {
-                    valueSuffix: ' millions'
+                    categories: [],
+                    title: { text: null }
                 },
                 plotOptions: {
                     bar: {
-                        dataLabels: {
-                            enabled: true
-                        }
+                        dataLabels: {enabled: true}
                     }
                 },
                 legend: {
@@ -144,36 +96,14 @@ var TipoSujetoAgredidoController = function($scope, $http, yearsService, high){
                     backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
                     shadow: true
                 },
-                credits: {
-                    enabled: false
-                },
+                credits: {enabled: false},
                 series: series
+
             });
-
-        });
-    });
-*/
-
-/*    $http.get('api/reportes/tipo-sujeto-agredido/' + 2015).success(function(data){
-
-        var tiposujeto = [];
-        var utiposujeto = [];
-        var totales = [];
-        var utotales = [];
-
-        data.forEach(function(e){
-            tiposujeto.push(e.tiposujetoagredido);
-            totales.push(e.total);
-        });
-
-        utiposujeto = _.uniq(tiposujeto);
-    });*/
-
-
-/*    $scope.$watch('product', function(newValue){
-        if(typeof newValue != 'undefined'){
-            $scope.myFunction();
         }
-    });*/
+
+    };
+
+    $scope.carga();
 };
 module.exports = TipoSujetoAgredidoController;
