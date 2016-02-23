@@ -54,6 +54,7 @@ class Agresor extends Model
             ->Join('tipoagresors', 'agresors.tipoagresors_id', '=', 'tipoagresors.id')
             ->where('alertas.year', '=', $years)
             ->where('alertas.published_state', '=', 1)
+            ->orderBy('tipoagresors.id', 'ASC')
             ->groupBy('tipoagresors.tipoagresor');
     }
 }

@@ -14,10 +14,7 @@
 </header>
 <main class="container">
     <div class="row">
-        <div class="col-md-2" id="aside">
-            <years-nav></years-nav>
-        </div>
-        <div class="nga-default nga-stagger nga-slide-down col-md-10" ng-view></div>
+        <div class="nga-default nga-stagger nga-slide-down col-md-12" ng-view></div>
     </div>
 </main>
 </body>

@@ -145,7 +145,7 @@ class Agredido extends Model
      */
     public function scopeTypeOfMedia($query, $years)
     {
-        $query->select('agredidos.medios_id as medioId', 'tiposistemas.tiposistema as medio', 'agredidos.id as id', DB::raw('Count(agredidos.id) AS Contador'))
+        $query->select('agredidos.medios_id as medioId', 'tiposistemas.tiposistema as medio', 'agredidos.id as id', DB::raw('Count(agredidos.id) AS contador'))
             ->Join('alertas', 'alertas.id', '=', 'agredidos.id')
             ->Join('tiposistemas', 'agredidos.medios_id', '=', 'tiposistemas.id')
             ->where('alertas.year', '=', $years)
@@ -188,8 +188,7 @@ class Agredido extends Model
             ->Join('agresioncategorias', 'agresions.agresioncategorias_id', '=', 'agresioncategorias.id')
             ->where('alertas.year', '=', $years)
             ->where('agresions.agresioncategorias_id', '=', $catId)
-            ->where('alertas.published_state', '=', 1)
-            ->groupBy();
+            ->where('alertas.published_state', '=', 1);
     }
 
     /**

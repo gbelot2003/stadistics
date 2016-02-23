@@ -37,8 +37,7 @@ class ReportesController extends Controller
      */
     public function tipoSujetoAgredido($year)
     {
-        $response = Agredido::sujetoAgredido($year)->get();
-        return $response;
+        return $response = Agredido::sujetoAgredido($year)->get();
     }
 
     /**
@@ -51,8 +50,7 @@ class ReportesController extends Controller
      */
     public function tipoAgredidoPorGenero($yers)
     {
-        $response = Agredido::agredidosGender($yers)->get();
-        return $response;
+        return $response = Agredido::agredidosGender($yers)->get();
     }
 
     /**
@@ -65,8 +63,7 @@ class ReportesController extends Controller
      */
     public function medioSistema($years)
     {
-        $response = Agredido::agredidosByMedia($years)->get();
-        return $response;
+        return $response = Agredido::agredidosByMedia($years)->get();
     }
 
     /**
@@ -79,8 +76,7 @@ class ReportesController extends Controller
      */
     public function tipoMedioSistema($years)
     {
-        $response = Agredido::typeOfMedia($years)->get();
-        return $response;
+        return $response = Agredido::typeOfMedia($years)->get();
     }
 
     /**
@@ -93,8 +89,7 @@ class ReportesController extends Controller
      */
     public function tipoByAgresor($years)
     {
-        $response = Agresor::typeByAgresor($years)->get();
-        return $response;
+        return $response = Agresor::typeByAgresor($years)->get();
     }
 
     /**
@@ -107,8 +102,7 @@ class ReportesController extends Controller
      */
     public function agresionDirecta($years)
     {
-        $response = Agredido::agresonesDirectas($years, 1)->get();
-        return $response;
+        return $response = Agredido::agresonesDirectas($years, 1)->get();
     }
 
     /**
@@ -121,8 +115,7 @@ class ReportesController extends Controller
      */
     public function agresionIndirecta($years)
     {
-        $response = Agredido::agresonesDirectas($years, 2)->get();
-        return $response;
+        return $response = Agredido::agresonesDirectas($years, 2)->get();
     }
 
     /**
@@ -136,8 +129,7 @@ class ReportesController extends Controller
      */
     public function agresionesByCategory($years, $catId)
     {
-        $response = Agredido::agresionesByCatId($years, $catId)->get();
-        return $response;
+        return $response = Agredido::agresionesByCatId($years, $catId)->get();
     }
 
     /**
@@ -150,8 +142,7 @@ class ReportesController extends Controller
      */
     public function dataByDepartamentos($years)
     {
-        $response = Agredido::agredidosByDepartment($years)->get();
-        return $response;
+        return $response = Agredido::agredidosByDepartment($years)->get();
     }
 
     /**
@@ -164,8 +155,7 @@ class ReportesController extends Controller
      */
     public function dataByMes($years)
     {
-        $response = Agredido::agredidosByMonth($years)->get();
-        return $response;
+        return $response = Agredido::agredidosByMonth($years)->get();
     }
 
 
@@ -178,8 +168,7 @@ class ReportesController extends Controller
      */
     public function tipoSujetoAgredidoTest()
     {
-        $response = Agredido::sujetoAgredidoTest()->get();
-        return $response;
+        return $response = Agredido::sujetoAgredidoTest()->get();
     }
 
 }

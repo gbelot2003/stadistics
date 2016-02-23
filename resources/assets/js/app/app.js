@@ -42,7 +42,6 @@ app.config(function($routeProvider, $locationProvider){
 
         .when('/reportes', { controller: 'ReportesController', templateUrl: './js/app/views/reportes/index.html' })
         .when('/reportes/tipo-sujeto-agredido',{ controller: 'TipoSujetoAgredidoController', templateUrl: './js/app/views/reportes/tipoSujetoAgredido.html' })
-
         .when('/reportes/sujeto-agredido-por-genero',{ controller: 'SujetoAgredidoGeneroController', templateUrl: './js/app/views/reportes/sujetoAgredidoGenero.html' })
         .when('/reportes/medio-o-sistema', { controller:'MedioSistemaController', templateUrl:'./js/app/views/reportes/medioSistema.html' })
         .when('/reportes/tipo-de-medio', { controller:'TipoMedioController', templateUrl:'./js/app/views/reportes/tipoMedio.html' })
@@ -75,7 +74,7 @@ app.controller('TipoSujetoAgredidoTestController', ['$scope', '$http', TipoSujet
 
 /** Factorys **/
 app.factory('yearsService', function(){
-    var tyears = [2016, 2015, 2014, 2013, 2012, 2011, 2010];
+    var tyears = [2015, 2014, 2013, 2012];
     return {
         anios: tyears
     }
