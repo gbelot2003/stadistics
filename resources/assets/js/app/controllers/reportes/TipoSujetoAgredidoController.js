@@ -1,104 +1,63 @@
 'use strict';
 var TipoSujetoAgredidoController = function($scope, $http, yearsService, high){
 
-    var anios = yearsService.anios;
-    $scope.carga = function(){
+    $scope.years = yearsService.anios;
 
-        var data = [];
-        var tipos = [];
-        var sid = [];
-        var ordena = [];
-        var series = [];
+    function makeCharts(series){
 
-        /** Constructor **/
-        $http.get('api/reportes/tipo-sujeto-agredido-test/').then(function successCallback(response){
-            data = response.data;
-            tipos = types(data);
-            sid = getSids(data);
-
-            anios.forEach(function(e){
-                ordena.push(orderByYears(e, data));
-            });
-
-            series = matchBySid(sid, ordena);
-            console.log(ordena)
+        $('#chart1').highcharts({
+            chart: {type: 'bar'},
+            title: {text: 'Estadisticas por Tipos de Sujetos Agredidos'},
+            subtitle: {text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>'},
+            xAxis: {
+                categories: series.type
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -40,
+                y: 80,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                shadow: true
+            },
+            credits: {enabled: false},
+            series: [series.data]
         });
+    }
 
-        function matchBySid(sid, data){
-            var variables = [];
-            var result = [];
+    $scope.carga = function(year){
 
-            data.forEach(function(e){
-                variables.push(e);
+        var results = [];
+        var tipo = [];
+        var totales = [];
+
+
+        function addVariable(data){
+            data.push(data);
+            return data;
+        };
+
+        $http.get("api/reportes/tipo-sujeto-agredido/" + year).then(function successfunction(response){
+            results = addVariable(response.data);
+
+            results.forEach(function(e){
+                tipo.push(e.tiposujetoagredido);
+                totales.push(e.total);
             });
-            result = _.pluck(variables);
-            console.log(result);
 
-        }
-
-        function orderByYears(year, data){
-            var result = [];
-            data.forEach(function(e){
-                if(e.year === year){
-                    result.push({'year': e.year, 'total':e.total})
-                }
-            });
-            return result;
-        }
-
-        function types (data){
-            var myType = [];
-            data.forEach(function(e){
-                myType.push(e.tiposujetoagredido)
-            });
-            var UTypes = _.uniq(myType);
-            return UTypes;
-        }
-
-        function getSids(object){
-            var myType = [];
-            data.forEach(function(e){
-                myType.push(e.sid)
-            });
-            var UTypes = _.uniq(myType);
-            return UTypes;
-
-        }
-
-        function makeCharts(series){
-
-            $('#chart1').highcharts({
-                chart: {type: 'bar'},
-                title: {text: 'Estadisticas por Tipos de Sujetos Agredidos'},
-                subtitle: {text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>'},
-                xAxis: {
-                    categories: [],
-                    title: { text: null }
-                },
-                plotOptions: {
-                    bar: {
-                        dataLabels: {enabled: true}
+            $scope.series = {
+                    type: tipo,
+                    data: {
+                        name: year,
+                        data: totales
                     }
-                },
-                legend: {
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'top',
-                    x: -40,
-                    y: 80,
-                    floating: true,
-                    borderWidth: 1,
-                    backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-                    shadow: true
-                },
-                credits: {enabled: false},
-                series: series
+                };
 
-            });
-        }
-
+            makeCharts($scope.series)
+        });
     };
-
-    $scope.carga();
 };
 module.exports = TipoSujetoAgredidoController;
