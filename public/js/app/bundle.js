@@ -4947,7 +4947,7 @@ module.exports = 'ngRoute';
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
 
- * Version: 1.1.1 - 2016-01-25
+ * Version: 1.1.2 - 2016-02-01
  * License: MIT
  */angular.module("ui.bootstrap", ["ui.bootstrap.tpls", "ui.bootstrap.collapse","ui.bootstrap.accordion","ui.bootstrap.alert","ui.bootstrap.buttons","ui.bootstrap.carousel","ui.bootstrap.dateparser","ui.bootstrap.isClass","ui.bootstrap.position","ui.bootstrap.datepicker","ui.bootstrap.debounce","ui.bootstrap.dropdown","ui.bootstrap.stackedMap","ui.bootstrap.modal","ui.bootstrap.paging","ui.bootstrap.pager","ui.bootstrap.pagination","ui.bootstrap.tooltip","ui.bootstrap.popover","ui.bootstrap.progressbar","ui.bootstrap.rating","ui.bootstrap.tabs","ui.bootstrap.timepicker","ui.bootstrap.typeahead"]);
 angular.module("ui.bootstrap.tpls", ["uib/template/accordion/accordion-group.html","uib/template/accordion/accordion.html","uib/template/alert/alert.html","uib/template/carousel/carousel.html","uib/template/carousel/slide.html","uib/template/datepicker/datepicker.html","uib/template/datepicker/day.html","uib/template/datepicker/month.html","uib/template/datepicker/popup.html","uib/template/datepicker/year.html","uib/template/modal/backdrop.html","uib/template/modal/window.html","uib/template/pager/pager.html","uib/template/pagination/pagination.html","uib/template/tooltip/tooltip-html-popup.html","uib/template/tooltip/tooltip-popup.html","uib/template/tooltip/tooltip-template-popup.html","uib/template/popover/popover-html.html","uib/template/popover/popover-template.html","uib/template/popover/popover.html","uib/template/progressbar/bar.html","uib/template/progressbar/progress.html","uib/template/progressbar/progressbar.html","uib/template/rating/rating.html","uib/template/tabs/tab.html","uib/template/tabs/tabset.html","uib/template/timepicker/timepicker.html","uib/template/typeahead/typeahead-match.html","uib/template/typeahead/typeahead-popup.html"]);
@@ -5146,6 +5146,10 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
           }
         }
       };
+
+      var id = 'accordiongroup-' + scope.$id + '-' + Math.floor(Math.random() * 10000);
+      scope.headingId = id + '-tab';
+      scope.panelId = id + '-panel';
     }
   };
 })
@@ -5637,7 +5641,7 @@ function($animateCss) {
 
 angular.module('ui.bootstrap.dateparser', [])
 
-.service('uibDateParser', ['$log', '$locale', 'orderByFilter', function($log, $locale, orderByFilter) {
+.service('uibDateParser', ['$log', '$locale', 'dateFilter', 'orderByFilter', function($log, $locale, dateFilter, orderByFilter) {
   // Pulled from https://github.com/mbostock/d3/blob/master/src/format/requote.js
   var SPECIAL_CHARACTERS_REGEXP = /[\\\^\$\*\+\?\|\[\]\(\)\.\{\}]/g;
 
@@ -5648,115 +5652,164 @@ angular.module('ui.bootstrap.dateparser', [])
     localeId = $locale.id;
 
     this.parsers = {};
+    this.formatters = {};
 
     formatCodeToRegex = [
       {
         key: 'yyyy',
         regex: '\\d{4}',
-        apply: function(value) { this.year = +value; }
+        apply: function(value) { this.year = +value; },
+        formatter: function(date) {
+          var _date = new Date();
+          _date.setFullYear(Math.abs(date.getFullYear()));
+          return dateFilter(_date, 'yyyy');
+        }
       },
       {
         key: 'yy',
         regex: '\\d{2}',
-        apply: function(value) { this.year = +value + 2000; }
+        apply: function(value) { this.year = +value + 2000; },
+        formatter: function(date) {
+          var _date = new Date();
+          _date.setFullYear(Math.abs(date.getFullYear()));
+          return dateFilter(_date, 'yy');
+        }
       },
       {
         key: 'y',
         regex: '\\d{1,4}',
-        apply: function(value) { this.year = +value; }
+        apply: function(value) { this.year = +value; },
+        formatter: function(date) {
+          var _date = new Date();
+          _date.setFullYear(Math.abs(date.getFullYear()));
+          return dateFilter(_date, 'y');
+        }
       },
       {
         key: 'M!',
         regex: '0?[1-9]|1[0-2]',
-        apply: function(value) { this.month = value - 1; }
+        apply: function(value) { this.month = value - 1; },
+        formatter: function(date) {
+          var value = date.getMonth();
+          if (/^[0-9]$/.test(value)) {
+            return dateFilter(date, 'MM');
+          }
+
+          return dateFilter(date, 'M');
+        }
       },
       {
         key: 'MMMM',
         regex: $locale.DATETIME_FORMATS.MONTH.join('|'),
-        apply: function(value) { this.month = $locale.DATETIME_FORMATS.MONTH.indexOf(value); }
+        apply: function(value) { this.month = $locale.DATETIME_FORMATS.MONTH.indexOf(value); },
+        formatter: function(date) { return dateFilter(date, 'MMMM'); }
       },
       {
         key: 'MMM',
         regex: $locale.DATETIME_FORMATS.SHORTMONTH.join('|'),
-        apply: function(value) { this.month = $locale.DATETIME_FORMATS.SHORTMONTH.indexOf(value); }
+        apply: function(value) { this.month = $locale.DATETIME_FORMATS.SHORTMONTH.indexOf(value); },
+        formatter: function(date) { return dateFilter(date, 'MMM'); }
       },
       {
         key: 'MM',
         regex: '0[1-9]|1[0-2]',
-        apply: function(value) { this.month = value - 1; }
+        apply: function(value) { this.month = value - 1; },
+        formatter: function(date) { return dateFilter(date, 'MM'); }
       },
       {
         key: 'M',
         regex: '[1-9]|1[0-2]',
-        apply: function(value) { this.month = value - 1; }
+        apply: function(value) { this.month = value - 1; },
+        formatter: function(date) { return dateFilter(date, 'M'); }
       },
       {
         key: 'd!',
         regex: '[0-2]?[0-9]{1}|3[0-1]{1}',
-        apply: function(value) { this.date = +value; }
+        apply: function(value) { this.date = +value; },
+        formatter: function(date) {
+          var value = date.getDate();
+          if (/^[1-9]$/.test(value)) {
+            return dateFilter(date, 'dd');
+          }
+
+          return dateFilter(date, 'd');
+        }
       },
       {
         key: 'dd',
         regex: '[0-2][0-9]{1}|3[0-1]{1}',
-        apply: function(value) { this.date = +value; }
+        apply: function(value) { this.date = +value; },
+        formatter: function(date) { return dateFilter(date, 'dd'); }
       },
       {
         key: 'd',
         regex: '[1-2]?[0-9]{1}|3[0-1]{1}',
-        apply: function(value) { this.date = +value; }
+        apply: function(value) { this.date = +value; },
+        formatter: function(date) { return dateFilter(date, 'd'); }
       },
       {
         key: 'EEEE',
-        regex: $locale.DATETIME_FORMATS.DAY.join('|')
+        regex: $locale.DATETIME_FORMATS.DAY.join('|'),
+        formatter: function(date) { return dateFilter(date, 'EEEE'); }
       },
       {
         key: 'EEE',
-        regex: $locale.DATETIME_FORMATS.SHORTDAY.join('|')
+        regex: $locale.DATETIME_FORMATS.SHORTDAY.join('|'),
+        formatter: function(date) { return dateFilter(date, 'EEE'); }
       },
       {
         key: 'HH',
         regex: '(?:0|1)[0-9]|2[0-3]',
-        apply: function(value) { this.hours = +value; }
+        apply: function(value) { this.hours = +value; },
+        formatter: function(date) { return dateFilter(date, 'HH'); }
       },
       {
         key: 'hh',
         regex: '0[0-9]|1[0-2]',
-        apply: function(value) { this.hours = +value; }
+        apply: function(value) { this.hours = +value; },
+        formatter: function(date) { return dateFilter(date, 'hh'); }
       },
       {
         key: 'H',
         regex: '1?[0-9]|2[0-3]',
-        apply: function(value) { this.hours = +value; }
+        apply: function(value) { this.hours = +value; },
+        formatter: function(date) { return dateFilter(date, 'H'); }
       },
       {
         key: 'h',
         regex: '[0-9]|1[0-2]',
-        apply: function(value) { this.hours = +value; }
+        apply: function(value) { this.hours = +value; },
+        formatter: function(date) { return dateFilter(date, 'h'); }
       },
       {
         key: 'mm',
         regex: '[0-5][0-9]',
-        apply: function(value) { this.minutes = +value; }
+        apply: function(value) { this.minutes = +value; },
+        formatter: function(date) { return dateFilter(date, 'mm'); }
       },
       {
         key: 'm',
         regex: '[0-9]|[1-5][0-9]',
-        apply: function(value) { this.minutes = +value; }
+        apply: function(value) { this.minutes = +value; },
+        formatter: function(date) { return dateFilter(date, 'm'); }
       },
       {
         key: 'sss',
         regex: '[0-9][0-9][0-9]',
-        apply: function(value) { this.milliseconds = +value; }
+        apply: function(value) { this.milliseconds = +value; },
+        formatter: function(date) { return dateFilter(date, 'sss'); }
       },
       {
         key: 'ss',
         regex: '[0-5][0-9]',
-        apply: function(value) { this.seconds = +value; }
+        apply: function(value) { this.seconds = +value; },
+        formatter: function(date) { return dateFilter(date, 'ss'); }
       },
       {
         key: 's',
         regex: '[0-9]|[1-5][0-9]',
-        apply: function(value) { this.seconds = +value; }
+        apply: function(value) { this.seconds = +value; },
+        formatter: function(date) { return dateFilter(date, 's'); }
       },
       {
         key: 'a',
@@ -5769,7 +5822,8 @@ angular.module('ui.bootstrap.dateparser', [])
           if (value === 'PM') {
             this.hours += 12;
           }
-        }
+        },
+        formatter: function(date) { return dateFilter(date, 'a'); }
       },
       {
         key: 'Z',
@@ -5781,38 +5835,47 @@ angular.module('ui.bootstrap.dateparser', [])
             minutes = matches[3];
           this.hours += toInt(sign + hours);
           this.minutes += toInt(sign + minutes);
+        },
+        formatter: function(date) {
+          return dateFilter(date, 'Z');
         }
       },
       {
         key: 'ww',
-        regex: '[0-4][0-9]|5[0-3]'
+        regex: '[0-4][0-9]|5[0-3]',
+        formatter: function(date) { return dateFilter(date, 'ww'); }
       },
       {
         key: 'w',
-        regex: '[0-9]|[1-4][0-9]|5[0-3]'
+        regex: '[0-9]|[1-4][0-9]|5[0-3]',
+        formatter: function(date) { return dateFilter(date, 'w'); }
       },
       {
         key: 'GGGG',
-        regex: $locale.DATETIME_FORMATS.ERANAMES.join('|').replace(/\s/g, '\\s')
+        regex: $locale.DATETIME_FORMATS.ERANAMES.join('|').replace(/\s/g, '\\s'),
+        formatter: function(date) { return dateFilter(date, 'GGGG'); }
       },
       {
         key: 'GGG',
-        regex: $locale.DATETIME_FORMATS.ERAS.join('|')
+        regex: $locale.DATETIME_FORMATS.ERAS.join('|'),
+        formatter: function(date) { return dateFilter(date, 'GGG'); }
       },
       {
         key: 'GG',
-        regex: $locale.DATETIME_FORMATS.ERAS.join('|')
+        regex: $locale.DATETIME_FORMATS.ERAS.join('|'),
+        formatter: function(date) { return dateFilter(date, 'GG'); }
       },
       {
         key: 'G',
-        regex: $locale.DATETIME_FORMATS.ERAS.join('|')
+        regex: $locale.DATETIME_FORMATS.ERAS.join('|'),
+        formatter: function(date) { return dateFilter(date, 'G'); }
       }
     ];
   };
 
   this.init();
 
-  function createParser(format) {
+  function createParser(format, func) {
     var map = [], regex = format.split('');
 
     // check for literal values
@@ -5860,7 +5923,8 @@ angular.module('ui.bootstrap.dateparser', [])
 
         map.push({
           index: index,
-          apply: data.apply,
+          key: data.key,
+          apply: data[func],
           matcher: data.regex
         });
       }
@@ -5871,6 +5935,41 @@ angular.module('ui.bootstrap.dateparser', [])
       map: orderByFilter(map, 'index')
     };
   }
+
+  this.filter = function(date, format) {
+    if (!angular.isDate(date) || isNaN(date) || !format) {
+      return '';
+    }
+
+    format = $locale.DATETIME_FORMATS[format] || format;
+
+    if ($locale.id !== localeId) {
+      this.init();
+    }
+
+    if (!this.formatters[format]) {
+      this.formatters[format] = createParser(format, 'formatter');
+    }
+
+    var parser = this.formatters[format],
+      map = parser.map;
+
+    var _format = format;
+
+    return map.reduce(function(str, mapper, i) {
+      var match = _format.match(new RegExp('(.*)' + mapper.key));
+      if (match && angular.isString(match[1])) {
+        str += match[1];
+        _format = _format.replace(match[1] + mapper.key, '');
+      }
+
+      if (mapper.apply) {
+        return str + mapper.apply.call(null, date);
+      }
+
+      return str;
+    }, '');
+  };
 
   this.parse = function(input, format, baseDate) {
     if (!angular.isString(input) || !format) {
@@ -5885,7 +5984,7 @@ angular.module('ui.bootstrap.dateparser', [])
     }
 
     if (!this.parsers[format]) {
-      this.parsers[format] = createParser(format);
+      this.parsers[format] = createParser(format, 'apply');
     }
 
     var parser = this.parsers[format],
@@ -5973,7 +6072,7 @@ angular.module('ui.bootstrap.dateparser', [])
   this.timezoneToOffset = timezoneToOffset;
   this.addDateMinutes = addDateMinutes;
   this.convertTimezoneToLocal = convertTimezoneToLocal;
-  
+
   function toTimezone(date, timezone) {
     return date && timezone ? convertTimezoneToLocal(date, timezone) : date;
   }
@@ -6659,65 +6758,171 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
   // Modes chain
   this.modes = ['day', 'month', 'year'];
 
-  // Interpolated configuration attributes
-  angular.forEach(['formatDay', 'formatMonth', 'formatYear', 'formatDayHeader', 'formatDayTitle', 'formatMonthTitle'], function(key) {
-    self[key] = angular.isDefined($attrs[key]) ? $interpolate($attrs[key])($scope.$parent) : datepickerConfig[key];
-  });
+  if ($attrs.datepickerOptions) {
+    angular.forEach([
+      'formatDay',
+      'formatDayHeader',
+      'formatDayTitle',
+      'formatMonth',
+      'formatMonthTitle',
+      'formatYear',
+      'initDate',
+      'maxDate',
+      'maxMode',
+      'minDate',
+      'minMode',
+      'showWeeks',
+      'shortcutPropagation',
+      'startingDay',
+      'yearColumns',
+      'yearRows'
+    ], function(key) {
+      switch (key) {
+        case 'formatDay':
+        case 'formatDayHeader':
+        case 'formatDayTitle':
+        case 'formatMonth':
+        case 'formatMonthTitle':
+        case 'formatYear':
+          self[key] = angular.isDefined($scope.datepickerOptions[key]) ? $interpolate($scope.datepickerOptions[key])($scope.$parent) : datepickerConfig[key];
+          break;
+        case 'showWeeks':
+        case 'shortcutPropagation':
+        case 'yearColumns':
+        case 'yearRows':
+          self[key] = angular.isDefined($scope.datepickerOptions[key]) ?
+            $scope.datepickerOptions[key] : datepickerConfig[key];
+          break;
+        case 'startingDay':
+          if (angular.isDefined($scope.datepickerOptions.startingDay)) {
+            self.startingDay = $scope.datepickerOptions.startingDay;
+          } else if (angular.isNumber(datepickerConfig.startingDay)) {
+            self.startingDay = datepickerConfig.startingDay;
+          } else {
+            self.startingDay = ($locale.DATETIME_FORMATS.FIRSTDAYOFWEEK + 8) % 7;
+          }
 
-  // Evaled configuration attributes
-  angular.forEach(['showWeeks', 'yearRows', 'yearColumns', 'shortcutPropagation'], function(key) {
-    self[key] = angular.isDefined($attrs[key]) ?
-      $scope.$parent.$eval($attrs[key]) : datepickerConfig[key];
-  });
+          break;
+        case 'maxDate':
+        case 'minDate':
+          if ($scope.datepickerOptions[key]) {
+            $scope.$watch(function() { return $scope.datepickerOptions[key]; }, function(value) {
+              if (value) {
+                if (angular.isDate(value)) {
+                  self[key] = dateParser.fromTimezone(new Date(value), ngModelOptions.timezone);
+                } else {
+                  self[key] = new Date(dateFilter(value, 'medium'));
+                }
+              } else {
+                self[key] = null;
+              }
 
-  if (angular.isDefined($attrs.startingDay)) {
-    self.startingDay = $scope.$parent.$eval($attrs.startingDay);
-  } else if (angular.isNumber(datepickerConfig.startingDay)) {
-    self.startingDay = datepickerConfig.startingDay;
+              self.refreshView();
+            });
+          } else {
+            self[key] = datepickerConfig[key] ? dateParser.fromTimezone(new Date(datepickerConfig[key]), ngModelOptions.timezone) : null;
+          }
+
+          break;
+        case 'maxMode':
+        case 'minMode':
+          if ($scope.datepickerOptions[key]) {
+            $scope.$watch(function() { return $scope.datepickerOptions[key]; }, function(value) {
+              self[key] = $scope[key] = angular.isDefined(value) ? value : datepickerOptions[key];
+              if (key === 'minMode' && self.modes.indexOf($scope.datepickerMode) < self.modes.indexOf(self[key]) ||
+                key === 'maxMode' && self.modes.indexOf($scope.datepickerMode) > self.modes.indexOf(self[key])) {
+                $scope.datepickerMode = self[key];
+              }
+            });
+          } else {
+            self[key] = $scope[key] = datepickerConfig[key] || null;
+          }
+
+          break;
+        case 'initDate':
+          if ($scope.datepickerOptions.initDate) {
+            this.activeDate = dateParser.fromTimezone($scope.datepickerOptions.initDate, ngModelOptions.timezone) || new Date();
+            $scope.$watch(function() { return $scope.datepickerOptions.initDate; }, function(initDate) {
+              if (initDate && (ngModelCtrl.$isEmpty(ngModelCtrl.$modelValue) || ngModelCtrl.$invalid)) {
+                self.activeDate = dateParser.fromTimezone(initDate, ngModelOptions.timezone);
+                self.refreshView();
+              }
+            });
+          } else {
+            this.activeDate = new Date();
+          }
+      }
+    });
   } else {
-    self.startingDay = ($locale.DATETIME_FORMATS.FIRSTDAYOFWEEK + 8) % 7;
-  }
+    // Interpolated configuration attributes
+    angular.forEach(['formatDay', 'formatMonth', 'formatYear', 'formatDayHeader', 'formatDayTitle', 'formatMonthTitle'], function(key) {
+      self[key] = angular.isDefined($attrs[key]) ? $interpolate($attrs[key])($scope.$parent) : datepickerConfig[key];
+    });
 
-  // Watchable date attributes
-  angular.forEach(['minDate', 'maxDate'], function(key) {
-    if ($attrs[key]) {
-      watchListeners.push($scope.$parent.$watch($attrs[key], function(value) {
-        self[key] = value ? angular.isDate(value) ? dateParser.fromTimezone(new Date(value), ngModelOptions.timezone) : new Date(dateFilter(value, 'medium')) : null;
-        self.refreshView();
-      }));
+    // Evaled configuration attributes
+    angular.forEach(['showWeeks', 'yearRows', 'yearColumns', 'shortcutPropagation'], function(key) {
+      self[key] = angular.isDefined($attrs[key]) ?
+        $scope.$parent.$eval($attrs[key]) : datepickerConfig[key];
+    });
+
+    if (angular.isDefined($attrs.startingDay)) {
+      self.startingDay = $scope.$parent.$eval($attrs.startingDay);
+    } else if (angular.isNumber(datepickerConfig.startingDay)) {
+      self.startingDay = datepickerConfig.startingDay;
     } else {
-      self[key] = datepickerConfig[key] ? dateParser.fromTimezone(new Date(datepickerConfig[key]), ngModelOptions.timezone) : null;
+      self.startingDay = ($locale.DATETIME_FORMATS.FIRSTDAYOFWEEK + 8) % 7;
     }
-  });
 
-  angular.forEach(['minMode', 'maxMode'], function(key) {
-    if ($attrs[key]) {
-      watchListeners.push($scope.$parent.$watch($attrs[key], function(value) {
-        self[key] = $scope[key] = angular.isDefined(value) ? value : $attrs[key];
-        if (key === 'minMode' && self.modes.indexOf($scope.datepickerMode) < self.modes.indexOf(self[key]) ||
-          key === 'maxMode' && self.modes.indexOf($scope.datepickerMode) > self.modes.indexOf(self[key])) {
-          $scope.datepickerMode = self[key];
+    // Watchable date attributes
+    angular.forEach(['minDate', 'maxDate'], function(key) {
+      if ($attrs[key]) {
+        watchListeners.push($scope.$parent.$watch($attrs[key], function(value) {
+          if (value) {
+            if (angular.isDate(value)) {
+              self[key] = dateParser.fromTimezone(new Date(value), ngModelOptions.timezone);
+            } else {
+              self[key] = new Date(dateFilter(value, 'medium'));
+            }
+          } else {
+            self[key] = null;
+          }
+
+          self.refreshView();
+        }));
+      } else {
+        self[key] = datepickerConfig[key] ? dateParser.fromTimezone(new Date(datepickerConfig[key]), ngModelOptions.timezone) : null;
+      }
+    });
+
+    angular.forEach(['minMode', 'maxMode'], function(key) {
+      if ($attrs[key]) {
+        watchListeners.push($scope.$parent.$watch($attrs[key], function(value) {
+          self[key] = $scope[key] = angular.isDefined(value) ? value : $attrs[key];
+          if (key === 'minMode' && self.modes.indexOf($scope.datepickerMode) < self.modes.indexOf(self[key]) ||
+            key === 'maxMode' && self.modes.indexOf($scope.datepickerMode) > self.modes.indexOf(self[key])) {
+            $scope.datepickerMode = self[key];
+          }
+        }));
+      } else {
+        self[key] = $scope[key] = datepickerConfig[key] || null;
+      }
+    });
+
+    if (angular.isDefined($attrs.initDate)) {
+      this.activeDate = dateParser.fromTimezone($scope.$parent.$eval($attrs.initDate), ngModelOptions.timezone) || new Date();
+      watchListeners.push($scope.$parent.$watch($attrs.initDate, function(initDate) {
+        if (initDate && (ngModelCtrl.$isEmpty(ngModelCtrl.$modelValue) || ngModelCtrl.$invalid)) {
+          self.activeDate = dateParser.fromTimezone(initDate, ngModelOptions.timezone);
+          self.refreshView();
         }
       }));
     } else {
-      self[key] = $scope[key] = datepickerConfig[key] || null;
+      this.activeDate = new Date();
     }
-  });
+  }
 
   $scope.datepickerMode = $scope.datepickerMode || datepickerConfig.datepickerMode;
   $scope.uniqueId = 'datepicker-' + $scope.$id + '-' + Math.floor(Math.random() * 10000);
-
-  if (angular.isDefined($attrs.initDate)) {
-    this.activeDate = dateParser.fromTimezone($scope.$parent.$eval($attrs.initDate), ngModelOptions.timezone) || new Date();
-    watchListeners.push($scope.$parent.$watch($attrs.initDate, function(initDate) {
-      if (initDate && (ngModelCtrl.$isEmpty(ngModelCtrl.$modelValue) || ngModelCtrl.$invalid)) {
-        self.activeDate = dateParser.fromTimezone(initDate, ngModelOptions.timezone);
-        self.refreshView();
-      }
-    }));
-  } else {
-    this.activeDate = new Date();
-  }
 
   $scope.disabled = angular.isDefined($attrs.disabled) || false;
   if (angular.isDefined($attrs.ngDisabled)) {
@@ -6782,7 +6987,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
     model = dateParser.fromTimezone(model, ngModelOptions.timezone);
     var dt = {
       date: date,
-      label: dateFilter(date, format.replace(/d!/, 'dd')).replace(/M!/, 'MM'),
+      label: dateParser.filter(date, format),
       selected: model && this.compare(date, model) === 0,
       disabled: this.isDisabled(date),
       current: this.compare(date, new Date()) === 0,
@@ -7129,6 +7334,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
     },
     scope: {
       datepickerMode: '=?',
+      datepickerOptions: '=?',
       dateDisabled: '&',
       customClass: '&',
       shortcutPropagation: '&?'
@@ -7369,11 +7575,14 @@ function(scope, element, attrs, $compile, $parse, $document, $rootScope, $positi
           scope.date = value;
           return value;
         }
-        scope.date = dateParser.fromTimezone(value, ngModelOptions.timezone);
-        dateFormat = dateFormat.replace(/M!/, 'MM')
-            .replace(/d!/, 'dd');
 
-        return dateFilter(scope.date, dateFormat);
+        scope.date = dateParser.fromTimezone(value, ngModelOptions.timezone);
+
+        if (angular.isNumber(scope.date)) {
+          scope.date = new Date(scope.date);
+        }
+
+        return dateParser.filter(scope.date, dateFormat);
       });
     } else {
       ngModel.$formatters.push(function(value) {
@@ -7441,7 +7650,7 @@ function(scope, element, attrs, $compile, $parse, $document, $rootScope, $positi
     if (angular.isDefined(dt)) {
       scope.date = dt;
     }
-    var date = scope.date ? dateFilter(scope.date, dateFormat) : null; // Setting to NULL is necessary for form validators to function
+    var date = scope.date ? dateParser.filter(scope.date, dateFormat) : null; // Setting to NULL is necessary for form validators to function
     element.val(date);
     ngModel.$setViewValue(date);
 
@@ -8459,7 +8668,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.stackedMap'])
               $modalStack.loadFocusElementList(modal);
               var focusChanged = false;
               if (evt.shiftKey) {
-                if ($modalStack.isFocusInFirstItem(evt)) {
+                if ($modalStack.isFocusInFirstItem(evt) || $modalStack.isModalFocused(evt, modal)) {
                   focusChanged = $modalStack.focusLastFocusableElement();
                 }
               } else {
@@ -8598,6 +8807,16 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.stackedMap'])
         if (focusableElementList.length > 0) {
           focusableElementList[focusableElementList.length - 1].focus();
           return true;
+        }
+        return false;
+      };
+
+      $modalStack.isModalFocused = function(evt, modalWindow) {
+        if (evt && modalWindow) {
+          var modalDomEl = modalWindow.value.modalDomEl;
+          if (modalDomEl && modalDomEl.length) {
+            return (evt.target || evt.srcElement) === modalDomEl[0];
+          }
         }
         return false;
       };
@@ -9603,18 +9822,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
             }
 
             appendToBody = angular.isDefined(appendToBodyVal) ? appendToBodyVal : appendToBody;
-
-            // if a tooltip is attached to <body> we need to remove it on
-            // location change as its parent scope will probably not be destroyed
-            // by the change.
-            if (appendToBody) {
-              scope.$on('$locationChangeSuccess', function closeTooltipOnLocationChangeSuccess() {
-                if (ttScope.isOpen) {
-                  hide();
-                }
-              });
-            }
-
+            
             // Make sure tooltip is destroyed and removed.
             scope.$on('$destroy', function onDestroyTooltip() {
               unregisterTriggers();
@@ -10991,10 +11199,11 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
 
             if (showHint) {
               var firstLabel = scope.matches[0].label;
-              if (inputValue.length > 0 && firstLabel.slice(0, inputValue.length).toUpperCase() === inputValue.toUpperCase()) {
+              if (angular.isString(inputValue) &&
+                inputValue.length > 0 &&
+                firstLabel.slice(0, inputValue.length).toUpperCase() === inputValue.toUpperCase()) {
                 hintInputElem.val(inputValue + firstLabel.slice(inputValue.length));
-              }
-              else {
+              } else {
                 hintInputElem.val('');
               }
             }
@@ -11393,13 +11602,13 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
 angular.module("uib/template/accordion/accordion-group.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("uib/template/accordion/accordion-group.html",
     "<div class=\"panel\" ng-class=\"panelClass || 'panel-default'\">\n" +
-    "  <div class=\"panel-heading\" ng-keypress=\"toggleOpen($event)\">\n" +
+    "  <div role=\"tab\" id=\"{{::headingId}}\" aria-selected=\"{{isOpen}}\" class=\"panel-heading\" ng-keypress=\"toggleOpen($event)\">\n" +
     "    <h4 class=\"panel-title\">\n" +
-    "      <a href tabindex=\"0\" class=\"accordion-toggle\" ng-click=\"toggleOpen()\" uib-accordion-transclude=\"heading\"><span ng-class=\"{'text-muted': isDisabled}\">{{heading}}</span></a>\n" +
+    "      <a role=\"button\" data-toggle=\"collapse\" href aria-expanded=\"{{isOpen}}\" aria-controls=\"{{::panelId}}\" tabindex=\"0\" class=\"accordion-toggle\" ng-click=\"toggleOpen()\" uib-accordion-transclude=\"heading\"><span ng-class=\"{'text-muted': isDisabled}\">{{heading}}</span></a>\n" +
     "    </h4>\n" +
     "  </div>\n" +
-    "  <div class=\"panel-collapse collapse\" uib-collapse=\"!isOpen\">\n" +
-    "	  <div class=\"panel-body\" ng-transclude></div>\n" +
+    "  <div id=\"{{::panelId}}\" aria-labelledby=\"{{::headingId}}\" aria-hidden=\"{{!isOpen}}\" role=\"tabpanel\" class=\"panel-collapse collapse\" uib-collapse=\"!isOpen\">\n" +
+    "    <div class=\"panel-body\" ng-transclude></div>\n" +
     "  </div>\n" +
     "</div>\n" +
     "");
@@ -11407,7 +11616,7 @@ angular.module("uib/template/accordion/accordion-group.html", []).run(["$templat
 
 angular.module("uib/template/accordion/accordion.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("uib/template/accordion/accordion.html",
-    "<div class=\"panel-group\" ng-transclude></div>");
+    "<div role=\"tablist\" class=\"panel-group\" ng-transclude></div>");
 }]);
 
 angular.module("uib/template/alert/alert.html", []).run(["$templateCache", function($templateCache) {
@@ -42914,7 +43123,7 @@ var AgresionesDirectasController = function AgresionesDirectasController($scope,
         options: {
             chart: {
                 type: 'column',
-                height: 800
+                height: 700
             },
             title: { text: 'Estadisticas por Agresiones Directas' },
             subtitle: { text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>' },
@@ -42970,7 +43179,7 @@ var AgresionesDirectasController = function AgresionesDirectasController($scope,
         },
 
         series: [{ name: 'Año 2015',
-            data: [18, 6, 10, 69, 24] }, { name: 'Año 2014',
+            data: [17, 6, 10, 69, 24] }, { name: 'Año 2014',
             data: [14, 3, 1, 28, 16] }, { name: 'Año 2013',
             data: [5, 4, 1, 27, 13] }, { name: 'Año 2012',
             data: [10, 4, 2, 29, 12] }]
@@ -42983,9 +43192,72 @@ module.exports = AgresionesDirectasController;
 },{}],16:[function(require,module,exports){
 'use strict';
 var AgresionesIndirectasController = function AgresionesIndirectasController($scope, $http, high) {
-    $http.get("api/reportes/years").success(function (data) {
-        $scope.years = data;
-    });
+    $scope.chartConfig = {
+        options: {
+            chart: {
+                type: 'column',
+                height: 600
+            },
+            title: { text: 'Estadisticas por Agresiones Indirectas' },
+            subtitle: { text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>' },
+            xAxis: {
+                categories: ["Acciones Legales", "Agresiones Indirectas", "Criminalización"]
+            },
+            style: {
+                fontSize: '20px',
+                fontFamily: 'proxima-nova,helvetica,arial,sans-seri',
+                whiteSpace: 'nowrap',
+                paddingLeft: '10px',
+                paddingRight: '10px',
+                paddingTop: '10px',
+                paddingBottom: '10px'
+            },
+            plotOptions: {
+                series: {
+                    pointWidth: 10
+                },
+                bar: {
+                    groupPadding: 0,
+                    pointPadding: 0,
+                    dataLabels: {
+                        enabled: false
+                    }
+                }
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Conteo de Agresiones'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -40,
+                y: 80,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: Highcharts.theme && Highcharts.theme.legendBackgroundColor || '#FFFFFF',
+                shadow: true
+            },
+
+            credits: { enabled: true }
+        },
+
+        series: [{ name: 'Año 2015',
+            data: [42, 39, 12] }, { name: 'Año 2014',
+            data: [11, 18, 0] }, { name: 'Año 2013',
+            data: [14, 11, 0] }, { name: 'Año 2012',
+            data: [12, 17, 0] }]
+
+    };
 };
 
 module.exports = AgresionesIndirectasController;
@@ -42993,6 +43265,8 @@ module.exports = AgresionesIndirectasController;
 },{}],17:[function(require,module,exports){
 'use strict';
 var LocacionController = function LocacionController($scope, $http, high) {
+
+    $scope.location = [{ "departamentos": "Atlántida", "dquince": 8, "dcatorce": 4, "dtrece": 4, "ddoce": 3 }, { "departamentos": "Colón", "dquince": 7, "dcatorce": 5, "dtrece": 7, "ddoce": 8 }, { "departamentos": "Comayagua", "dquince": 2, "dcatorce": 3, "dtrece": 1, "ddoce": 2 }, { "departamentos": "Copán", "dquince": 1, "dcatorce": 2, "dtrece": 3, "ddoce": 1 }, { "departamentos": "Cortés", "dquince": 11, "dcatorce": 12, "dtrece": 15, "ddoce": 18 }, { "departamentos": "Choluteca", "dquince": 6, "dcatorce": 1, "dtrece": 0, "ddoce": 3 }, { "departamentos": "El Paraíso", "dquince": 1, "dcatorce": 1, "dtrece": 1, "ddoce": 0 }, { "departamentos": "Francisco Morazán", "dquince": 165, "dcatorce": 45, "dtrece": 39, "ddoce": 44 }, { "departamentos": "Gracias a Dios", "dquince": 0, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "departamentos": "Intibucá", "dquince": 0, "dcatorce": 1, "dtrece": 4, "ddoce": 1 }, { "departamentos": "Islas de la Bahía", "dquince": 2, "dcatorce": 1, "dtrece": 0, "ddoce": 0 }, { "departamentos": "La Paz", "dquince": 4, "dcatorce": 3, "dtrece": 0, "ddoce": 0 }, { "departamentos": "Lempira", "dquince": 2, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "departamentos": "Ocotepeque", "dquince": 0, "dcatorce": 0, "dtrece": 1, "ddoce": 1 }, { "departamentos": "Olancho", "dquince": 2, "dcatorce": 3, "dtrece": 0, "ddoce": 0 }, { "departamentos": "Santa Bárbara", "dquince": 0, "dcatorce": 0, "dtrece": 0, "ddoce": 1 }, { "departamentos": "Valle", "dquince": 3, "dcatorce": 6, "dtrece": 1, "ddoce": 0 }, { "departamentos": "Yoro", "dquince": 4, "dcatorce": 4, "dtrece": 2, "ddoce": 0 }];
 
     $scope.chartConfig = {
         options: {
@@ -43095,6 +43369,9 @@ module.exports = MedioSistemaController;
 },{}],19:[function(require,module,exports){
 'use strict';
 var OcurrenciaMensualController = function OcurrenciaMensualController($scope, $http, high) {
+
+    $scope.meses = [{ "meses": "Enero", "dquince": 11, "dcatorce": 4, "dtrece": 6, "ddoce": 7 }, { "meses": "Febrero", "dquince": 11, "dcatorce": 4, "dtrece": 5, "ddoce": 8 }, { "meses": "Marzo", "dquince": 22, "dcatorce": 4, "dtrece": 1, "ddoce": 12 }, { "meses": "Abril", "dquince": 11, "dcatorce": 7, "dtrece": 7, "ddoce": 6 }, { "meses": "Mayo", "dquince": 17, "dcatorce": 7, "dtrece": 3, "ddoce": 6 }, { "meses": "Junio", "dquince": 26, "dcatorce": 8, "dtrece": 11, "ddoce": 7 }, { "meses": "Julio", "dquince": 32, "dcatorce": 4, "dtrece": 10, "ddoce": 7 }, { "meses": "Agosto", "dquince": 20, "dcatorce": 7, "dtrece": 6, "ddoce": 10 }, { "meses": "Septiembre", "dquince": 16, "dcatorce": 7, "dtrece": 11, "ddoce": 6 }, { "meses": "Octubre", "dquince": 19, "dcatorce": 10, "dtrece": 8, "ddoce": 7 }, { "meses": "Noviembre", "dquince": 23, "dcatorce": 17, "dtrece": 7, "ddoce": 3 }, { "meses": "Diciembre", "dquince": 10, "dcatorce": 12, "dtrece": 3, "ddoce": 1 }];
+
     $scope.chartConfig = {
         options: {
             chart: {
@@ -43193,6 +43470,8 @@ module.exports = SujetoAgredidoGeneroController;
 'use strict';
 var TipoAgresorController = function TipoAgresorController($scope, $http, high) {
 
+    $scope.agresor = [{ "agresor": "Civil Identificado", "dquince": 21, "dcatorce": 8, "dtrece": 5, "ddoce": 13 }, { "agresor": "Empresa Privada", "dquince": 5, "dcatorce": 0, "dtrece": 1, "ddoce": 1 }, { "agresor": "Alcalde Municipal", "dquince": 7, "dcatorce": 10, "dtrece": 2, "ddoce": 6 }, { "agresor": "Guardias Seguridad Edificio Estatal", "dquince": 1, "dcatorce": 0, "dtrece": 2, "ddoce": 1 }, { "agresor": "Tribunal de Justicia", "dquince": 0, "dcatorce": 1, "dtrece": 2, "ddoce": 3 }, { "agresor": "Autoridades del Sistema Educativo Publico ", "dquince": 21, "dcatorce": 7, "dtrece": 1, "ddoce": 1 }, { "agresor": "Presidente de la República", "dquince": 9, "dcatorce": 9, "dtrece": 1, "ddoce": 1 }, { "agresor": "Policía Municipal", "dquince": 1, "dcatorce": 1, "dtrece": 0, "ddoce": 1 }, { "agresor": "Civil no identificado (Desconocido)", "dquince": 48, "dcatorce": 26, "dtrece": 28, "ddoce": 35 }, { "agresor": "Dueño o Gerente de Medio de Comunicacion", "dquince": 0, "dcatorce": 0, "dtrece": 4, "ddoce": 5 }, { "agresor": "Guardaespaldas ", "dquince": 0, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "agresor": "Funcionario Publico", "dquince": 0, "dcatorce": 9, "dtrece": 9, "ddoce": 5 }, { "agresor": "Compañías Mineras", "dquince": 0, "dcatorce": 0, "dtrece": 0, "ddoce": 1 }, { "agresor": "Secretarias de Estado", "dquince": 3, "dcatorce": 1, "dtrece": 7, "ddoce": 0 }, { "agresor": "Policías y Militares", "dquince": 24, "dcatorce": 9, "dtrece": 11, "ddoce": 10 }, { "agresor": "Diputado CN", "dquince": 1, "dcatorce": 3, "dtrece": 1, "ddoce": 3 }, { "agresor": "Sicarios", "dquince": 1, "dcatorce": 0, "dtrece": 2, "ddoce": 1 }, { "agresor": "Diputado/a", "dquince": 6, "dcatorce": 1, "dtrece": 0, "ddoce": 0 }, { "agresor": "Jefe de Redacción ", "dquince": 0, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "agresor": "Presentador", "dquince": 0, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "agresor": "Medio de Comunicación", "dquince": 0, "dcatorce": 1, "dtrece": 2, "ddoce": 0 }, { "agresor": "Policia", "dquince": 25, "dcatorce": 3, "dtrece": 0, "ddoce": 0 }, { "agresor": "ONGs", "dquince": 0, "dcatorce": 2, "dtrece": 0, "ddoce": 0 }, { "agresor": "Operador de Medio de Comunicación ", "dquince": 0, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "agresor": "Miembro del Consejo", "dquince": 1, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "agresor": "CONATEL", "dquince": 7, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "agresor": "Ciudadano", "dquince": 14, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "agresor": "Embajador", "dquince": 2, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "agresor": "Docentes ", "dquince": 0, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "agresor": "Guardia de seguridad", "dquince": 3, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "agresor": "Cibernauta", "dquince": 0, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "agresor": "Ministro de Trabajo", "dquince": 1, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "agresor": "Exprimiera Dama", "dquince": 1, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "agresor": "Empresarios", "dquince": 0, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }];
+
     $scope.chartConfig = {
         options: {
             chart: {
@@ -43270,11 +43549,16 @@ module.exports = TipoAgresorController;
 'use strict';
 var TipoMedioController = function TipoMedioController($scope, $http, high) {
 
+    $scope.medio = [{ "tipo": "Medios de Comunicación Varios", "dquince": 0, "dcatorce": 2, "dtrece": 0, "ddoce": 7 }, { "tipo": "Comercial (Menores, Críticos)", "dquince": 10, "dcatorce": 0, "dtrece": 15, "ddoce": 11 }, { "tipo": "Radial", "dquince": 15, "dcatorce": 19, "dtrece": 1, "ddoce": 4 }, { "tipo": "Televisivo", "dquince": 58, "dcatorce": 45, "dtrece": 6, "ddoce": 3 }, { "tipo": "Comercial (Mega Medios)", "dquince": 0, "dcatorce": 0, "dtrece": 11, "ddoce": 0 }, { "tipo": "Escrito", "dquince": 3, "dcatorce": 3, "dtrece": 0, "ddoce": 1 }, { "tipo": "Periódico Digital ", "dquince": 1, "dcatorce": 0, "dtrece": 1, "ddoce": 4 }, { "tipo": "Organización No Gubernamental", "dquince": 19, "dcatorce": 7, "dtrece": 8, "ddoce": 4 }, { "tipo": "Radios Comunitarios", "dquince": 1, "dcatorce": 1, "dtrece": 2, "ddoce": 3 }, { "tipo": "Corrresponsalia Extranjera", "dquince": 0, "dcatorce": 0, "dtrece": 2, "ddoce": 2 }, { "tipo": "Medio de Comunicacion Estatal", "dquince": 0, "dcatorce": 0, "dtrece": 1, "ddoce": 3 }, { "tipo": "Sistema de Cable Local", "dquince": 0, "dcatorce": 0, "dtrece": 1, "ddoce": 0 }, { "tipo": "Medio de Comunicación Local", "dquince": 4, "dcatorce": 2, "dtrece": 12, "ddoce": 30 }, { "tipo": "Institución Autonoma", "dquince": 7, "dcatorce": 7, "dtrece": 1, "ddoce": 3 }, { "tipo": "Asociaciones Campesinas", "dquince": 2, "dcatorce": 1, "dtrece": 5, "ddoce": 4 }, { "tipo": "Periodista Independiente", "dquince": 0, "dcatorce": 1, "dtrece": 2, "ddoce": 2 }, { "tipo": "Personaje Mediatico", "dquince": 3, "dcatorce": 1, "dtrece": 8, "ddoce": 1 }, { "tipo": "Partido Politico", "dquince": 4, "dcatorce": 2, "dtrece": 1, "ddoce": 0 }, { "tipo": "Sindicatos ", "dquince": 7, "dcatorce": 0, "dtrece": 1, "ddoce": 0 }, { "tipo": "Radial y Televisivo", "dquince": 29, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "tipo": "Grupo Artistico", "dquince": 2, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "tipo": "Movimiento Estudiantil", "dquince": 16, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "tipo": "Pueblo Indígena y Afrodesendiente ", "dquince": 4, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "tipo": "Ninguno", "dquince": 23, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "tipo": "Movimiento Social", "dquince": 16, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "tipo": "Periodico", "dquince": 3, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }, { "tipo": "Usuarios de Internet ", "dquince": 1, "dcatorce": 0, "dtrece": 0, "ddoce": 0 }];
+
+    $scope.tipo = 'bar';
+    $scope.size = '1000';
+
     $scope.chartConfig = {
         options: {
             chart: {
-                type: 'bar',
-                height: 1000
+                type: $scope.tipo,
+                height: $scope.size
             },
             title: { text: 'Estadisticas por Tipos de Medio Agredido' },
             subtitle: { text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>' },
@@ -43348,11 +43632,13 @@ module.exports = TipoMedioController;
 'use strict';
 var TipoSujetoAgredidoController = function TipoSujetoAgredidoController($scope, $http, yearsService, high) {
 
+    $scope.sujetos = [{ "name": "Periodista", "dquince": 91, "dcatorcer": 52, "dtrece": 29, "ddoce": 45 }, { "name": "Comunicador Social", "dquince": 4, "dcatorcer": 11, "dtrece": 10, "ddoce": 17 }, { "name": "Camarógrafo", "dquince": 3, "dcatorcer": 3, "dtrece": 3, "ddoce": 2 }, { "name": "Vocero de grupos campesinos", "dquince": 2, "dcatorcer": 1, "dtrece": 1, "ddoce": 3 }, { "name": "Periodista independiente", "dquince": 0, "dcatorcer": 0, "dtrece": 1, "ddoce": 0 }, { "name": "Relacionador Público", "dquince": 0, "dcatorcer": 0, "dtrece": 0, "ddoce": 1 }, { "name": "Gerente de Medio de Comunicación", "dquince": 0, "dcatorcer": 1, "dtrece": 0, "ddoce": 1 }, { "name": "Medio Digital", "dquince": 3, "dcatorcer": 0, "dtrece": 0, "ddoce": 1 }, { "name": "Dueño de Medio de Comunicación", "dquince": 2, "dcatorcer": 0, "dtrece": 2, "ddoce": 1 }, { "name": "Fuente de Consulta Mediatíca", "dquince": 2, "dcatorcer": 0, "dtrece": 0, "ddoce": 0 }, { "name": "Corresponsal Internacional", "dquince": 2, "dcatorcer": 0, "dtrece": 0, "ddoce": 0 }, { "name": "Presentador de TV", "dquince": 4, "dcatorcer": 1, "dtrece": 1, "ddoce": 2 }, { "name": "Locutor", "dquince": 4, "dcatorcer": 2, "dtrece": 0, "ddoce": 0 }, { "name": "Estudiante de Periodismo", "dquince": 0, "dcatorcer": 0, "dtrece": 0, "ddoce": 0 }, { "name": "Estudiantes", "dquince": 15, "dcatorcer": 5, "dtrece": 2, "ddoce": 1 }, { "name": "Gremios Sociales", "dquince": 40, "dcatorcer": 1, "dtrece": 1, "ddoce": 2 }, { "name": "Artista", "dquince": 2, "dcatorcer": 0, "dtrece": 1, "ddoce": 2 }, { "name": "Instalaciones Físicas de Medio de Comunicación", "dquince": 0, "dcatorcer": 0, "dtrece": 3, "ddoce": 0 }, { "name": "Defensor de DDHH", "dquince": 16, "dcatorcer": 5, "dtrece": 10, "ddoce": 0 }, { "name": "Abogados", "dquince": 7, "dcatorcer": 0, "dtrece": 4, "ddoce": 2 }, { "name": "Líder Comunitario", "dquince": 9, "dcatorcer": 1, "dtrece": 3, "ddoce": 1 }, { "name": "ONG/DDHH", "dquince": 0, "dcatorcer": 1, "dtrece": 1, "ddoce": 0 }, { "name": "Religiosos", "dquince": 0, "dcatorcer": 0, "dtrece": 0, "ddoce": 1 }, { "name": "Activista Politico", "dquince": 2, "dcatorcer": 3, "dtrece": 0, "ddoce": 0 }, { "name": "Grupo de Periodistas", "dquince": 6, "dcatorcer": 3, "dtrece": 4, "ddoce": 3 }, { "name": "Edificio de Medio\n", "dquince": 1, "dcatorcer": 0, "dtrece": 0, "ddoce": 1 }, { "name": "Comunicador Comunitario", "dquince": 1, "dcatorcer": 2, "dtrece": 0, "ddoce": 3 }, { "name": "Radio Comunitaria", "dquince": 1, "dcatorcer": 0, "dtrece": 1, "ddoce": 1 }, { "name": "Fotografo", "dquince": 1, "dcatorcer": 0, "dtrece": 1, "ddoce": 0 }];
+
     $scope.chartConfig = {
         options: {
             chart: {
                 type: 'column',
-                height: 1000
+                height: 700
             },
             title: { text: 'Estadisticas por Tipos de Sujetos Agredidos' },
             subtitle: { text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>' },

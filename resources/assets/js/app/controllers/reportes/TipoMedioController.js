@@ -1,11 +1,44 @@
 'use strict';
 var TipoMedioController = function($scope, $http, high){
 
+    $scope.medio = [
+        {"tipo":"Medios de Comunicación Varios","dquince":0,"dcatorce":2,"dtrece":0,"ddoce":7},
+        {"tipo":"Comercial (Menores, Críticos)","dquince":10,"dcatorce":0,"dtrece":15,"ddoce":11},
+        {"tipo":"Radial","dquince":15,"dcatorce":19,"dtrece":1,"ddoce":4},
+        {"tipo":"Televisivo","dquince":58,"dcatorce":45,"dtrece":6,"ddoce":3},
+        {"tipo":"Comercial (Mega Medios)","dquince":0,"dcatorce":0,"dtrece":11,"ddoce":0},
+        {"tipo":"Escrito","dquince":3,"dcatorce":3,"dtrece":0,"ddoce":1},
+        {"tipo":"Periódico Digital ","dquince":1,"dcatorce":0,"dtrece":1,"ddoce":4},
+        {"tipo":"Organización No Gubernamental","dquince":19,"dcatorce":7,"dtrece":8,"ddoce":4},
+        {"tipo":"Radios Comunitarios","dquince":1,"dcatorce":1,"dtrece":2,"ddoce":3},
+        {"tipo":"Corrresponsalia Extranjera","dquince":0,"dcatorce":0,"dtrece":2,"ddoce":2},
+        {"tipo":"Medio de Comunicacion Estatal","dquince":0,"dcatorce":0,"dtrece":1,"ddoce":3},
+        {"tipo":"Sistema de Cable Local","dquince":0,"dcatorce":0,"dtrece":1,"ddoce":0},
+        {"tipo":"Medio de Comunicación Local","dquince":4,"dcatorce":2,"dtrece":12,"ddoce":30},
+        {"tipo":"Institución Autonoma","dquince":7,"dcatorce":7,"dtrece":1,"ddoce":3},
+        {"tipo":"Asociaciones Campesinas","dquince":2,"dcatorce":1,"dtrece":5,"ddoce":4},
+        {"tipo":"Periodista Independiente","dquince":0,"dcatorce":1,"dtrece":2,"ddoce":2},
+        {"tipo":"Personaje Mediatico","dquince":3,"dcatorce":1,"dtrece":8,"ddoce":1},
+        {"tipo":"Partido Politico","dquince":4,"dcatorce":2,"dtrece":1,"ddoce":0},
+        {"tipo":"Sindicatos ","dquince":7,"dcatorce":0,"dtrece":1,"ddoce":0},
+        {"tipo":"Radial y Televisivo","dquince":29,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"tipo":"Grupo Artistico","dquince":2,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"tipo":"Movimiento Estudiantil","dquince":16,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"tipo":"Pueblo Indígena y Afrodesendiente ","dquince":4,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"tipo":"Ninguno","dquince":23,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"tipo":"Movimiento Social","dquince":16,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"tipo":"Periodico","dquince":3,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"tipo":"Usuarios de Internet ","dquince":1,"dcatorce":0,"dtrece":0,"ddoce":0}
+    ];
+
+    $scope.tipo = 'bar';
+    $scope.size = '1000';
+
     $scope.chartConfig = {
         options: {
             chart: {
-                type: 'bar',
-                height: 1000,
+                type: $scope.tipo,
+                height: $scope.size,
             },
             title: {text: 'Estadisticas por Tipos de Medio Agredido'},
             subtitle: {text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>'},

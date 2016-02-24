@@ -1,16 +1,228 @@
 <div class="col-md-12">
-    <h3>Reportes por Agresión Indirecta</h3>
+
     <div class="row">
 
         <div class="col-md-12">
-            <ul class="nav nav-pills">
-                <li ng-repeat="year in years" role="presentation"  ng-click="addOrRemoveClassFromYear($index)" ng-class="{active: selectedYears[$index]}">
-                    <a ng-click="getData(year.year)" >{{ year.year }}</a>
-                </li>
-            </ul>
+            <highchart id="chart1" styles="heigh: 800px" config="chartConfig"></highchart>
         </div>
 
-        <hr />
+    </div>
 
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped table-bordered" id="Worksheet1">
+            <thead>
+            <tr class="even">
+                <th>id</th>
+                <th>Agresiones Indirectas</th>
+                <th>2015</th>
+                <th>2014</th>
+                <th>2013</th>
+                <th>2012</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td colspan="6" style="background: #c0c0c0;">Acciones Legales</td>
+
+            </tr>
+            <tr>
+                <td>1</td>
+                <td><a href="#/">Hostigamiento Judicial</a></td>
+                <td>31</td>
+                <td>6</td>
+                <td>5</td>
+                <td>2</td>
+
+            </tr>
+
+            <tr>
+                <td>2</td>
+                <td><a href="#/">Inpedimentos informativos</a></td>
+                <td>6</td>
+                <td>3</td>
+                <td>8</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td><a href="#/">Restricciones Legales</a></td>
+                <td>1</td>
+                <td>2</td>
+                <td>1</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><a href="#/">Violación a la libertad de expresión</a></td>
+                <td>4</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-top: black 1px solid; border-bottom: black 1px solid;"> <strong>Total</strong></td>
+                <td style="border-top: black 1px solid; border-bottom: black 1px solid;"> <strong>42</strong></td>
+                <td style="border-top: black 1px solid; border-bottom: black 1px solid;"> <strong>11</strong></td>
+                <td style="border-top: black 1px solid; border-bottom: black 1px solid;"> <strong>14</strong></td>
+                <td style="border-top: black 1px solid; border-bottom: black 1px solid;"> <strong>12</strong></td>
+            </tr>
+            <tr></tr>
+            <tr>
+                <td colspan="6" style="background: #c0c0c0;">agresión indirecta</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td><a href="#/">Acoso Cibernético</a></td>
+                <td>1</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td><a href="#/">Chantaje/Extorción</a></td>
+                <td>2</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td><a href="#/">Daño Económico</a></td>
+                <td>1</td>
+                <td>-</td>
+                <td>2</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td><a href="#/">Derechos digitales</a></td>
+                <td>1</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td><a href="#/">Despido Injstificado</a></td>
+                <td>4</td>
+                <td>1</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td><a href="#/">Hackeo</a></td>
+                <td>3</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td><a href="#/">Impunidad</a></td>
+                <td>1</td>
+                <td>-</td>
+                <td>1</td>
+                <td>7</td>
+            </tr>
+
+            <tr>
+                <td>12</td>
+                <td><a href="#/">Obstrucción informativa</a></td>
+                <td>18</td>
+                <td>11</td>
+                <td>2</td>
+                <td>3</td>
+            </tr>
+
+            <tr>
+                <td>13</td>
+                <td><a href="#/">Rapto</a></td>
+                <td>5</td>
+                <td>2</td>
+                <td>3</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>14</td>
+                <td><a href="#/">Represión ilegal e injustificada</a></td>
+                <td>2</td>
+                <td>2</td>
+                <td>-</td>
+                <td>3</td>
+            </tr>
+
+            <tr>
+                <td>15</td>
+                <td><a href="#/">Restricción a la democracia</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>2</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>15</td>
+                <td><a href="#/">Uso abusivo del poder del Estado</a></td>
+                <td>-</td>
+                <td>1</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-top: black 1px solid; border-bottom: black 1px solid;"> <strong>Total</strong>
+                </td>
+                <td style="border-top: black 1px solid; border-bottom: black 1px solid;"> <strong>39</strong>
+                <td style="border-top: black 1px solid; border-bottom: black 1px solid;"> <strong>18</strong>
+                <td style="border-top: black 1px solid; border-bottom: black 1px solid;"> <strong>11</strong>
+                <td style="border-top: black 1px solid; border-bottom: black 1px solid;"> <strong>17</strong>
+                </td>
+            </tr>
+            <tr></tr>
+            <tr>
+                <td colspan="6" style="background: #c0c0c0;">Criminalizacion</td>
+            </tr>
+            <tr>
+                <td>16</td>
+                <td><a href="#/">Allanamiento</a></td>
+                <td>1</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>17</td>
+                <td><a href="#/">Criminalizacion</a></td>
+                <td>10</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>18</td>
+                <td><a href="#/">Expulsión</a></td>
+                <td>1</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-top: black 1px solid; border-bottom: black 1px solid;"> <strong>Total</strong>
+                </td>
+                <td style="border-top: black 1px solid; border-bottom: black 1px solid;"> <strong>12</strong>
+                <td style="border-top: black 1px solid; border-bottom: black 1px solid;"> <strong>-</strong>
+                <td style="border-top: black 1px solid; border-bottom: black 1px solid;"> <strong>-</strong>
+                <td style="border-top: black 1px solid; border-bottom: black 1px solid;"> <strong>-</strong>
+                </td>
+            </tr>
+            <tr></tr>
+            </tbody>
+        </table>
+        </div>
     </div>
 </div>

@@ -8,5 +8,29 @@
 
     </div>
 
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped table-bordered" id="Worksheet1">
+                <thead>
+                <tr>
+                    <th>Tipo de Medio Agredido</th>
+                    <th>2015</th>
+                    <th>2014</th>
+                    <th>2013</th>
+                    <th>2012</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="location in location">
+                    <td>{{ location.departamentos }}</td>
+                    <td>{{ location.dquince }}</td>
+                    <td>{{ location.dcatorce }}</td>
+                    <td>{{ location.dtrece }}</td>
+                    <td>{{ location.ddoce }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 

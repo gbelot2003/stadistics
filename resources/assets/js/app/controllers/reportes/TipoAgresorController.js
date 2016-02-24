@@ -1,6 +1,43 @@
 'use strict';
 var TipoAgresorController = function($scope, $http, high){
 
+    $scope.agresor = [
+        {"agresor":"Civil Identificado","dquince":21,"dcatorce":8,"dtrece":5,"ddoce":13},
+        {"agresor":"Empresa Privada","dquince":5,"dcatorce":0,"dtrece":1,"ddoce":1},
+        {"agresor":"Alcalde Municipal","dquince":7,"dcatorce":10,"dtrece":2,"ddoce":6},
+        {"agresor":"Guardias Seguridad Edificio Estatal","dquince":1,"dcatorce":0,"dtrece":2,"ddoce":1},
+        {"agresor":"Tribunal de Justicia","dquince":0,"dcatorce":1,"dtrece":2,"ddoce":3},
+        {"agresor":"Autoridades del Sistema Educativo Publico ","dquince":21,"dcatorce":7,"dtrece":1,"ddoce":1},
+        {"agresor":"Presidente de la República","dquince":9,"dcatorce":9,"dtrece":1,"ddoce":1},
+        {"agresor":"Policía Municipal","dquince":1,"dcatorce":1,"dtrece":0,"ddoce":1},
+        {"agresor":"Civil no identificado (Desconocido)","dquince":48,"dcatorce":26,"dtrece":28,"ddoce":35},
+        {"agresor":"Dueño o Gerente de Medio de Comunicacion","dquince":0,"dcatorce":0,"dtrece":4,"ddoce":5},
+        {"agresor":"Guardaespaldas ","dquince":0,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"agresor":"Funcionario Publico","dquince":0,"dcatorce":9,"dtrece":9,"ddoce":5},
+        {"agresor":"Compañías Mineras","dquince":0,"dcatorce":0,"dtrece":0,"ddoce":1},
+        {"agresor":"Secretarias de Estado","dquince":3,"dcatorce":1,"dtrece":7,"ddoce":0},
+        {"agresor":"Policías y Militares","dquince":24,"dcatorce":9,"dtrece":11,"ddoce":10},
+        {"agresor":"Diputado CN","dquince":1,"dcatorce":3,"dtrece":1,"ddoce":3},
+        {"agresor":"Sicarios","dquince":1,"dcatorce":0,"dtrece":2,"ddoce":1},
+        {"agresor":"Diputado/a","dquince":6,"dcatorce":1,"dtrece":0,"ddoce":0},
+        {"agresor":"Jefe de Redacción ","dquince":0,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"agresor":"Presentador","dquince":0,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"agresor":"Medio de Comunicación","dquince":0,"dcatorce":1,"dtrece":2,"ddoce":0},
+        {"agresor":"Policia","dquince":25,"dcatorce":3,"dtrece":0,"ddoce":0},
+        {"agresor":"ONGs","dquince":0,"dcatorce":2,"dtrece":0,"ddoce":0},
+        {"agresor":"Operador de Medio de Comunicación ","dquince":0,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"agresor":"Miembro del Consejo","dquince":1,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"agresor":"CONATEL","dquince":7,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"agresor":"Ciudadano","dquince":14,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"agresor":"Embajador","dquince":2,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"agresor":"Docentes ","dquince":0,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"agresor":"Guardia de seguridad","dquince":3,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"agresor":"Cibernauta","dquince":0,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"agresor":"Ministro de Trabajo","dquince":1,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"agresor":"Exprimiera Dama","dquince":1,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"agresor":"Empresarios","dquince":0,"dcatorce":0,"dtrece":0,"ddoce":0}
+    ];
+
     $scope.chartConfig = {
         options: {
             chart: {

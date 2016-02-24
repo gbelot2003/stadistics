@@ -5,7 +5,7 @@ var AgresionesDirectasController = function($scope, $http, high){
         options: {
             chart: {
                 type: 'column',
-                height: 800,
+                height: 700,
             },
             title: {text: 'Estadisticas por Agresiones Directas'},
             subtitle: {text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>'},
@@ -62,7 +62,7 @@ var AgresionesDirectasController = function($scope, $http, high){
 
         series: [
             { name: 'Año 2015',
-                data: [18, 6, 10, 69, 24]},
+                data: [17, 6, 10, 69, 24]},
             { name: 'Año 2014',
                 data: [14, 3, 1, 28, 16]},
             { name: 'Año 2013',

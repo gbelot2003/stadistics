@@ -1,5 +1,21 @@
 'use strict';
 var OcurrenciaMensualController = function($scope, $http, high){
+
+    $scope.meses = [
+        {"meses":"Enero","dquince":11,"dcatorce":4,"dtrece":6,"ddoce":7},
+        {"meses":"Febrero","dquince":11,"dcatorce":4,"dtrece":5,"ddoce":8},
+        {"meses":"Marzo","dquince":22,"dcatorce":4,"dtrece":1,"ddoce":12},
+        {"meses":"Abril","dquince":11,"dcatorce":7,"dtrece":7,"ddoce":6},
+        {"meses":"Mayo","dquince":17,"dcatorce":7,"dtrece":3,"ddoce":6},
+        {"meses":"Junio","dquince":26,"dcatorce":8,"dtrece":11,"ddoce":7},
+        {"meses":"Julio","dquince":32,"dcatorce":4,"dtrece":10,"ddoce":7},
+        {"meses":"Agosto","dquince":20,"dcatorce":7,"dtrece":6,"ddoce":10},
+        {"meses":"Septiembre","dquince":16,"dcatorce":7,"dtrece":11,"ddoce":6},
+        {"meses":"Octubre","dquince":19,"dcatorce":10,"dtrece":8,"ddoce":7},
+        {"meses":"Noviembre","dquince":23,"dcatorce":17,"dtrece":7,"ddoce":3},
+        {"meses":"Diciembre","dquince":10,"dcatorce":12,"dtrece":3,"ddoce":1}
+    ];
+
     $scope.chartConfig = {
         options: {
             chart: {

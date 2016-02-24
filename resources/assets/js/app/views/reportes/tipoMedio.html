@@ -8,5 +8,29 @@
 
     </div>
 
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped table-bordered" id="Worksheet1">
+                <thead>
+                <tr>
+                    <th>Tipo de Medio Agredido</th>
+                    <th>2015</th>
+                    <th>2014</th>
+                    <th>2013</th>
+                    <th>2012</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="medio in medio">
+                        <td>{{ medio.tipo }}</td>
+                        <td>{{ medio.dquince }}</td>
+                        <td>{{ medio.dcatorce }}</td>
+                        <td>{{ medio.dtrece }}</td>
+                        <td>{{ medio.ddoce }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 

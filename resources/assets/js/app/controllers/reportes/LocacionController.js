@@ -1,6 +1,27 @@
 'use strict';
 var LocacionController = function($scope, $http, high){
 
+    $scope.location = [
+        {"departamentos":"Atlántida","dquince":8,"dcatorce":4,"dtrece":4,"ddoce":3},
+        {"departamentos":"Colón","dquince":7,"dcatorce":5,"dtrece":7,"ddoce":8},
+        {"departamentos":"Comayagua","dquince":2,"dcatorce":3,"dtrece":1,"ddoce":2},
+        {"departamentos":"Copán","dquince":1,"dcatorce":2,"dtrece":3,"ddoce":1},
+        {"departamentos":"Cortés","dquince":11,"dcatorce":12,"dtrece":15,"ddoce":18},
+        {"departamentos":"Choluteca","dquince":6,"dcatorce":1,"dtrece":0,"ddoce":3},
+        {"departamentos":"El Paraíso","dquince":1,"dcatorce":1,"dtrece":1,"ddoce":0},
+        {"departamentos":"Francisco Morazán","dquince":165,"dcatorce":45,"dtrece":39,"ddoce":44},
+        {"departamentos":"Gracias a Dios","dquince":0,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"departamentos":"Intibucá","dquince":0,"dcatorce":1,"dtrece":4,"ddoce":1},
+        {"departamentos":"Islas de la Bahía","dquince":2,"dcatorce":1,"dtrece":0,"ddoce":0},
+        {"departamentos":"La Paz","dquince":4,"dcatorce":3,"dtrece":0,"ddoce":0},
+        {"departamentos":"Lempira","dquince":2,"dcatorce":0,"dtrece":0,"ddoce":0},
+        {"departamentos":"Ocotepeque","dquince":0,"dcatorce":0,"dtrece":1,"ddoce":1},
+        {"departamentos":"Olancho","dquince":2,"dcatorce":3,"dtrece":0,"ddoce":0},
+        {"departamentos":"Santa Bárbara","dquince":0,"dcatorce":0,"dtrece":0,"ddoce":1},
+        {"departamentos":"Valle","dquince":3,"dcatorce":6,"dtrece":1,"ddoce":0},
+        {"departamentos":"Yoro","dquince":4,"dcatorce":4,"dtrece":2,"ddoce":0}
+    ];
+
     $scope.chartConfig = {
         options: {
             chart: {
