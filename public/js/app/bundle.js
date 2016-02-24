@@ -4947,7 +4947,7 @@ module.exports = 'ngRoute';
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
 
- * Version: 1.1.2 - 2016-02-01
+ * Version: 1.1.1 - 2016-01-25
  * License: MIT
  */angular.module("ui.bootstrap", ["ui.bootstrap.tpls", "ui.bootstrap.collapse","ui.bootstrap.accordion","ui.bootstrap.alert","ui.bootstrap.buttons","ui.bootstrap.carousel","ui.bootstrap.dateparser","ui.bootstrap.isClass","ui.bootstrap.position","ui.bootstrap.datepicker","ui.bootstrap.debounce","ui.bootstrap.dropdown","ui.bootstrap.stackedMap","ui.bootstrap.modal","ui.bootstrap.paging","ui.bootstrap.pager","ui.bootstrap.pagination","ui.bootstrap.tooltip","ui.bootstrap.popover","ui.bootstrap.progressbar","ui.bootstrap.rating","ui.bootstrap.tabs","ui.bootstrap.timepicker","ui.bootstrap.typeahead"]);
 angular.module("ui.bootstrap.tpls", ["uib/template/accordion/accordion-group.html","uib/template/accordion/accordion.html","uib/template/alert/alert.html","uib/template/carousel/carousel.html","uib/template/carousel/slide.html","uib/template/datepicker/datepicker.html","uib/template/datepicker/day.html","uib/template/datepicker/month.html","uib/template/datepicker/popup.html","uib/template/datepicker/year.html","uib/template/modal/backdrop.html","uib/template/modal/window.html","uib/template/pager/pager.html","uib/template/pagination/pagination.html","uib/template/tooltip/tooltip-html-popup.html","uib/template/tooltip/tooltip-popup.html","uib/template/tooltip/tooltip-template-popup.html","uib/template/popover/popover-html.html","uib/template/popover/popover-template.html","uib/template/popover/popover.html","uib/template/progressbar/bar.html","uib/template/progressbar/progress.html","uib/template/progressbar/progressbar.html","uib/template/rating/rating.html","uib/template/tabs/tab.html","uib/template/tabs/tabset.html","uib/template/timepicker/timepicker.html","uib/template/typeahead/typeahead-match.html","uib/template/typeahead/typeahead-popup.html"]);
@@ -5146,10 +5146,6 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
           }
         }
       };
-
-      var id = 'accordiongroup-' + scope.$id + '-' + Math.floor(Math.random() * 10000);
-      scope.headingId = id + '-tab';
-      scope.panelId = id + '-panel';
     }
   };
 })
@@ -5641,7 +5637,7 @@ function($animateCss) {
 
 angular.module('ui.bootstrap.dateparser', [])
 
-.service('uibDateParser', ['$log', '$locale', 'dateFilter', 'orderByFilter', function($log, $locale, dateFilter, orderByFilter) {
+.service('uibDateParser', ['$log', '$locale', 'orderByFilter', function($log, $locale, orderByFilter) {
   // Pulled from https://github.com/mbostock/d3/blob/master/src/format/requote.js
   var SPECIAL_CHARACTERS_REGEXP = /[\\\^\$\*\+\?\|\[\]\(\)\.\{\}]/g;
 
@@ -5652,164 +5648,115 @@ angular.module('ui.bootstrap.dateparser', [])
     localeId = $locale.id;
 
     this.parsers = {};
-    this.formatters = {};
 
     formatCodeToRegex = [
       {
         key: 'yyyy',
         regex: '\\d{4}',
-        apply: function(value) { this.year = +value; },
-        formatter: function(date) {
-          var _date = new Date();
-          _date.setFullYear(Math.abs(date.getFullYear()));
-          return dateFilter(_date, 'yyyy');
-        }
+        apply: function(value) { this.year = +value; }
       },
       {
         key: 'yy',
         regex: '\\d{2}',
-        apply: function(value) { this.year = +value + 2000; },
-        formatter: function(date) {
-          var _date = new Date();
-          _date.setFullYear(Math.abs(date.getFullYear()));
-          return dateFilter(_date, 'yy');
-        }
+        apply: function(value) { this.year = +value + 2000; }
       },
       {
         key: 'y',
         regex: '\\d{1,4}',
-        apply: function(value) { this.year = +value; },
-        formatter: function(date) {
-          var _date = new Date();
-          _date.setFullYear(Math.abs(date.getFullYear()));
-          return dateFilter(_date, 'y');
-        }
+        apply: function(value) { this.year = +value; }
       },
       {
         key: 'M!',
         regex: '0?[1-9]|1[0-2]',
-        apply: function(value) { this.month = value - 1; },
-        formatter: function(date) {
-          var value = date.getMonth();
-          if (/^[0-9]$/.test(value)) {
-            return dateFilter(date, 'MM');
-          }
-
-          return dateFilter(date, 'M');
-        }
+        apply: function(value) { this.month = value - 1; }
       },
       {
         key: 'MMMM',
         regex: $locale.DATETIME_FORMATS.MONTH.join('|'),
-        apply: function(value) { this.month = $locale.DATETIME_FORMATS.MONTH.indexOf(value); },
-        formatter: function(date) { return dateFilter(date, 'MMMM'); }
+        apply: function(value) { this.month = $locale.DATETIME_FORMATS.MONTH.indexOf(value); }
       },
       {
         key: 'MMM',
         regex: $locale.DATETIME_FORMATS.SHORTMONTH.join('|'),
-        apply: function(value) { this.month = $locale.DATETIME_FORMATS.SHORTMONTH.indexOf(value); },
-        formatter: function(date) { return dateFilter(date, 'MMM'); }
+        apply: function(value) { this.month = $locale.DATETIME_FORMATS.SHORTMONTH.indexOf(value); }
       },
       {
         key: 'MM',
         regex: '0[1-9]|1[0-2]',
-        apply: function(value) { this.month = value - 1; },
-        formatter: function(date) { return dateFilter(date, 'MM'); }
+        apply: function(value) { this.month = value - 1; }
       },
       {
         key: 'M',
         regex: '[1-9]|1[0-2]',
-        apply: function(value) { this.month = value - 1; },
-        formatter: function(date) { return dateFilter(date, 'M'); }
+        apply: function(value) { this.month = value - 1; }
       },
       {
         key: 'd!',
         regex: '[0-2]?[0-9]{1}|3[0-1]{1}',
-        apply: function(value) { this.date = +value; },
-        formatter: function(date) {
-          var value = date.getDate();
-          if (/^[1-9]$/.test(value)) {
-            return dateFilter(date, 'dd');
-          }
-
-          return dateFilter(date, 'd');
-        }
+        apply: function(value) { this.date = +value; }
       },
       {
         key: 'dd',
         regex: '[0-2][0-9]{1}|3[0-1]{1}',
-        apply: function(value) { this.date = +value; },
-        formatter: function(date) { return dateFilter(date, 'dd'); }
+        apply: function(value) { this.date = +value; }
       },
       {
         key: 'd',
         regex: '[1-2]?[0-9]{1}|3[0-1]{1}',
-        apply: function(value) { this.date = +value; },
-        formatter: function(date) { return dateFilter(date, 'd'); }
+        apply: function(value) { this.date = +value; }
       },
       {
         key: 'EEEE',
-        regex: $locale.DATETIME_FORMATS.DAY.join('|'),
-        formatter: function(date) { return dateFilter(date, 'EEEE'); }
+        regex: $locale.DATETIME_FORMATS.DAY.join('|')
       },
       {
         key: 'EEE',
-        regex: $locale.DATETIME_FORMATS.SHORTDAY.join('|'),
-        formatter: function(date) { return dateFilter(date, 'EEE'); }
+        regex: $locale.DATETIME_FORMATS.SHORTDAY.join('|')
       },
       {
         key: 'HH',
         regex: '(?:0|1)[0-9]|2[0-3]',
-        apply: function(value) { this.hours = +value; },
-        formatter: function(date) { return dateFilter(date, 'HH'); }
+        apply: function(value) { this.hours = +value; }
       },
       {
         key: 'hh',
         regex: '0[0-9]|1[0-2]',
-        apply: function(value) { this.hours = +value; },
-        formatter: function(date) { return dateFilter(date, 'hh'); }
+        apply: function(value) { this.hours = +value; }
       },
       {
         key: 'H',
         regex: '1?[0-9]|2[0-3]',
-        apply: function(value) { this.hours = +value; },
-        formatter: function(date) { return dateFilter(date, 'H'); }
+        apply: function(value) { this.hours = +value; }
       },
       {
         key: 'h',
         regex: '[0-9]|1[0-2]',
-        apply: function(value) { this.hours = +value; },
-        formatter: function(date) { return dateFilter(date, 'h'); }
+        apply: function(value) { this.hours = +value; }
       },
       {
         key: 'mm',
         regex: '[0-5][0-9]',
-        apply: function(value) { this.minutes = +value; },
-        formatter: function(date) { return dateFilter(date, 'mm'); }
+        apply: function(value) { this.minutes = +value; }
       },
       {
         key: 'm',
         regex: '[0-9]|[1-5][0-9]',
-        apply: function(value) { this.minutes = +value; },
-        formatter: function(date) { return dateFilter(date, 'm'); }
+        apply: function(value) { this.minutes = +value; }
       },
       {
         key: 'sss',
         regex: '[0-9][0-9][0-9]',
-        apply: function(value) { this.milliseconds = +value; },
-        formatter: function(date) { return dateFilter(date, 'sss'); }
+        apply: function(value) { this.milliseconds = +value; }
       },
       {
         key: 'ss',
         regex: '[0-5][0-9]',
-        apply: function(value) { this.seconds = +value; },
-        formatter: function(date) { return dateFilter(date, 'ss'); }
+        apply: function(value) { this.seconds = +value; }
       },
       {
         key: 's',
         regex: '[0-9]|[1-5][0-9]',
-        apply: function(value) { this.seconds = +value; },
-        formatter: function(date) { return dateFilter(date, 's'); }
+        apply: function(value) { this.seconds = +value; }
       },
       {
         key: 'a',
@@ -5822,8 +5769,7 @@ angular.module('ui.bootstrap.dateparser', [])
           if (value === 'PM') {
             this.hours += 12;
           }
-        },
-        formatter: function(date) { return dateFilter(date, 'a'); }
+        }
       },
       {
         key: 'Z',
@@ -5835,47 +5781,38 @@ angular.module('ui.bootstrap.dateparser', [])
             minutes = matches[3];
           this.hours += toInt(sign + hours);
           this.minutes += toInt(sign + minutes);
-        },
-        formatter: function(date) {
-          return dateFilter(date, 'Z');
         }
       },
       {
         key: 'ww',
-        regex: '[0-4][0-9]|5[0-3]',
-        formatter: function(date) { return dateFilter(date, 'ww'); }
+        regex: '[0-4][0-9]|5[0-3]'
       },
       {
         key: 'w',
-        regex: '[0-9]|[1-4][0-9]|5[0-3]',
-        formatter: function(date) { return dateFilter(date, 'w'); }
+        regex: '[0-9]|[1-4][0-9]|5[0-3]'
       },
       {
         key: 'GGGG',
-        regex: $locale.DATETIME_FORMATS.ERANAMES.join('|').replace(/\s/g, '\\s'),
-        formatter: function(date) { return dateFilter(date, 'GGGG'); }
+        regex: $locale.DATETIME_FORMATS.ERANAMES.join('|').replace(/\s/g, '\\s')
       },
       {
         key: 'GGG',
-        regex: $locale.DATETIME_FORMATS.ERAS.join('|'),
-        formatter: function(date) { return dateFilter(date, 'GGG'); }
+        regex: $locale.DATETIME_FORMATS.ERAS.join('|')
       },
       {
         key: 'GG',
-        regex: $locale.DATETIME_FORMATS.ERAS.join('|'),
-        formatter: function(date) { return dateFilter(date, 'GG'); }
+        regex: $locale.DATETIME_FORMATS.ERAS.join('|')
       },
       {
         key: 'G',
-        regex: $locale.DATETIME_FORMATS.ERAS.join('|'),
-        formatter: function(date) { return dateFilter(date, 'G'); }
+        regex: $locale.DATETIME_FORMATS.ERAS.join('|')
       }
     ];
   };
 
   this.init();
 
-  function createParser(format, func) {
+  function createParser(format) {
     var map = [], regex = format.split('');
 
     // check for literal values
@@ -5923,8 +5860,7 @@ angular.module('ui.bootstrap.dateparser', [])
 
         map.push({
           index: index,
-          key: data.key,
-          apply: data[func],
+          apply: data.apply,
           matcher: data.regex
         });
       }
@@ -5935,41 +5871,6 @@ angular.module('ui.bootstrap.dateparser', [])
       map: orderByFilter(map, 'index')
     };
   }
-
-  this.filter = function(date, format) {
-    if (!angular.isDate(date) || isNaN(date) || !format) {
-      return '';
-    }
-
-    format = $locale.DATETIME_FORMATS[format] || format;
-
-    if ($locale.id !== localeId) {
-      this.init();
-    }
-
-    if (!this.formatters[format]) {
-      this.formatters[format] = createParser(format, 'formatter');
-    }
-
-    var parser = this.formatters[format],
-      map = parser.map;
-
-    var _format = format;
-
-    return map.reduce(function(str, mapper, i) {
-      var match = _format.match(new RegExp('(.*)' + mapper.key));
-      if (match && angular.isString(match[1])) {
-        str += match[1];
-        _format = _format.replace(match[1] + mapper.key, '');
-      }
-
-      if (mapper.apply) {
-        return str + mapper.apply.call(null, date);
-      }
-
-      return str;
-    }, '');
-  };
 
   this.parse = function(input, format, baseDate) {
     if (!angular.isString(input) || !format) {
@@ -5984,7 +5885,7 @@ angular.module('ui.bootstrap.dateparser', [])
     }
 
     if (!this.parsers[format]) {
-      this.parsers[format] = createParser(format, 'apply');
+      this.parsers[format] = createParser(format);
     }
 
     var parser = this.parsers[format],
@@ -6072,7 +5973,7 @@ angular.module('ui.bootstrap.dateparser', [])
   this.timezoneToOffset = timezoneToOffset;
   this.addDateMinutes = addDateMinutes;
   this.convertTimezoneToLocal = convertTimezoneToLocal;
-
+  
   function toTimezone(date, timezone) {
     return date && timezone ? convertTimezoneToLocal(date, timezone) : date;
   }
@@ -6758,171 +6659,65 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
   // Modes chain
   this.modes = ['day', 'month', 'year'];
 
-  if ($attrs.datepickerOptions) {
-    angular.forEach([
-      'formatDay',
-      'formatDayHeader',
-      'formatDayTitle',
-      'formatMonth',
-      'formatMonthTitle',
-      'formatYear',
-      'initDate',
-      'maxDate',
-      'maxMode',
-      'minDate',
-      'minMode',
-      'showWeeks',
-      'shortcutPropagation',
-      'startingDay',
-      'yearColumns',
-      'yearRows'
-    ], function(key) {
-      switch (key) {
-        case 'formatDay':
-        case 'formatDayHeader':
-        case 'formatDayTitle':
-        case 'formatMonth':
-        case 'formatMonthTitle':
-        case 'formatYear':
-          self[key] = angular.isDefined($scope.datepickerOptions[key]) ? $interpolate($scope.datepickerOptions[key])($scope.$parent) : datepickerConfig[key];
-          break;
-        case 'showWeeks':
-        case 'shortcutPropagation':
-        case 'yearColumns':
-        case 'yearRows':
-          self[key] = angular.isDefined($scope.datepickerOptions[key]) ?
-            $scope.datepickerOptions[key] : datepickerConfig[key];
-          break;
-        case 'startingDay':
-          if (angular.isDefined($scope.datepickerOptions.startingDay)) {
-            self.startingDay = $scope.datepickerOptions.startingDay;
-          } else if (angular.isNumber(datepickerConfig.startingDay)) {
-            self.startingDay = datepickerConfig.startingDay;
-          } else {
-            self.startingDay = ($locale.DATETIME_FORMATS.FIRSTDAYOFWEEK + 8) % 7;
-          }
+  // Interpolated configuration attributes
+  angular.forEach(['formatDay', 'formatMonth', 'formatYear', 'formatDayHeader', 'formatDayTitle', 'formatMonthTitle'], function(key) {
+    self[key] = angular.isDefined($attrs[key]) ? $interpolate($attrs[key])($scope.$parent) : datepickerConfig[key];
+  });
 
-          break;
-        case 'maxDate':
-        case 'minDate':
-          if ($scope.datepickerOptions[key]) {
-            $scope.$watch(function() { return $scope.datepickerOptions[key]; }, function(value) {
-              if (value) {
-                if (angular.isDate(value)) {
-                  self[key] = dateParser.fromTimezone(new Date(value), ngModelOptions.timezone);
-                } else {
-                  self[key] = new Date(dateFilter(value, 'medium'));
-                }
-              } else {
-                self[key] = null;
-              }
+  // Evaled configuration attributes
+  angular.forEach(['showWeeks', 'yearRows', 'yearColumns', 'shortcutPropagation'], function(key) {
+    self[key] = angular.isDefined($attrs[key]) ?
+      $scope.$parent.$eval($attrs[key]) : datepickerConfig[key];
+  });
 
-              self.refreshView();
-            });
-          } else {
-            self[key] = datepickerConfig[key] ? dateParser.fromTimezone(new Date(datepickerConfig[key]), ngModelOptions.timezone) : null;
-          }
-
-          break;
-        case 'maxMode':
-        case 'minMode':
-          if ($scope.datepickerOptions[key]) {
-            $scope.$watch(function() { return $scope.datepickerOptions[key]; }, function(value) {
-              self[key] = $scope[key] = angular.isDefined(value) ? value : datepickerOptions[key];
-              if (key === 'minMode' && self.modes.indexOf($scope.datepickerMode) < self.modes.indexOf(self[key]) ||
-                key === 'maxMode' && self.modes.indexOf($scope.datepickerMode) > self.modes.indexOf(self[key])) {
-                $scope.datepickerMode = self[key];
-              }
-            });
-          } else {
-            self[key] = $scope[key] = datepickerConfig[key] || null;
-          }
-
-          break;
-        case 'initDate':
-          if ($scope.datepickerOptions.initDate) {
-            this.activeDate = dateParser.fromTimezone($scope.datepickerOptions.initDate, ngModelOptions.timezone) || new Date();
-            $scope.$watch(function() { return $scope.datepickerOptions.initDate; }, function(initDate) {
-              if (initDate && (ngModelCtrl.$isEmpty(ngModelCtrl.$modelValue) || ngModelCtrl.$invalid)) {
-                self.activeDate = dateParser.fromTimezone(initDate, ngModelOptions.timezone);
-                self.refreshView();
-              }
-            });
-          } else {
-            this.activeDate = new Date();
-          }
-      }
-    });
+  if (angular.isDefined($attrs.startingDay)) {
+    self.startingDay = $scope.$parent.$eval($attrs.startingDay);
+  } else if (angular.isNumber(datepickerConfig.startingDay)) {
+    self.startingDay = datepickerConfig.startingDay;
   } else {
-    // Interpolated configuration attributes
-    angular.forEach(['formatDay', 'formatMonth', 'formatYear', 'formatDayHeader', 'formatDayTitle', 'formatMonthTitle'], function(key) {
-      self[key] = angular.isDefined($attrs[key]) ? $interpolate($attrs[key])($scope.$parent) : datepickerConfig[key];
-    });
+    self.startingDay = ($locale.DATETIME_FORMATS.FIRSTDAYOFWEEK + 8) % 7;
+  }
 
-    // Evaled configuration attributes
-    angular.forEach(['showWeeks', 'yearRows', 'yearColumns', 'shortcutPropagation'], function(key) {
-      self[key] = angular.isDefined($attrs[key]) ?
-        $scope.$parent.$eval($attrs[key]) : datepickerConfig[key];
-    });
-
-    if (angular.isDefined($attrs.startingDay)) {
-      self.startingDay = $scope.$parent.$eval($attrs.startingDay);
-    } else if (angular.isNumber(datepickerConfig.startingDay)) {
-      self.startingDay = datepickerConfig.startingDay;
+  // Watchable date attributes
+  angular.forEach(['minDate', 'maxDate'], function(key) {
+    if ($attrs[key]) {
+      watchListeners.push($scope.$parent.$watch($attrs[key], function(value) {
+        self[key] = value ? angular.isDate(value) ? dateParser.fromTimezone(new Date(value), ngModelOptions.timezone) : new Date(dateFilter(value, 'medium')) : null;
+        self.refreshView();
+      }));
     } else {
-      self.startingDay = ($locale.DATETIME_FORMATS.FIRSTDAYOFWEEK + 8) % 7;
+      self[key] = datepickerConfig[key] ? dateParser.fromTimezone(new Date(datepickerConfig[key]), ngModelOptions.timezone) : null;
     }
+  });
 
-    // Watchable date attributes
-    angular.forEach(['minDate', 'maxDate'], function(key) {
-      if ($attrs[key]) {
-        watchListeners.push($scope.$parent.$watch($attrs[key], function(value) {
-          if (value) {
-            if (angular.isDate(value)) {
-              self[key] = dateParser.fromTimezone(new Date(value), ngModelOptions.timezone);
-            } else {
-              self[key] = new Date(dateFilter(value, 'medium'));
-            }
-          } else {
-            self[key] = null;
-          }
-
-          self.refreshView();
-        }));
-      } else {
-        self[key] = datepickerConfig[key] ? dateParser.fromTimezone(new Date(datepickerConfig[key]), ngModelOptions.timezone) : null;
-      }
-    });
-
-    angular.forEach(['minMode', 'maxMode'], function(key) {
-      if ($attrs[key]) {
-        watchListeners.push($scope.$parent.$watch($attrs[key], function(value) {
-          self[key] = $scope[key] = angular.isDefined(value) ? value : $attrs[key];
-          if (key === 'minMode' && self.modes.indexOf($scope.datepickerMode) < self.modes.indexOf(self[key]) ||
-            key === 'maxMode' && self.modes.indexOf($scope.datepickerMode) > self.modes.indexOf(self[key])) {
-            $scope.datepickerMode = self[key];
-          }
-        }));
-      } else {
-        self[key] = $scope[key] = datepickerConfig[key] || null;
-      }
-    });
-
-    if (angular.isDefined($attrs.initDate)) {
-      this.activeDate = dateParser.fromTimezone($scope.$parent.$eval($attrs.initDate), ngModelOptions.timezone) || new Date();
-      watchListeners.push($scope.$parent.$watch($attrs.initDate, function(initDate) {
-        if (initDate && (ngModelCtrl.$isEmpty(ngModelCtrl.$modelValue) || ngModelCtrl.$invalid)) {
-          self.activeDate = dateParser.fromTimezone(initDate, ngModelOptions.timezone);
-          self.refreshView();
+  angular.forEach(['minMode', 'maxMode'], function(key) {
+    if ($attrs[key]) {
+      watchListeners.push($scope.$parent.$watch($attrs[key], function(value) {
+        self[key] = $scope[key] = angular.isDefined(value) ? value : $attrs[key];
+        if (key === 'minMode' && self.modes.indexOf($scope.datepickerMode) < self.modes.indexOf(self[key]) ||
+          key === 'maxMode' && self.modes.indexOf($scope.datepickerMode) > self.modes.indexOf(self[key])) {
+          $scope.datepickerMode = self[key];
         }
       }));
     } else {
-      this.activeDate = new Date();
+      self[key] = $scope[key] = datepickerConfig[key] || null;
     }
-  }
+  });
 
   $scope.datepickerMode = $scope.datepickerMode || datepickerConfig.datepickerMode;
   $scope.uniqueId = 'datepicker-' + $scope.$id + '-' + Math.floor(Math.random() * 10000);
+
+  if (angular.isDefined($attrs.initDate)) {
+    this.activeDate = dateParser.fromTimezone($scope.$parent.$eval($attrs.initDate), ngModelOptions.timezone) || new Date();
+    watchListeners.push($scope.$parent.$watch($attrs.initDate, function(initDate) {
+      if (initDate && (ngModelCtrl.$isEmpty(ngModelCtrl.$modelValue) || ngModelCtrl.$invalid)) {
+        self.activeDate = dateParser.fromTimezone(initDate, ngModelOptions.timezone);
+        self.refreshView();
+      }
+    }));
+  } else {
+    this.activeDate = new Date();
+  }
 
   $scope.disabled = angular.isDefined($attrs.disabled) || false;
   if (angular.isDefined($attrs.ngDisabled)) {
@@ -6987,7 +6782,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
     model = dateParser.fromTimezone(model, ngModelOptions.timezone);
     var dt = {
       date: date,
-      label: dateParser.filter(date, format),
+      label: dateFilter(date, format.replace(/d!/, 'dd')).replace(/M!/, 'MM'),
       selected: model && this.compare(date, model) === 0,
       disabled: this.isDisabled(date),
       current: this.compare(date, new Date()) === 0,
@@ -7334,7 +7129,6 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
     },
     scope: {
       datepickerMode: '=?',
-      datepickerOptions: '=?',
       dateDisabled: '&',
       customClass: '&',
       shortcutPropagation: '&?'
@@ -7575,14 +7369,11 @@ function(scope, element, attrs, $compile, $parse, $document, $rootScope, $positi
           scope.date = value;
           return value;
         }
-
         scope.date = dateParser.fromTimezone(value, ngModelOptions.timezone);
+        dateFormat = dateFormat.replace(/M!/, 'MM')
+            .replace(/d!/, 'dd');
 
-        if (angular.isNumber(scope.date)) {
-          scope.date = new Date(scope.date);
-        }
-
-        return dateParser.filter(scope.date, dateFormat);
+        return dateFilter(scope.date, dateFormat);
       });
     } else {
       ngModel.$formatters.push(function(value) {
@@ -7650,7 +7441,7 @@ function(scope, element, attrs, $compile, $parse, $document, $rootScope, $positi
     if (angular.isDefined(dt)) {
       scope.date = dt;
     }
-    var date = scope.date ? dateParser.filter(scope.date, dateFormat) : null; // Setting to NULL is necessary for form validators to function
+    var date = scope.date ? dateFilter(scope.date, dateFormat) : null; // Setting to NULL is necessary for form validators to function
     element.val(date);
     ngModel.$setViewValue(date);
 
@@ -8668,7 +8459,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.stackedMap'])
               $modalStack.loadFocusElementList(modal);
               var focusChanged = false;
               if (evt.shiftKey) {
-                if ($modalStack.isFocusInFirstItem(evt) || $modalStack.isModalFocused(evt, modal)) {
+                if ($modalStack.isFocusInFirstItem(evt)) {
                   focusChanged = $modalStack.focusLastFocusableElement();
                 }
               } else {
@@ -8807,16 +8598,6 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.stackedMap'])
         if (focusableElementList.length > 0) {
           focusableElementList[focusableElementList.length - 1].focus();
           return true;
-        }
-        return false;
-      };
-
-      $modalStack.isModalFocused = function(evt, modalWindow) {
-        if (evt && modalWindow) {
-          var modalDomEl = modalWindow.value.modalDomEl;
-          if (modalDomEl && modalDomEl.length) {
-            return (evt.target || evt.srcElement) === modalDomEl[0];
-          }
         }
         return false;
       };
@@ -9822,7 +9603,18 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
             }
 
             appendToBody = angular.isDefined(appendToBodyVal) ? appendToBodyVal : appendToBody;
-            
+
+            // if a tooltip is attached to <body> we need to remove it on
+            // location change as its parent scope will probably not be destroyed
+            // by the change.
+            if (appendToBody) {
+              scope.$on('$locationChangeSuccess', function closeTooltipOnLocationChangeSuccess() {
+                if (ttScope.isOpen) {
+                  hide();
+                }
+              });
+            }
+
             // Make sure tooltip is destroyed and removed.
             scope.$on('$destroy', function onDestroyTooltip() {
               unregisterTriggers();
@@ -11199,11 +10991,10 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
 
             if (showHint) {
               var firstLabel = scope.matches[0].label;
-              if (angular.isString(inputValue) &&
-                inputValue.length > 0 &&
-                firstLabel.slice(0, inputValue.length).toUpperCase() === inputValue.toUpperCase()) {
+              if (inputValue.length > 0 && firstLabel.slice(0, inputValue.length).toUpperCase() === inputValue.toUpperCase()) {
                 hintInputElem.val(inputValue + firstLabel.slice(inputValue.length));
-              } else {
+              }
+              else {
                 hintInputElem.val('');
               }
             }
@@ -11602,13 +11393,13 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
 angular.module("uib/template/accordion/accordion-group.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("uib/template/accordion/accordion-group.html",
     "<div class=\"panel\" ng-class=\"panelClass || 'panel-default'\">\n" +
-    "  <div role=\"tab\" id=\"{{::headingId}}\" aria-selected=\"{{isOpen}}\" class=\"panel-heading\" ng-keypress=\"toggleOpen($event)\">\n" +
+    "  <div class=\"panel-heading\" ng-keypress=\"toggleOpen($event)\">\n" +
     "    <h4 class=\"panel-title\">\n" +
-    "      <a role=\"button\" data-toggle=\"collapse\" href aria-expanded=\"{{isOpen}}\" aria-controls=\"{{::panelId}}\" tabindex=\"0\" class=\"accordion-toggle\" ng-click=\"toggleOpen()\" uib-accordion-transclude=\"heading\"><span ng-class=\"{'text-muted': isDisabled}\">{{heading}}</span></a>\n" +
+    "      <a href tabindex=\"0\" class=\"accordion-toggle\" ng-click=\"toggleOpen()\" uib-accordion-transclude=\"heading\"><span ng-class=\"{'text-muted': isDisabled}\">{{heading}}</span></a>\n" +
     "    </h4>\n" +
     "  </div>\n" +
-    "  <div id=\"{{::panelId}}\" aria-labelledby=\"{{::headingId}}\" aria-hidden=\"{{!isOpen}}\" role=\"tabpanel\" class=\"panel-collapse collapse\" uib-collapse=\"!isOpen\">\n" +
-    "    <div class=\"panel-body\" ng-transclude></div>\n" +
+    "  <div class=\"panel-collapse collapse\" uib-collapse=\"!isOpen\">\n" +
+    "	  <div class=\"panel-body\" ng-transclude></div>\n" +
     "  </div>\n" +
     "</div>\n" +
     "");
@@ -11616,7 +11407,7 @@ angular.module("uib/template/accordion/accordion-group.html", []).run(["$templat
 
 angular.module("uib/template/accordion/accordion.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("uib/template/accordion/accordion.html",
-    "<div role=\"tablist\" class=\"panel-group\" ng-transclude></div>");
+    "<div class=\"panel-group\" ng-transclude></div>");
 }]);
 
 angular.module("uib/template/alert/alert.html", []).run(["$templateCache", function($templateCache) {
@@ -43118,18 +42909,73 @@ module.exports = menuController;
 },{}],15:[function(require,module,exports){
 'use strict';
 var AgresionesDirectasController = function AgresionesDirectasController($scope, $http, high) {
-    $http.get("api/reportes/years").success(function (data) {
-        $scope.years = data;
-    });
 
-    $scope.getData = function ($year) {
-        $http.get('api/reportes/agresion-directa/' + $year).success(function (data) {
+    $scope.chartConfig = {
+        options: {
+            chart: {
+                type: 'column',
+                height: 800
+            },
+            title: { text: 'Estadisticas por Agresiones Directas' },
+            subtitle: { text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>' },
+            xAxis: {
+                categories: ["Asesinato", "Atentado", "Daño Moral", "De Afectación sicologica", "De Afectación física y material"]
+            },
+            style: {
+                fontSize: '20px',
+                fontFamily: 'proxima-nova,helvetica,arial,sans-seri',
+                whiteSpace: 'nowrap',
+                paddingLeft: '10px',
+                paddingRight: '10px',
+                paddingTop: '10px',
+                paddingBottom: '10px'
+            },
+            plotOptions: {
+                series: {
+                    pointWidth: 10
+                },
+                bar: {
+                    groupPadding: 0,
+                    pointPadding: 0,
+                    dataLabels: {
+                        enabled: false
+                    }
+                }
+            },
 
-            $scope.datos = data;
-        });
+            yAxis: {
+                title: {
+                    text: 'Conteo de Agresiones'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -40,
+                y: 80,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: Highcharts.theme && Highcharts.theme.legendBackgroundColor || '#FFFFFF',
+                shadow: true
+            },
+
+            credits: { enabled: true }
+        },
+
+        series: [{ name: 'Año 2015',
+            data: [18, 6, 10, 69, 24] }, { name: 'Año 2014',
+            data: [14, 3, 1, 28, 16] }, { name: 'Año 2013',
+            data: [5, 4, 1, 27, 13] }, { name: 'Año 2012',
+            data: [10, 4, 2, 29, 12] }]
+
     };
-
-    $scope.getData(2016);
 };
 
 module.exports = AgresionesDirectasController;
@@ -43148,23 +42994,77 @@ module.exports = AgresionesIndirectasController;
 'use strict';
 var LocacionController = function LocacionController($scope, $http, high) {
 
-    $http.get("api/reportes/years").success(function (data) {
-        $scope.years = data;
-    });
+    $scope.chartConfig = {
+        options: {
+            chart: {
+                type: 'column',
+                height: 700
+            },
+            title: { text: 'Estadisticas por Tipos de Medio Agredido' },
+            subtitle: { text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>' },
+            xAxis: {
+                categories: ["Atlántida", "Colón", "Comayagua", "Copán", "Cortés", "Choluteca", "El Paraíso", "Francisco Morazán", "Gracias a Dios", "Intibucá", "Islas de la Bahía", "La Paz", "Lempira", "Ocotepeque", "Olancho", "Santa Bárbara", "Valle", "Yoro"]
 
-    $scope.getData = function ($year) {
-        $http.get('api/reportes/agredidos-por-departamento/' + $year).success(function (data) {
+            },
+            style: {
+                fontSize: '20px',
+                fontFamily: 'proxima-nova,helvetica,arial,sans-seri',
+                whiteSpace: 'nowrap',
+                paddingLeft: '10px',
+                paddingRight: '10px',
+                paddingTop: '10px',
+                paddingBottom: '10px'
+            },
+            plotOptions: {
+                series: {
+                    pointWidth: 10
+                },
+                bar: {
+                    groupPadding: 0,
+                    pointPadding: 0,
+                    dataLabels: {
+                        enabled: false
+                    }
+                }
+            },
 
-            $scope.datos = data;
+            yAxis: {
+                title: {
+                    text: 'Conteo de Agresiones'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
 
-            $scope._total = 0;
-            $scope.datos.forEach(function (e) {
-                $scope._total += e.total;
-            });
-        });
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -40,
+                y: 80,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: Highcharts.theme && Highcharts.theme.legendBackgroundColor || '#FFFFFF',
+                shadow: true
+            },
+
+            credits: { enabled: true }
+        },
+
+        series: [{ name: 'Año 2015',
+            data: [8, 7, 2, 1, 11, 6, 1, 165, 0, 0, 2, 4, 2, 0, 2, 0, 3, 4] }, { name: 'Año 2014',
+            data: [4, 5, 3, 2, 12, 1, 1, 45, 0, 1, 1, 3, 0, 0, 3, 0, 6, 4] }, { name: 'Año 2013',
+            data: [4, 7, 1, 3, 15, 0, 1, 39, 0, 4, 0, 0, 0, 1, 0, 0, 1, 2],
+            visible: false
+        }, { name: 'Año 2012',
+            data: [3, 8, 2, 1, 18, 3, 0, 44, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0],
+            visible: false
+        }]
+
     };
-
-    $scope.getData(2016);
 };
 module.exports = LocacionController;
 
@@ -43195,19 +43095,73 @@ module.exports = MedioSistemaController;
 },{}],19:[function(require,module,exports){
 'use strict';
 var OcurrenciaMensualController = function OcurrenciaMensualController($scope, $http, high) {
+    $scope.chartConfig = {
+        options: {
+            chart: {
+                type: 'column',
+                height: 700
+            },
+            title: { text: 'Estadisticas por Ocurrencias Menusales' },
+            subtitle: { text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>' },
+            xAxis: {
+                categories: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
-    $http.get("api/reportes/years").success(function (data) {
-        $scope.years = data;
-    });
+            },
+            style: {
+                fontSize: '20px',
+                fontFamily: 'proxima-nova,helvetica,arial,sans-seri',
+                whiteSpace: 'nowrap',
+                paddingLeft: '10px',
+                paddingRight: '10px',
+                paddingTop: '10px',
+                paddingBottom: '10px'
+            },
+            plotOptions: {
+                series: {
+                    pointWidth: 10
+                },
+                bar: {
+                    groupPadding: 0,
+                    pointPadding: 0,
+                    dataLabels: {
+                        enabled: false
+                    }
+                }
+            },
 
-    $scope.getData = function ($year) {
-        $http.get('api/reportes/agredidos-por-mes/' + $year).success(function (data) {
+            yAxis: {
+                title: {
+                    text: 'Conteo de Agresiones'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
 
-            $scope.datos = data;
-        });
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -40,
+                y: 80,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: Highcharts.theme && Highcharts.theme.legendBackgroundColor || '#FFFFFF',
+                shadow: true
+            },
+
+            credits: { enabled: true }
+        },
+
+        series: [{ name: 'Año 2015',
+            data: [11, 11, 22, 11, 17, 26, 32, 20, 16, 19, 23, 10] }, { name: 'Año 2014',
+            data: [4, 4, 4, 7, 7, 8, 4, 7, 7, 10, 17, 12] }, { name: 'Año 2013',
+            data: [6, 5, 1, 7, 3, 11, 10, 6, 11, 8, 7, 3] }, { name: 'Año 2012',
+            data: [7, 8, 12, 6, 6, 7, 7, 10, 6, 7, 3, 1] }]
+
     };
-
-    $scope.getData(2016);
 };
 module.exports = OcurrenciaMensualController;
 
@@ -43239,65 +43193,50 @@ module.exports = SujetoAgredidoGeneroController;
 'use strict';
 var TipoAgresorController = function TipoAgresorController($scope, $http, high) {
 
-    $http.get("api/reportes/years").success(function (data) {
-        $scope.years = data;
-    });
-
-    $scope.getData = function ($year) {
-        $http.get('api/reportes/tipo-de-agresor/' + $year).success(function (data) {
-
-            $scope.datos = data;
-
-            $scope._total = 0;
-            $scope.datos.forEach(function (e) {
-                $scope._total += e.total;
-            });
-        });
-    };
-
-    $scope.getData(2016);
-};
-module.exports = TipoAgresorController;
-
-},{}],22:[function(require,module,exports){
-'use strict';
-var TipoMedioController = function TipoMedioController($scope, $http, high) {
-
-    $http.get("api/reportes/years").success(function (data) {
-        $scope.years = data;
-    });
-
-    $scope.getData = function ($year) {
-        $http.get('api/reportes/tipo-de-medio/' + $year).success(function (data) {
-
-            $scope.datos = data;
-
-            $scope._total = 0;
-            $scope.datos.forEach(function (e) {
-                $scope._total += e.total;
-            });
-        });
-    };
-
-    $scope.getData(2016);
-};
-module.exports = TipoMedioController;
-
-},{}],23:[function(require,module,exports){
-'use strict';
-var TipoSujetoAgredidoController = function TipoSujetoAgredidoController($scope, $http, yearsService, high) {
-
-    $scope.years = yearsService.anios;
-
-    function makeCharts(series) {
-
-        $('#chart1').highcharts({
-            chart: { type: 'bar' },
-            title: { text: 'Estadisticas por Tipos de Sujetos Agredidos' },
+    $scope.chartConfig = {
+        options: {
+            chart: {
+                type: 'bar',
+                height: 1000
+            },
+            title: { text: 'Estadisticas por Tipos de Agresor' },
             subtitle: { text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>' },
             xAxis: {
-                categories: series.type
+                categories: ["Civil Identificado", "Empresa Privada", "Alcalde Municipal", "Guardias Seguridad Edificio Estatal", "Tribunal de Justicia", "Autoridades del Sistema Educativo Publico", "Presidente de la República", "Policía Municipal", "Civil no identificado (Desconocido)", "Dueño o Gerente de Medio de Comunicación", "Guardaespaldas", "Funcionario Publico", "Compañías Mineras", "Secretarias de Estado", "Policías y Militares", "Diputado CN", "Sicarios", "Diputado/a", "Jefe de Redacción", "Presentador", "Medio de Comunicación", "Policia", "ONGs", "Operador de Medio de Comunicación", "Miembro del Consejo", "CONATEL", "Ciudadano", "Embajador", "Docentes", "Guardia de seguridad", "Cibernauta", "Ministro de Trabajo", "Exprimiera Dama", "Empresarios"]
             },
+            style: {
+                fontSize: '20px',
+                fontFamily: 'proxima-nova,helvetica,arial,sans-seri',
+                whiteSpace: 'nowrap',
+                paddingLeft: '10px',
+                paddingRight: '10px',
+                paddingTop: '10px',
+                paddingBottom: '10px'
+            },
+            plotOptions: {
+                series: {
+                    pointWidth: 10
+                },
+                bar: {
+                    groupPadding: 0,
+                    pointPadding: 0,
+                    dataLabels: {
+                        enabled: false
+                    }
+                }
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Conteo de Agresiones'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+
             legend: {
                 layout: 'vertical',
                 align: 'right',
@@ -43309,40 +43248,181 @@ var TipoSujetoAgredidoController = function TipoSujetoAgredidoController($scope,
                 backgroundColor: Highcharts.theme && Highcharts.theme.legendBackgroundColor || '#FFFFFF',
                 shadow: true
             },
-            credits: { enabled: false },
-            series: [series.data]
-        });
-    }
 
-    $scope.carga = function (year) {
+            credits: { enabled: true }
+        },
 
-        var results = [];
-        var tipo = [];
-        var totales = [];
+        series: [{ name: 'Año 2015',
+            data: [21, 5, 7, 1, 0, 21, 9, 1, 48, 0, 0, 0, 0, 3, 24, 1, 1, 6, 0, 0, 0, 25, 0, 0, 1, 7, 14, 2, 0, 3, 0, 1, 1, 0] }, { name: 'Año 2014',
+            data: [8, 0, 10, 0, 1, 7, 9, 1, 26, 0, 0, 9, 0, 1, 9, 3, 0, 1, 0, 0, 1, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }, { name: 'Año 2013',
+            data: [5, 1, 2, 2, 2, 1, 1, 0, 28, 4, 0, 9, 0, 7, 11, 1, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            visible: false
+        }, { name: 'Año 2012',
+            data: [13, 1, 6, 1, 3, 1, 1, 1, 35, 5, 0, 5, 1, 0, 10, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            visible: false
+        }]
 
-        function addVariable(data) {
-            data.push(data);
-            return data;
-        };
+    };
+};
+module.exports = TipoAgresorController;
 
-        $http.get("api/reportes/tipo-sujeto-agredido/" + year).then(function successfunction(response) {
-            results = addVariable(response.data);
+},{}],22:[function(require,module,exports){
+'use strict';
+var TipoMedioController = function TipoMedioController($scope, $http, high) {
 
-            results.forEach(function (e) {
-                tipo.push(e.tiposujetoagredido);
-                totales.push(e.total);
-            });
-
-            $scope.series = {
-                type: tipo,
-                data: {
-                    name: year,
-                    data: totales
+    $scope.chartConfig = {
+        options: {
+            chart: {
+                type: 'bar',
+                height: 1000
+            },
+            title: { text: 'Estadisticas por Tipos de Medio Agredido' },
+            subtitle: { text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>' },
+            xAxis: {
+                categories: ["Medios de Comunicación Varios", "Comercial (Menores, Críticos)", "Radial", "Televisivo", "Comercial (Mega Medios)", "Escrito", "Periódico Digital", "Organización No Gubernamental", "Radios Comunitarios", "Corrresponsalia Extranjera",, "Medio de Comunicacion Estatal", "Sistema de Cable Local", "Medio de Comunicación Local", "Institución Autonoma", "Asociaciones Campesinas", "Periodista Independiente", "Personaje Mediatico", "Partido Politico", "Sindicatos", "Radial y Televisivo", "Grupo Artistico", "Movimiento Estudiantil", "Pueblo Indígena y Afrodesendiente", "Ninguno", "Movimiento Social", "Periodico", "Usuarios de Internet"]
+            },
+            style: {
+                fontSize: '20px',
+                fontFamily: 'proxima-nova,helvetica,arial,sans-seri',
+                whiteSpace: 'nowrap',
+                paddingLeft: '10px',
+                paddingRight: '10px',
+                paddingTop: '10px',
+                paddingBottom: '10px'
+            },
+            plotOptions: {
+                series: {
+                    pointWidth: 10
+                },
+                bar: {
+                    groupPadding: 0,
+                    pointPadding: 0,
+                    dataLabels: {
+                        enabled: false
+                    }
                 }
-            };
+            },
 
-            makeCharts($scope.series);
-        });
+            yAxis: {
+                title: {
+                    text: 'Conteo de Agresiones'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -40,
+                y: 80,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: Highcharts.theme && Highcharts.theme.legendBackgroundColor || '#FFFFFF',
+                shadow: true
+            },
+
+            credits: { enabled: true }
+        },
+
+        series: [{ name: 'Año 2015',
+            data: [0, 10, 15, 58, 0, 3, 1, 19, 1, 0, 0, 0, 4, 7, 2, 0, 3, 4, 7, 29, 2, 16, 4, 23, 16, 3, 1] }, { name: 'Año 2014',
+            data: [2, 0, 19, 45, 0, 3, 0, 7, 1, 0, 0, 0, 2, 7, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0] }, { name: 'Año 2013',
+            data: [0, 15, 1, 6, 1, 0, 1, 8, 2, 2, 1, 1, 12, 1, 5, 2, 8, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            visible: false
+
+        }, { name: 'Año 2012',
+            data: [7, 11, 4, 3, 0, 1, 4, 4, 3, 2, 3, 0, 30, 3, 4, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            visible: false
+        }]
+
+    };
+};
+module.exports = TipoMedioController;
+
+},{}],23:[function(require,module,exports){
+'use strict';
+var TipoSujetoAgredidoController = function TipoSujetoAgredidoController($scope, $http, yearsService, high) {
+
+    $scope.chartConfig = {
+        options: {
+            chart: {
+                type: 'column',
+                height: 1000
+            },
+            title: { text: 'Estadisticas por Tipos de Sujetos Agredidos' },
+            subtitle: { text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>' },
+            xAxis: {
+                categories: ["Periodista", "Comunicador Social", "Camarógrafo", "Vocero de grupos campesinos", "Periodista independiente", "Relacionador Público", "Gerente de Medio de Comunicación", "Medio Digital", "Dueño de Medio de Comunicación", "Fuente de Consulta Mediatíca", "Corresponsal Internacional", "Presentador de TV", "Locutor", "Estudiante de Periodismo", "Estudiantes", "Gremios Sociales", "Artista", "Instalaciones Físicas de Medio de Comunicación", "Defensor de DDHH", "Abogados", "Líder Comunitario", "ONG/DDHH", "Religiosos", "Activista Politico", "Grupo de Periodistas", "Edificio de Medio", "Comunicador Comunitario", "Radio Comunitaria", "Fotografo"]
+            },
+            style: {
+                fontSize: '20px',
+                fontFamily: 'proxima-nova,helvetica,arial,sans-seri',
+                whiteSpace: 'nowrap',
+                paddingLeft: '10px',
+                paddingRight: '10px',
+                paddingTop: '10px',
+                paddingBottom: '10px'
+            },
+            plotOptions: {
+                series: {
+                    pointWidth: 10
+                },
+                bar: {
+                    groupPadding: 0,
+                    pointPadding: 0,
+                    dataLabels: {
+                        enabled: false
+                    }
+                }
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Conteo de Agresiones'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -40,
+                y: 80,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: Highcharts.theme && Highcharts.theme.legendBackgroundColor || '#FFFFFF',
+                shadow: true
+            },
+
+            credits: { enabled: true }
+        },
+
+        series: [{
+            name: 'Año 2015',
+            data: [91, 4, 3, 2, 0, 0, 0, 3, 2, 2, 2, 4, 4, 0, 15, 40, 2, 0, 16, 7, 9, 0, 0, 2, 6, 1, 1, 1, 1]
+        }, {
+            name: 'Año 2014',
+            data: [52, 11, 3, 1, 0, 0, 1, 0, 0, 0, 0, 1, 2, 0, 5, 1, 0, 0, 5, 0, 1, 1, 0, 3, 3, 0, 2, 0, 0]
+        }, {
+            name: 'Año 2013',
+            data: [29, 10, 3, 1, 1, 0, 0, 0, 2, 0, 0, 1, 0, 0, 2, 1, 1, 3, 10, 4, 3, 1, 0, 4, 0, 0, 1, 1],
+            visible: false
+        }, {
+            name: 'Año 2012',
+            data: [45, 17, 2, 3, 0, 1, 1, 1, 1, 0, 0, 2, 0, 0, 1, 2, 2, 0, 0, 2, 1, 0, 1, 3, 1, 3, 1, 0],
+            visible: false
+        }]
+
     };
 };
 module.exports = TipoSujetoAgredidoController;

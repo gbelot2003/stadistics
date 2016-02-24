@@ -204,6 +204,7 @@ class Agredido extends Model
             ->Join('departamentos', 'alertas.departamentos_id', '=', 'departamentos.id')
             ->where('alertas.year', '=', $years)
             ->where('alertas.published_state', '=', 1)
+            ->orderBy('departamentos.id', 'ASC')
             ->groupBy('departamentos.departamento');
     }
 
@@ -220,6 +221,7 @@ class Agredido extends Model
             ->Join('mes', 'alertas.mes_id', '=', 'mes.id')
             ->where('alertas.year', '=', $years)
             ->where('alertas.published_state', '=', 1)
+            ->orderBy('mes.id', 'ASC')
             ->groupBy('mes.mes');
     }
 

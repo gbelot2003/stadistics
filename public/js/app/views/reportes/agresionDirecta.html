@@ -1,40 +1,11 @@
 <div class="col-md-12">
-    <h3>Reportes por Agresión Directa</h3>
+
     <div class="row">
 
         <div class="col-md-12">
-            <ul class="nav nav-pills">
-                <li ng-repeat="year in years" role="presentation"  ng-click="addOrRemoveClassFromYear($index)" ng-class="{active: selectedYears[$index]}">
-                    <a ng-click="getData(year.year)" >{{ year.year }}</a>
-                </li>
-            </ul>
-        </div>
-
-        <hr />
-
-        <div class="col-md-12">
-            <uib-tabset>
-                <uib-tab heading="Listados" ng-click="changeTraza(2)">
-                    <table class="table-hover table-bordered table">
-                        <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Agresiones</th>
-                            <th>Cantidad</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="data in datos">
-                            <td>{{ data.catId }}</td>
-                            <td>{{ data.categoria }}</td>
-                            <td>{{ data.counter }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </uib-tab>
-            </uib-tabset>
+            <highchart id="chart1" styles="heigh: 800px" config="chartConfig"></highchart>
         </div>
 
     </div>
-</div>
 
+</div>
