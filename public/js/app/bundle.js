@@ -5,12 +5,13 @@ require('angular');
 
 /** libraries injected require **/
 var routes = require('angular-route');
+var sanitize = require('angular-sanitize');
 var animate = require('angular-animate');
 var uibs = require('angular-ui-bootstrap');
 var high = require('highcharts-ng');
 
 /** Main instance **/
-var app = angular.module('adminApp', [routes, animate, uibs, high]);
+var app = angular.module('adminApp', [routes, sanitize, animate, uibs, high]);
 
 /** Controllers **/
 var menuController = require('./controllers/menuController');
@@ -36,7 +37,7 @@ app.directive('yearsNav', years);
 /** Config **/
 app.config(function ($routeProvider, $locationProvider) {
 
-    $routeProvider.when('/', { controller: 'WelcomeCtrl', templateUrl: './js/app/views/index.html' }).when('/alertas/:id', { controller: 'AlertasController', templateUrl: './js/app/views/alertas/alertas.html' }).when('/alertas/listado', { controller: 'ListadoController', templateUrl: './js/app/views/alertas/listado.html' }).when('/reportes/tipo-sujeto-agredido', { controller: 'TipoSujetoAgredidoController', templateUrl: './js/app/views/reportes/tipoSujetoAgredido.html' }).when('/reportes/sujeto-agredido-por-genero', { controller: 'SujetoAgredidoGeneroController', templateUrl: './js/app/views/reportes/sujetoAgredidoGenero.html' }).when('/reportes/tipo-de-medio', { controller: 'TipoMedioController', templateUrl: './js/app/views/reportes/tipoMedio.html' }).when('/reportes/agresiones-directas', { controller: 'AgresionesDirectasController', templateUrl: './js/app/views/reportes/agresionDirecta.html' }).when('/reportes/agresiones-indirectas', { controller: 'AgresionesIndirectasController', templateUrl: './js/app/views/reportes/agresionIndirecta.html' }).when('/reportes/tipo-de-agresor', { controller: 'TipoAgresorController', templateUrl: './js/app/views/reportes/tipoAgresor.html' }).when('/reportes/locacion', { controller: 'LocacionController', templateUrl: './js/app/views/reportes/locacion.html' }).when('/reportes/ocurrencias-menuales', { controller: 'OcurrenciaMensualController', templateUrl: './js/app/views/reportes/ocurrenciaMensual.html' }).when('/reportes/test', { controller: 'TipoSujetoAgredidoTestController', templateUrl: './js/app/views/test1.html' }).otherwise({ redirectTo: '/' });
+    $routeProvider.when('/', { controller: 'WelcomeCtrl', templateUrl: './js/app/views/index.html' }).when('/alertas/detalle/:id', { controller: 'AlertasController', templateUrl: './js/app/views/alertas/alertas.html' }).when('/alertas/listado', { controller: 'ListadoController', templateUrl: './js/app/views/alertas/listado.html' }).when('/reportes/tipo-sujeto-agredido', { controller: 'TipoSujetoAgredidoController', templateUrl: './js/app/views/reportes/tipoSujetoAgredido.html' }).when('/reportes/sujeto-agredido-por-genero', { controller: 'SujetoAgredidoGeneroController', templateUrl: './js/app/views/reportes/sujetoAgredidoGenero.html' }).when('/reportes/tipo-de-medio', { controller: 'TipoMedioController', templateUrl: './js/app/views/reportes/tipoMedio.html' }).when('/reportes/agresiones-directas', { controller: 'AgresionesDirectasController', templateUrl: './js/app/views/reportes/agresionDirecta.html' }).when('/reportes/agresiones-indirectas', { controller: 'AgresionesIndirectasController', templateUrl: './js/app/views/reportes/agresionIndirecta.html' }).when('/reportes/tipo-de-agresor', { controller: 'TipoAgresorController', templateUrl: './js/app/views/reportes/tipoAgresor.html' }).when('/reportes/locacion', { controller: 'LocacionController', templateUrl: './js/app/views/reportes/locacion.html' }).when('/reportes/ocurrencias-menuales', { controller: 'OcurrenciaMensualController', templateUrl: './js/app/views/reportes/ocurrenciaMensual.html' }).when('/reportes/test', { controller: 'TipoSujetoAgredidoTestController', templateUrl: './js/app/views/test1.html' }).otherwise({ redirectTo: '/' });
 
     $locationProvider.html5Mode(false);
 });
@@ -44,8 +45,8 @@ app.config(function ($routeProvider, $locationProvider) {
 /** Instances **/
 app.controller('menuController', ['$scope', menuController]);
 app.controller('WelcomeCtrl', ['$scope', WelcomeCtrl]);
-app.controller('AlertasController', ['$scope', AlertasCtrl]);
-app.controller('ListadoController', ['$scope', ListadoCrtl]);
+app.controller('AlertasController', ['$scope', '$http', '$routeParams', AlertasCtrl]);
+app.controller('ListadoController', ['$scope', '$http', ListadoCrtl]);
 app.controller('TipoSujetoAgredidoController', ['$scope', '$http', 'yearsService', TipoSujetoAgredido]);
 app.controller('SujetoAgredidoGeneroController', ['$scope', '$http', SujetoAgredidoGenero]);
 app.controller('TipoMedioController', ['$scope', '$http', TipoMedio]);
@@ -64,7 +65,7 @@ app.factory('yearsService', function () {
     };
 });
 
-},{"./controllers/WelcomeCtrl":11,"./controllers/alertas/AlertasController":12,"./controllers/alertas/ListadoController":13,"./controllers/menuController":14,"./controllers/reportes/AgresionesDirectasController":15,"./controllers/reportes/AgresionesIndirectasController":16,"./controllers/reportes/LocacionController":17,"./controllers/reportes/OcurrenciaMensualController":18,"./controllers/reportes/SujetoAgredidoGeneroController":19,"./controllers/reportes/TipoAgresorController":20,"./controllers/reportes/TipoMedioController":21,"./controllers/reportes/TipoSujetoAgredidoController":22,"./controllers/reportes/TipoSujetoAgredidoTestController":23,"./directives/menu":24,"./directives/years":25,"angular":9,"angular-animate":3,"angular-route":5,"angular-ui-bootstrap":7,"highcharts-ng":10}],2:[function(require,module,exports){
+},{"./controllers/WelcomeCtrl":13,"./controllers/alertas/AlertasController":14,"./controllers/alertas/ListadoController":15,"./controllers/menuController":16,"./controllers/reportes/AgresionesDirectasController":17,"./controllers/reportes/AgresionesIndirectasController":18,"./controllers/reportes/LocacionController":19,"./controllers/reportes/OcurrenciaMensualController":20,"./controllers/reportes/SujetoAgredidoGeneroController":21,"./controllers/reportes/TipoAgresorController":22,"./controllers/reportes/TipoMedioController":23,"./controllers/reportes/TipoSujetoAgredidoController":24,"./controllers/reportes/TipoSujetoAgredidoTestController":25,"./directives/menu":26,"./directives/years":27,"angular":11,"angular-animate":3,"angular-route":5,"angular-sanitize":7,"angular-ui-bootstrap":9,"highcharts-ng":12}],2:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.9
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -4941,11 +4942,734 @@ require('./angular-route');
 module.exports = 'ngRoute';
 
 },{"./angular-route":4}],6:[function(require,module,exports){
+/**
+ * @license AngularJS v1.5.0
+ * (c) 2010-2016 Google, Inc. http://angularjs.org
+ * License: MIT
+ */
+(function(window, angular, undefined) {'use strict';
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *     Any commits to this file should be reviewed with security in mind.  *
+ *   Changes to this file can potentially create security vulnerabilities. *
+ *          An approval from 2 Core members with history of modifying      *
+ *                         this file is required.                          *
+ *                                                                         *
+ *  Does the change somehow allow for arbitrary javascript to be executed? *
+ *    Or allows for someone to change the prototype of built-in objects?   *
+ *     Or gives undesired access to variables likes document or window?    *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+var $sanitizeMinErr = angular.$$minErr('$sanitize');
+
+/**
+ * @ngdoc module
+ * @name ngSanitize
+ * @description
+ *
+ * # ngSanitize
+ *
+ * The `ngSanitize` module provides functionality to sanitize HTML.
+ *
+ *
+ * <div doc-module-components="ngSanitize"></div>
+ *
+ * See {@link ngSanitize.$sanitize `$sanitize`} for usage.
+ */
+
+/**
+ * @ngdoc service
+ * @name $sanitize
+ * @kind function
+ *
+ * @description
+ *   Sanitizes an html string by stripping all potentially dangerous tokens.
+ *
+ *   The input is sanitized by parsing the HTML into tokens. All safe tokens (from a whitelist) are
+ *   then serialized back to properly escaped html string. This means that no unsafe input can make
+ *   it into the returned string.
+ *
+ *   The whitelist for URL sanitization of attribute values is configured using the functions
+ *   `aHrefSanitizationWhitelist` and `imgSrcSanitizationWhitelist` of {@link ng.$compileProvider
+ *   `$compileProvider`}.
+ *
+ *   The input may also contain SVG markup if this is enabled via {@link $sanitizeProvider}.
+ *
+ * @param {string} html HTML input.
+ * @returns {string} Sanitized HTML.
+ *
+ * @example
+   <example module="sanitizeExample" deps="angular-sanitize.js">
+   <file name="index.html">
+     <script>
+         angular.module('sanitizeExample', ['ngSanitize'])
+           .controller('ExampleController', ['$scope', '$sce', function($scope, $sce) {
+             $scope.snippet =
+               '<p style="color:blue">an html\n' +
+               '<em onmouseover="this.textContent=\'PWN3D!\'">click here</em>\n' +
+               'snippet</p>';
+             $scope.deliberatelyTrustDangerousSnippet = function() {
+               return $sce.trustAsHtml($scope.snippet);
+             };
+           }]);
+     </script>
+     <div ng-controller="ExampleController">
+        Snippet: <textarea ng-model="snippet" cols="60" rows="3"></textarea>
+       <table>
+         <tr>
+           <td>Directive</td>
+           <td>How</td>
+           <td>Source</td>
+           <td>Rendered</td>
+         </tr>
+         <tr id="bind-html-with-sanitize">
+           <td>ng-bind-html</td>
+           <td>Automatically uses $sanitize</td>
+           <td><pre>&lt;div ng-bind-html="snippet"&gt;<br/>&lt;/div&gt;</pre></td>
+           <td><div ng-bind-html="snippet"></div></td>
+         </tr>
+         <tr id="bind-html-with-trust">
+           <td>ng-bind-html</td>
+           <td>Bypass $sanitize by explicitly trusting the dangerous value</td>
+           <td>
+           <pre>&lt;div ng-bind-html="deliberatelyTrustDangerousSnippet()"&gt;
+&lt;/div&gt;</pre>
+           </td>
+           <td><div ng-bind-html="deliberatelyTrustDangerousSnippet()"></div></td>
+         </tr>
+         <tr id="bind-default">
+           <td>ng-bind</td>
+           <td>Automatically escapes</td>
+           <td><pre>&lt;div ng-bind="snippet"&gt;<br/>&lt;/div&gt;</pre></td>
+           <td><div ng-bind="snippet"></div></td>
+         </tr>
+       </table>
+       </div>
+   </file>
+   <file name="protractor.js" type="protractor">
+     it('should sanitize the html snippet by default', function() {
+       expect(element(by.css('#bind-html-with-sanitize div')).getInnerHtml()).
+         toBe('<p>an html\n<em>click here</em>\nsnippet</p>');
+     });
+
+     it('should inline raw snippet if bound to a trusted value', function() {
+       expect(element(by.css('#bind-html-with-trust div')).getInnerHtml()).
+         toBe("<p style=\"color:blue\">an html\n" +
+              "<em onmouseover=\"this.textContent='PWN3D!'\">click here</em>\n" +
+              "snippet</p>");
+     });
+
+     it('should escape snippet without any filter', function() {
+       expect(element(by.css('#bind-default div')).getInnerHtml()).
+         toBe("&lt;p style=\"color:blue\"&gt;an html\n" +
+              "&lt;em onmouseover=\"this.textContent='PWN3D!'\"&gt;click here&lt;/em&gt;\n" +
+              "snippet&lt;/p&gt;");
+     });
+
+     it('should update', function() {
+       element(by.model('snippet')).clear();
+       element(by.model('snippet')).sendKeys('new <b onclick="alert(1)">text</b>');
+       expect(element(by.css('#bind-html-with-sanitize div')).getInnerHtml()).
+         toBe('new <b>text</b>');
+       expect(element(by.css('#bind-html-with-trust div')).getInnerHtml()).toBe(
+         'new <b onclick="alert(1)">text</b>');
+       expect(element(by.css('#bind-default div')).getInnerHtml()).toBe(
+         "new &lt;b onclick=\"alert(1)\"&gt;text&lt;/b&gt;");
+     });
+   </file>
+   </example>
+ */
+
+
+/**
+ * @ngdoc provider
+ * @name $sanitizeProvider
+ *
+ * @description
+ * Creates and configures {@link $sanitize} instance.
+ */
+function $SanitizeProvider() {
+  var svgEnabled = false;
+
+  this.$get = ['$$sanitizeUri', function($$sanitizeUri) {
+    if (svgEnabled) {
+      angular.extend(validElements, svgElements);
+    }
+    return function(html) {
+      var buf = [];
+      htmlParser(html, htmlSanitizeWriter(buf, function(uri, isImage) {
+        return !/^unsafe:/.test($$sanitizeUri(uri, isImage));
+      }));
+      return buf.join('');
+    };
+  }];
+
+
+  /**
+   * @ngdoc method
+   * @name $sanitizeProvider#enableSvg
+   * @kind function
+   *
+   * @description
+   * Enables a subset of svg to be supported by the sanitizer.
+   *
+   * <div class="alert alert-warning">
+   *   <p>By enabling this setting without taking other precautions, you might expose your
+   *   application to click-hijacking attacks. In these attacks, sanitized svg elements could be positioned
+   *   outside of the containing element and be rendered over other elements on the page (e.g. a login
+   *   link). Such behavior can then result in phishing incidents.</p>
+   *
+   *   <p>To protect against these, explicitly setup `overflow: hidden` css rule for all potential svg
+   *   tags within the sanitized content:</p>
+   *
+   *   <br>
+   *
+   *   <pre><code>
+   *   .rootOfTheIncludedContent svg {
+   *     overflow: hidden !important;
+   *   }
+   *   </code></pre>
+   * </div>
+   *
+   * @param {boolean=} regexp New regexp to whitelist urls with.
+   * @returns {boolean|ng.$sanitizeProvider} Returns the currently configured value if called
+   *    without an argument or self for chaining otherwise.
+   */
+  this.enableSvg = function(enableSvg) {
+    if (angular.isDefined(enableSvg)) {
+      svgEnabled = enableSvg;
+      return this;
+    } else {
+      return svgEnabled;
+    }
+  };
+}
+
+function sanitizeText(chars) {
+  var buf = [];
+  var writer = htmlSanitizeWriter(buf, angular.noop);
+  writer.chars(chars);
+  return buf.join('');
+}
+
+
+// Regular Expressions for parsing tags and attributes
+var SURROGATE_PAIR_REGEXP = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g,
+  // Match everything outside of normal chars and " (quote character)
+  NON_ALPHANUMERIC_REGEXP = /([^\#-~ |!])/g;
+
+
+// Good source of info about elements and attributes
+// http://dev.w3.org/html5/spec/Overview.html#semantics
+// http://simon.html5.org/html-elements
+
+// Safe Void Elements - HTML5
+// http://dev.w3.org/html5/spec/Overview.html#void-elements
+var voidElements = toMap("area,br,col,hr,img,wbr");
+
+// Elements that you can, intentionally, leave open (and which close themselves)
+// http://dev.w3.org/html5/spec/Overview.html#optional-tags
+var optionalEndTagBlockElements = toMap("colgroup,dd,dt,li,p,tbody,td,tfoot,th,thead,tr"),
+    optionalEndTagInlineElements = toMap("rp,rt"),
+    optionalEndTagElements = angular.extend({},
+                                            optionalEndTagInlineElements,
+                                            optionalEndTagBlockElements);
+
+// Safe Block Elements - HTML5
+var blockElements = angular.extend({}, optionalEndTagBlockElements, toMap("address,article," +
+        "aside,blockquote,caption,center,del,dir,div,dl,figure,figcaption,footer,h1,h2,h3,h4,h5," +
+        "h6,header,hgroup,hr,ins,map,menu,nav,ol,pre,section,table,ul"));
+
+// Inline Elements - HTML5
+var inlineElements = angular.extend({}, optionalEndTagInlineElements, toMap("a,abbr,acronym,b," +
+        "bdi,bdo,big,br,cite,code,del,dfn,em,font,i,img,ins,kbd,label,map,mark,q,ruby,rp,rt,s," +
+        "samp,small,span,strike,strong,sub,sup,time,tt,u,var"));
+
+// SVG Elements
+// https://wiki.whatwg.org/wiki/Sanitization_rules#svg_Elements
+// Note: the elements animate,animateColor,animateMotion,animateTransform,set are intentionally omitted.
+// They can potentially allow for arbitrary javascript to be executed. See #11290
+var svgElements = toMap("circle,defs,desc,ellipse,font-face,font-face-name,font-face-src,g,glyph," +
+        "hkern,image,linearGradient,line,marker,metadata,missing-glyph,mpath,path,polygon,polyline," +
+        "radialGradient,rect,stop,svg,switch,text,title,tspan");
+
+// Blocked Elements (will be stripped)
+var blockedElements = toMap("script,style");
+
+var validElements = angular.extend({},
+                                   voidElements,
+                                   blockElements,
+                                   inlineElements,
+                                   optionalEndTagElements);
+
+//Attributes that have href and hence need to be sanitized
+var uriAttrs = toMap("background,cite,href,longdesc,src,xlink:href");
+
+var htmlAttrs = toMap('abbr,align,alt,axis,bgcolor,border,cellpadding,cellspacing,class,clear,' +
+    'color,cols,colspan,compact,coords,dir,face,headers,height,hreflang,hspace,' +
+    'ismap,lang,language,nohref,nowrap,rel,rev,rows,rowspan,rules,' +
+    'scope,scrolling,shape,size,span,start,summary,tabindex,target,title,type,' +
+    'valign,value,vspace,width');
+
+// SVG attributes (without "id" and "name" attributes)
+// https://wiki.whatwg.org/wiki/Sanitization_rules#svg_Attributes
+var svgAttrs = toMap('accent-height,accumulate,additive,alphabetic,arabic-form,ascent,' +
+    'baseProfile,bbox,begin,by,calcMode,cap-height,class,color,color-rendering,content,' +
+    'cx,cy,d,dx,dy,descent,display,dur,end,fill,fill-rule,font-family,font-size,font-stretch,' +
+    'font-style,font-variant,font-weight,from,fx,fy,g1,g2,glyph-name,gradientUnits,hanging,' +
+    'height,horiz-adv-x,horiz-origin-x,ideographic,k,keyPoints,keySplines,keyTimes,lang,' +
+    'marker-end,marker-mid,marker-start,markerHeight,markerUnits,markerWidth,mathematical,' +
+    'max,min,offset,opacity,orient,origin,overline-position,overline-thickness,panose-1,' +
+    'path,pathLength,points,preserveAspectRatio,r,refX,refY,repeatCount,repeatDur,' +
+    'requiredExtensions,requiredFeatures,restart,rotate,rx,ry,slope,stemh,stemv,stop-color,' +
+    'stop-opacity,strikethrough-position,strikethrough-thickness,stroke,stroke-dasharray,' +
+    'stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,' +
+    'stroke-width,systemLanguage,target,text-anchor,to,transform,type,u1,u2,underline-position,' +
+    'underline-thickness,unicode,unicode-range,units-per-em,values,version,viewBox,visibility,' +
+    'width,widths,x,x-height,x1,x2,xlink:actuate,xlink:arcrole,xlink:role,xlink:show,xlink:title,' +
+    'xlink:type,xml:base,xml:lang,xml:space,xmlns,xmlns:xlink,y,y1,y2,zoomAndPan', true);
+
+var validAttrs = angular.extend({},
+                                uriAttrs,
+                                svgAttrs,
+                                htmlAttrs);
+
+function toMap(str, lowercaseKeys) {
+  var obj = {}, items = str.split(','), i;
+  for (i = 0; i < items.length; i++) {
+    obj[lowercaseKeys ? angular.lowercase(items[i]) : items[i]] = true;
+  }
+  return obj;
+}
+
+var inertBodyElement;
+(function(window) {
+  var doc;
+  if (window.document && window.document.implementation) {
+    doc = window.document.implementation.createHTMLDocument("inert");
+  } else {
+    throw $sanitizeMinErr('noinert', "Can't create an inert html document");
+  }
+  var docElement = doc.documentElement || doc.getDocumentElement();
+  var bodyElements = docElement.getElementsByTagName('body');
+
+  // usually there should be only one body element in the document, but IE doesn't have any, so we need to create one
+  if (bodyElements.length === 1) {
+    inertBodyElement = bodyElements[0];
+  } else {
+    var html = doc.createElement('html');
+    inertBodyElement = doc.createElement('body');
+    html.appendChild(inertBodyElement);
+    doc.appendChild(html);
+  }
+})(window);
+
+/**
+ * @example
+ * htmlParser(htmlString, {
+ *     start: function(tag, attrs) {},
+ *     end: function(tag) {},
+ *     chars: function(text) {},
+ *     comment: function(text) {}
+ * });
+ *
+ * @param {string} html string
+ * @param {object} handler
+ */
+function htmlParser(html, handler) {
+  if (html === null || html === undefined) {
+    html = '';
+  } else if (typeof html !== 'string') {
+    html = '' + html;
+  }
+  inertBodyElement.innerHTML = html;
+
+  //mXSS protection
+  var mXSSAttempts = 5;
+  do {
+    if (mXSSAttempts === 0) {
+      throw $sanitizeMinErr('uinput', "Failed to sanitize html because the input is unstable");
+    }
+    mXSSAttempts--;
+
+    // strip custom-namespaced attributes on IE<=11
+    if (document.documentMode <= 11) {
+      stripCustomNsAttrs(inertBodyElement);
+    }
+    html = inertBodyElement.innerHTML; //trigger mXSS
+    inertBodyElement.innerHTML = html;
+  } while (html !== inertBodyElement.innerHTML);
+
+  var node = inertBodyElement.firstChild;
+  while (node) {
+    switch (node.nodeType) {
+      case 1: // ELEMENT_NODE
+        handler.start(node.nodeName.toLowerCase(), attrToMap(node.attributes));
+        break;
+      case 3: // TEXT NODE
+        handler.chars(node.textContent);
+        break;
+    }
+
+    var nextNode;
+    if (!(nextNode = node.firstChild)) {
+      if (node.nodeType == 1) {
+        handler.end(node.nodeName.toLowerCase());
+      }
+      nextNode = node.nextSibling;
+      if (!nextNode) {
+        while (nextNode == null) {
+          node = node.parentNode;
+          if (node === inertBodyElement) break;
+          nextNode = node.nextSibling;
+          if (node.nodeType == 1) {
+            handler.end(node.nodeName.toLowerCase());
+          }
+        }
+      }
+    }
+    node = nextNode;
+  }
+
+  while (node = inertBodyElement.firstChild) {
+    inertBodyElement.removeChild(node);
+  }
+}
+
+function attrToMap(attrs) {
+  var map = {};
+  for (var i = 0, ii = attrs.length; i < ii; i++) {
+    var attr = attrs[i];
+    map[attr.name] = attr.value;
+  }
+  return map;
+}
+
+
+/**
+ * Escapes all potentially dangerous characters, so that the
+ * resulting string can be safely inserted into attribute or
+ * element text.
+ * @param value
+ * @returns {string} escaped text
+ */
+function encodeEntities(value) {
+  return value.
+    replace(/&/g, '&amp;').
+    replace(SURROGATE_PAIR_REGEXP, function(value) {
+      var hi = value.charCodeAt(0);
+      var low = value.charCodeAt(1);
+      return '&#' + (((hi - 0xD800) * 0x400) + (low - 0xDC00) + 0x10000) + ';';
+    }).
+    replace(NON_ALPHANUMERIC_REGEXP, function(value) {
+      return '&#' + value.charCodeAt(0) + ';';
+    }).
+    replace(/</g, '&lt;').
+    replace(/>/g, '&gt;');
+}
+
+/**
+ * create an HTML/XML writer which writes to buffer
+ * @param {Array} buf use buf.join('') to get out sanitized html string
+ * @returns {object} in the form of {
+ *     start: function(tag, attrs) {},
+ *     end: function(tag) {},
+ *     chars: function(text) {},
+ *     comment: function(text) {}
+ * }
+ */
+function htmlSanitizeWriter(buf, uriValidator) {
+  var ignoreCurrentElement = false;
+  var out = angular.bind(buf, buf.push);
+  return {
+    start: function(tag, attrs) {
+      tag = angular.lowercase(tag);
+      if (!ignoreCurrentElement && blockedElements[tag]) {
+        ignoreCurrentElement = tag;
+      }
+      if (!ignoreCurrentElement && validElements[tag] === true) {
+        out('<');
+        out(tag);
+        angular.forEach(attrs, function(value, key) {
+          var lkey=angular.lowercase(key);
+          var isImage = (tag === 'img' && lkey === 'src') || (lkey === 'background');
+          if (validAttrs[lkey] === true &&
+            (uriAttrs[lkey] !== true || uriValidator(value, isImage))) {
+            out(' ');
+            out(key);
+            out('="');
+            out(encodeEntities(value));
+            out('"');
+          }
+        });
+        out('>');
+      }
+    },
+    end: function(tag) {
+      tag = angular.lowercase(tag);
+      if (!ignoreCurrentElement && validElements[tag] === true && voidElements[tag] !== true) {
+        out('</');
+        out(tag);
+        out('>');
+      }
+      if (tag == ignoreCurrentElement) {
+        ignoreCurrentElement = false;
+      }
+    },
+    chars: function(chars) {
+      if (!ignoreCurrentElement) {
+        out(encodeEntities(chars));
+      }
+    }
+  };
+}
+
+
+/**
+ * When IE9-11 comes across an unknown namespaced attribute e.g. 'xlink:foo' it adds 'xmlns:ns1' attribute to declare
+ * ns1 namespace and prefixes the attribute with 'ns1' (e.g. 'ns1:xlink:foo'). This is undesirable since we don't want
+ * to allow any of these custom attributes. This method strips them all.
+ *
+ * @param node Root element to process
+ */
+function stripCustomNsAttrs(node) {
+  if (node.nodeType === Node.ELEMENT_NODE) {
+    var attrs = node.attributes;
+    for (var i = 0, l = attrs.length; i < l; i++) {
+      var attrNode = attrs[i];
+      var attrName = attrNode.name.toLowerCase();
+      if (attrName === 'xmlns:ns1' || attrName.indexOf('ns1:') === 0) {
+        node.removeAttributeNode(attrNode);
+        i--;
+        l--;
+      }
+    }
+  }
+
+  var nextNode = node.firstChild;
+  if (nextNode) {
+    stripCustomNsAttrs(nextNode);
+  }
+
+  nextNode = node.nextSibling;
+  if (nextNode) {
+    stripCustomNsAttrs(nextNode);
+  }
+}
+
+
+
+// define ngSanitize module and register $sanitize service
+angular.module('ngSanitize', []).provider('$sanitize', $SanitizeProvider);
+
+/* global sanitizeText: false */
+
+/**
+ * @ngdoc filter
+ * @name linky
+ * @kind function
+ *
+ * @description
+ * Finds links in text input and turns them into html links. Supports `http/https/ftp/mailto` and
+ * plain email address links.
+ *
+ * Requires the {@link ngSanitize `ngSanitize`} module to be installed.
+ *
+ * @param {string} text Input text.
+ * @param {string} target Window (`_blank|_self|_parent|_top`) or named frame to open links in.
+ * @param {object|function(url)} [attributes] Add custom attributes to the link element.
+ *
+ *    Can be one of:
+ *
+ *    - `object`: A map of attributes
+ *    - `function`: Takes the url as a parameter and returns a map of attributes
+ *
+ *    If the map of attributes contains a value for `target`, it overrides the value of
+ *    the target parameter.
+ *
+ *
+ * @returns {string} Html-linkified and {@link $sanitize sanitized} text.
+ *
+ * @usage
+   <span ng-bind-html="linky_expression | linky"></span>
+ *
+ * @example
+   <example module="linkyExample" deps="angular-sanitize.js">
+     <file name="index.html">
+       <div ng-controller="ExampleController">
+       Snippet: <textarea ng-model="snippet" cols="60" rows="3"></textarea>
+       <table>
+         <tr>
+           <th>Filter</th>
+           <th>Source</th>
+           <th>Rendered</th>
+         </tr>
+         <tr id="linky-filter">
+           <td>linky filter</td>
+           <td>
+             <pre>&lt;div ng-bind-html="snippet | linky"&gt;<br>&lt;/div&gt;</pre>
+           </td>
+           <td>
+             <div ng-bind-html="snippet | linky"></div>
+           </td>
+         </tr>
+         <tr id="linky-target">
+          <td>linky target</td>
+          <td>
+            <pre>&lt;div ng-bind-html="snippetWithSingleURL | linky:'_blank'"&gt;<br>&lt;/div&gt;</pre>
+          </td>
+          <td>
+            <div ng-bind-html="snippetWithSingleURL | linky:'_blank'"></div>
+          </td>
+         </tr>
+         <tr id="linky-custom-attributes">
+          <td>linky custom attributes</td>
+          <td>
+            <pre>&lt;div ng-bind-html="snippetWithSingleURL | linky:'_self':{rel: 'nofollow'}"&gt;<br>&lt;/div&gt;</pre>
+          </td>
+          <td>
+            <div ng-bind-html="snippetWithSingleURL | linky:'_self':{rel: 'nofollow'}"></div>
+          </td>
+         </tr>
+         <tr id="escaped-html">
+           <td>no filter</td>
+           <td><pre>&lt;div ng-bind="snippet"&gt;<br>&lt;/div&gt;</pre></td>
+           <td><div ng-bind="snippet"></div></td>
+         </tr>
+       </table>
+     </file>
+     <file name="script.js">
+       angular.module('linkyExample', ['ngSanitize'])
+         .controller('ExampleController', ['$scope', function($scope) {
+           $scope.snippet =
+             'Pretty text with some links:\n'+
+             'http://angularjs.org/,\n'+
+             'mailto:us@somewhere.org,\n'+
+             'another@somewhere.org,\n'+
+             'and one more: ftp://127.0.0.1/.';
+           $scope.snippetWithSingleURL = 'http://angularjs.org/';
+         }]);
+     </file>
+     <file name="protractor.js" type="protractor">
+       it('should linkify the snippet with urls', function() {
+         expect(element(by.id('linky-filter')).element(by.binding('snippet | linky')).getText()).
+             toBe('Pretty text with some links: http://angularjs.org/, us@somewhere.org, ' +
+                  'another@somewhere.org, and one more: ftp://127.0.0.1/.');
+         expect(element.all(by.css('#linky-filter a')).count()).toEqual(4);
+       });
+
+       it('should not linkify snippet without the linky filter', function() {
+         expect(element(by.id('escaped-html')).element(by.binding('snippet')).getText()).
+             toBe('Pretty text with some links: http://angularjs.org/, mailto:us@somewhere.org, ' +
+                  'another@somewhere.org, and one more: ftp://127.0.0.1/.');
+         expect(element.all(by.css('#escaped-html a')).count()).toEqual(0);
+       });
+
+       it('should update', function() {
+         element(by.model('snippet')).clear();
+         element(by.model('snippet')).sendKeys('new http://link.');
+         expect(element(by.id('linky-filter')).element(by.binding('snippet | linky')).getText()).
+             toBe('new http://link.');
+         expect(element.all(by.css('#linky-filter a')).count()).toEqual(1);
+         expect(element(by.id('escaped-html')).element(by.binding('snippet')).getText())
+             .toBe('new http://link.');
+       });
+
+       it('should work with the target property', function() {
+        expect(element(by.id('linky-target')).
+            element(by.binding("snippetWithSingleURL | linky:'_blank'")).getText()).
+            toBe('http://angularjs.org/');
+        expect(element(by.css('#linky-target a')).getAttribute('target')).toEqual('_blank');
+       });
+
+       it('should optionally add custom attributes', function() {
+        expect(element(by.id('linky-custom-attributes')).
+            element(by.binding("snippetWithSingleURL | linky:'_self':{rel: 'nofollow'}")).getText()).
+            toBe('http://angularjs.org/');
+        expect(element(by.css('#linky-custom-attributes a')).getAttribute('rel')).toEqual('nofollow');
+       });
+     </file>
+   </example>
+ */
+angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
+  var LINKY_URL_REGEXP =
+        /((ftp|https?):\/\/|(www\.)|(mailto:)?[A-Za-z0-9._%+-]+@)\S*[^\s.;,(){}<>"\u201d\u2019]/i,
+      MAILTO_REGEXP = /^mailto:/i;
+
+  var linkyMinErr = angular.$$minErr('linky');
+  var isString = angular.isString;
+
+  return function(text, target, attributes) {
+    if (text == null || text === '') return text;
+    if (!isString(text)) throw linkyMinErr('notstring', 'Expected string but received: {0}', text);
+
+    var match;
+    var raw = text;
+    var html = [];
+    var url;
+    var i;
+    while ((match = raw.match(LINKY_URL_REGEXP))) {
+      // We can not end in these as they are sometimes found at the end of the sentence
+      url = match[0];
+      // if we did not match ftp/http/www/mailto then assume mailto
+      if (!match[2] && !match[4]) {
+        url = (match[3] ? 'http://' : 'mailto:') + url;
+      }
+      i = match.index;
+      addText(raw.substr(0, i));
+      addLink(url, match[0].replace(MAILTO_REGEXP, ''));
+      raw = raw.substring(i + match[0].length);
+    }
+    addText(raw);
+    return $sanitize(html.join(''));
+
+    function addText(text) {
+      if (!text) {
+        return;
+      }
+      html.push(sanitizeText(text));
+    }
+
+    function addLink(url, text) {
+      var key;
+      html.push('<a ');
+      if (angular.isFunction(attributes)) {
+        attributes = attributes(url);
+      }
+      if (angular.isObject(attributes)) {
+        for (key in attributes) {
+          html.push(key + '="' + attributes[key] + '" ');
+        }
+      } else {
+        attributes = {};
+      }
+      if (angular.isDefined(target) && !('target' in attributes)) {
+        html.push('target="',
+                  target,
+                  '" ');
+      }
+      html.push('href="',
+                url.replace(/"/g, '&quot;'),
+                '">');
+      addText(text);
+      html.push('</a>');
+    }
+  };
+}]);
+
+
+})(window, window.angular);
+
+},{}],7:[function(require,module,exports){
+require('./angular-sanitize');
+module.exports = 'ngSanitize';
+
+},{"./angular-sanitize":6}],8:[function(require,module,exports){
 /*
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
 
- * Version: 1.1.1 - 2016-01-25
+ * Version: 1.1.2 - 2016-02-01
  * License: MIT
  */angular.module("ui.bootstrap", ["ui.bootstrap.tpls", "ui.bootstrap.collapse","ui.bootstrap.accordion","ui.bootstrap.alert","ui.bootstrap.buttons","ui.bootstrap.carousel","ui.bootstrap.dateparser","ui.bootstrap.isClass","ui.bootstrap.position","ui.bootstrap.datepicker","ui.bootstrap.debounce","ui.bootstrap.dropdown","ui.bootstrap.stackedMap","ui.bootstrap.modal","ui.bootstrap.paging","ui.bootstrap.pager","ui.bootstrap.pagination","ui.bootstrap.tooltip","ui.bootstrap.popover","ui.bootstrap.progressbar","ui.bootstrap.rating","ui.bootstrap.tabs","ui.bootstrap.timepicker","ui.bootstrap.typeahead"]);
 angular.module("ui.bootstrap.tpls", ["uib/template/accordion/accordion-group.html","uib/template/accordion/accordion.html","uib/template/alert/alert.html","uib/template/carousel/carousel.html","uib/template/carousel/slide.html","uib/template/datepicker/datepicker.html","uib/template/datepicker/day.html","uib/template/datepicker/month.html","uib/template/datepicker/popup.html","uib/template/datepicker/year.html","uib/template/modal/backdrop.html","uib/template/modal/window.html","uib/template/pager/pager.html","uib/template/pagination/pagination.html","uib/template/tooltip/tooltip-html-popup.html","uib/template/tooltip/tooltip-popup.html","uib/template/tooltip/tooltip-template-popup.html","uib/template/popover/popover-html.html","uib/template/popover/popover-template.html","uib/template/popover/popover.html","uib/template/progressbar/bar.html","uib/template/progressbar/progress.html","uib/template/progressbar/progressbar.html","uib/template/rating/rating.html","uib/template/tabs/tab.html","uib/template/tabs/tabset.html","uib/template/timepicker/timepicker.html","uib/template/typeahead/typeahead-match.html","uib/template/typeahead/typeahead-popup.html"]);
@@ -5144,6 +5868,10 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
           }
         }
       };
+
+      var id = 'accordiongroup-' + scope.$id + '-' + Math.floor(Math.random() * 10000);
+      scope.headingId = id + '-tab';
+      scope.panelId = id + '-panel';
     }
   };
 })
@@ -5635,7 +6363,7 @@ function($animateCss) {
 
 angular.module('ui.bootstrap.dateparser', [])
 
-.service('uibDateParser', ['$log', '$locale', 'orderByFilter', function($log, $locale, orderByFilter) {
+.service('uibDateParser', ['$log', '$locale', 'dateFilter', 'orderByFilter', function($log, $locale, dateFilter, orderByFilter) {
   // Pulled from https://github.com/mbostock/d3/blob/master/src/format/requote.js
   var SPECIAL_CHARACTERS_REGEXP = /[\\\^\$\*\+\?\|\[\]\(\)\.\{\}]/g;
 
@@ -5646,115 +6374,164 @@ angular.module('ui.bootstrap.dateparser', [])
     localeId = $locale.id;
 
     this.parsers = {};
+    this.formatters = {};
 
     formatCodeToRegex = [
       {
         key: 'yyyy',
         regex: '\\d{4}',
-        apply: function(value) { this.year = +value; }
+        apply: function(value) { this.year = +value; },
+        formatter: function(date) {
+          var _date = new Date();
+          _date.setFullYear(Math.abs(date.getFullYear()));
+          return dateFilter(_date, 'yyyy');
+        }
       },
       {
         key: 'yy',
         regex: '\\d{2}',
-        apply: function(value) { this.year = +value + 2000; }
+        apply: function(value) { this.year = +value + 2000; },
+        formatter: function(date) {
+          var _date = new Date();
+          _date.setFullYear(Math.abs(date.getFullYear()));
+          return dateFilter(_date, 'yy');
+        }
       },
       {
         key: 'y',
         regex: '\\d{1,4}',
-        apply: function(value) { this.year = +value; }
+        apply: function(value) { this.year = +value; },
+        formatter: function(date) {
+          var _date = new Date();
+          _date.setFullYear(Math.abs(date.getFullYear()));
+          return dateFilter(_date, 'y');
+        }
       },
       {
         key: 'M!',
         regex: '0?[1-9]|1[0-2]',
-        apply: function(value) { this.month = value - 1; }
+        apply: function(value) { this.month = value - 1; },
+        formatter: function(date) {
+          var value = date.getMonth();
+          if (/^[0-9]$/.test(value)) {
+            return dateFilter(date, 'MM');
+          }
+
+          return dateFilter(date, 'M');
+        }
       },
       {
         key: 'MMMM',
         regex: $locale.DATETIME_FORMATS.MONTH.join('|'),
-        apply: function(value) { this.month = $locale.DATETIME_FORMATS.MONTH.indexOf(value); }
+        apply: function(value) { this.month = $locale.DATETIME_FORMATS.MONTH.indexOf(value); },
+        formatter: function(date) { return dateFilter(date, 'MMMM'); }
       },
       {
         key: 'MMM',
         regex: $locale.DATETIME_FORMATS.SHORTMONTH.join('|'),
-        apply: function(value) { this.month = $locale.DATETIME_FORMATS.SHORTMONTH.indexOf(value); }
+        apply: function(value) { this.month = $locale.DATETIME_FORMATS.SHORTMONTH.indexOf(value); },
+        formatter: function(date) { return dateFilter(date, 'MMM'); }
       },
       {
         key: 'MM',
         regex: '0[1-9]|1[0-2]',
-        apply: function(value) { this.month = value - 1; }
+        apply: function(value) { this.month = value - 1; },
+        formatter: function(date) { return dateFilter(date, 'MM'); }
       },
       {
         key: 'M',
         regex: '[1-9]|1[0-2]',
-        apply: function(value) { this.month = value - 1; }
+        apply: function(value) { this.month = value - 1; },
+        formatter: function(date) { return dateFilter(date, 'M'); }
       },
       {
         key: 'd!',
         regex: '[0-2]?[0-9]{1}|3[0-1]{1}',
-        apply: function(value) { this.date = +value; }
+        apply: function(value) { this.date = +value; },
+        formatter: function(date) {
+          var value = date.getDate();
+          if (/^[1-9]$/.test(value)) {
+            return dateFilter(date, 'dd');
+          }
+
+          return dateFilter(date, 'd');
+        }
       },
       {
         key: 'dd',
         regex: '[0-2][0-9]{1}|3[0-1]{1}',
-        apply: function(value) { this.date = +value; }
+        apply: function(value) { this.date = +value; },
+        formatter: function(date) { return dateFilter(date, 'dd'); }
       },
       {
         key: 'd',
         regex: '[1-2]?[0-9]{1}|3[0-1]{1}',
-        apply: function(value) { this.date = +value; }
+        apply: function(value) { this.date = +value; },
+        formatter: function(date) { return dateFilter(date, 'd'); }
       },
       {
         key: 'EEEE',
-        regex: $locale.DATETIME_FORMATS.DAY.join('|')
+        regex: $locale.DATETIME_FORMATS.DAY.join('|'),
+        formatter: function(date) { return dateFilter(date, 'EEEE'); }
       },
       {
         key: 'EEE',
-        regex: $locale.DATETIME_FORMATS.SHORTDAY.join('|')
+        regex: $locale.DATETIME_FORMATS.SHORTDAY.join('|'),
+        formatter: function(date) { return dateFilter(date, 'EEE'); }
       },
       {
         key: 'HH',
         regex: '(?:0|1)[0-9]|2[0-3]',
-        apply: function(value) { this.hours = +value; }
+        apply: function(value) { this.hours = +value; },
+        formatter: function(date) { return dateFilter(date, 'HH'); }
       },
       {
         key: 'hh',
         regex: '0[0-9]|1[0-2]',
-        apply: function(value) { this.hours = +value; }
+        apply: function(value) { this.hours = +value; },
+        formatter: function(date) { return dateFilter(date, 'hh'); }
       },
       {
         key: 'H',
         regex: '1?[0-9]|2[0-3]',
-        apply: function(value) { this.hours = +value; }
+        apply: function(value) { this.hours = +value; },
+        formatter: function(date) { return dateFilter(date, 'H'); }
       },
       {
         key: 'h',
         regex: '[0-9]|1[0-2]',
-        apply: function(value) { this.hours = +value; }
+        apply: function(value) { this.hours = +value; },
+        formatter: function(date) { return dateFilter(date, 'h'); }
       },
       {
         key: 'mm',
         regex: '[0-5][0-9]',
-        apply: function(value) { this.minutes = +value; }
+        apply: function(value) { this.minutes = +value; },
+        formatter: function(date) { return dateFilter(date, 'mm'); }
       },
       {
         key: 'm',
         regex: '[0-9]|[1-5][0-9]',
-        apply: function(value) { this.minutes = +value; }
+        apply: function(value) { this.minutes = +value; },
+        formatter: function(date) { return dateFilter(date, 'm'); }
       },
       {
         key: 'sss',
         regex: '[0-9][0-9][0-9]',
-        apply: function(value) { this.milliseconds = +value; }
+        apply: function(value) { this.milliseconds = +value; },
+        formatter: function(date) { return dateFilter(date, 'sss'); }
       },
       {
         key: 'ss',
         regex: '[0-5][0-9]',
-        apply: function(value) { this.seconds = +value; }
+        apply: function(value) { this.seconds = +value; },
+        formatter: function(date) { return dateFilter(date, 'ss'); }
       },
       {
         key: 's',
         regex: '[0-9]|[1-5][0-9]',
-        apply: function(value) { this.seconds = +value; }
+        apply: function(value) { this.seconds = +value; },
+        formatter: function(date) { return dateFilter(date, 's'); }
       },
       {
         key: 'a',
@@ -5767,7 +6544,8 @@ angular.module('ui.bootstrap.dateparser', [])
           if (value === 'PM') {
             this.hours += 12;
           }
-        }
+        },
+        formatter: function(date) { return dateFilter(date, 'a'); }
       },
       {
         key: 'Z',
@@ -5779,38 +6557,47 @@ angular.module('ui.bootstrap.dateparser', [])
             minutes = matches[3];
           this.hours += toInt(sign + hours);
           this.minutes += toInt(sign + minutes);
+        },
+        formatter: function(date) {
+          return dateFilter(date, 'Z');
         }
       },
       {
         key: 'ww',
-        regex: '[0-4][0-9]|5[0-3]'
+        regex: '[0-4][0-9]|5[0-3]',
+        formatter: function(date) { return dateFilter(date, 'ww'); }
       },
       {
         key: 'w',
-        regex: '[0-9]|[1-4][0-9]|5[0-3]'
+        regex: '[0-9]|[1-4][0-9]|5[0-3]',
+        formatter: function(date) { return dateFilter(date, 'w'); }
       },
       {
         key: 'GGGG',
-        regex: $locale.DATETIME_FORMATS.ERANAMES.join('|').replace(/\s/g, '\\s')
+        regex: $locale.DATETIME_FORMATS.ERANAMES.join('|').replace(/\s/g, '\\s'),
+        formatter: function(date) { return dateFilter(date, 'GGGG'); }
       },
       {
         key: 'GGG',
-        regex: $locale.DATETIME_FORMATS.ERAS.join('|')
+        regex: $locale.DATETIME_FORMATS.ERAS.join('|'),
+        formatter: function(date) { return dateFilter(date, 'GGG'); }
       },
       {
         key: 'GG',
-        regex: $locale.DATETIME_FORMATS.ERAS.join('|')
+        regex: $locale.DATETIME_FORMATS.ERAS.join('|'),
+        formatter: function(date) { return dateFilter(date, 'GG'); }
       },
       {
         key: 'G',
-        regex: $locale.DATETIME_FORMATS.ERAS.join('|')
+        regex: $locale.DATETIME_FORMATS.ERAS.join('|'),
+        formatter: function(date) { return dateFilter(date, 'G'); }
       }
     ];
   };
 
   this.init();
 
-  function createParser(format) {
+  function createParser(format, func) {
     var map = [], regex = format.split('');
 
     // check for literal values
@@ -5858,7 +6645,8 @@ angular.module('ui.bootstrap.dateparser', [])
 
         map.push({
           index: index,
-          apply: data.apply,
+          key: data.key,
+          apply: data[func],
           matcher: data.regex
         });
       }
@@ -5869,6 +6657,41 @@ angular.module('ui.bootstrap.dateparser', [])
       map: orderByFilter(map, 'index')
     };
   }
+
+  this.filter = function(date, format) {
+    if (!angular.isDate(date) || isNaN(date) || !format) {
+      return '';
+    }
+
+    format = $locale.DATETIME_FORMATS[format] || format;
+
+    if ($locale.id !== localeId) {
+      this.init();
+    }
+
+    if (!this.formatters[format]) {
+      this.formatters[format] = createParser(format, 'formatter');
+    }
+
+    var parser = this.formatters[format],
+      map = parser.map;
+
+    var _format = format;
+
+    return map.reduce(function(str, mapper, i) {
+      var match = _format.match(new RegExp('(.*)' + mapper.key));
+      if (match && angular.isString(match[1])) {
+        str += match[1];
+        _format = _format.replace(match[1] + mapper.key, '');
+      }
+
+      if (mapper.apply) {
+        return str + mapper.apply.call(null, date);
+      }
+
+      return str;
+    }, '');
+  };
 
   this.parse = function(input, format, baseDate) {
     if (!angular.isString(input) || !format) {
@@ -5883,7 +6706,7 @@ angular.module('ui.bootstrap.dateparser', [])
     }
 
     if (!this.parsers[format]) {
-      this.parsers[format] = createParser(format);
+      this.parsers[format] = createParser(format, 'apply');
     }
 
     var parser = this.parsers[format],
@@ -5971,7 +6794,7 @@ angular.module('ui.bootstrap.dateparser', [])
   this.timezoneToOffset = timezoneToOffset;
   this.addDateMinutes = addDateMinutes;
   this.convertTimezoneToLocal = convertTimezoneToLocal;
-  
+
   function toTimezone(date, timezone) {
     return date && timezone ? convertTimezoneToLocal(date, timezone) : date;
   }
@@ -6657,65 +7480,171 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
   // Modes chain
   this.modes = ['day', 'month', 'year'];
 
-  // Interpolated configuration attributes
-  angular.forEach(['formatDay', 'formatMonth', 'formatYear', 'formatDayHeader', 'formatDayTitle', 'formatMonthTitle'], function(key) {
-    self[key] = angular.isDefined($attrs[key]) ? $interpolate($attrs[key])($scope.$parent) : datepickerConfig[key];
-  });
+  if ($attrs.datepickerOptions) {
+    angular.forEach([
+      'formatDay',
+      'formatDayHeader',
+      'formatDayTitle',
+      'formatMonth',
+      'formatMonthTitle',
+      'formatYear',
+      'initDate',
+      'maxDate',
+      'maxMode',
+      'minDate',
+      'minMode',
+      'showWeeks',
+      'shortcutPropagation',
+      'startingDay',
+      'yearColumns',
+      'yearRows'
+    ], function(key) {
+      switch (key) {
+        case 'formatDay':
+        case 'formatDayHeader':
+        case 'formatDayTitle':
+        case 'formatMonth':
+        case 'formatMonthTitle':
+        case 'formatYear':
+          self[key] = angular.isDefined($scope.datepickerOptions[key]) ? $interpolate($scope.datepickerOptions[key])($scope.$parent) : datepickerConfig[key];
+          break;
+        case 'showWeeks':
+        case 'shortcutPropagation':
+        case 'yearColumns':
+        case 'yearRows':
+          self[key] = angular.isDefined($scope.datepickerOptions[key]) ?
+            $scope.datepickerOptions[key] : datepickerConfig[key];
+          break;
+        case 'startingDay':
+          if (angular.isDefined($scope.datepickerOptions.startingDay)) {
+            self.startingDay = $scope.datepickerOptions.startingDay;
+          } else if (angular.isNumber(datepickerConfig.startingDay)) {
+            self.startingDay = datepickerConfig.startingDay;
+          } else {
+            self.startingDay = ($locale.DATETIME_FORMATS.FIRSTDAYOFWEEK + 8) % 7;
+          }
 
-  // Evaled configuration attributes
-  angular.forEach(['showWeeks', 'yearRows', 'yearColumns', 'shortcutPropagation'], function(key) {
-    self[key] = angular.isDefined($attrs[key]) ?
-      $scope.$parent.$eval($attrs[key]) : datepickerConfig[key];
-  });
+          break;
+        case 'maxDate':
+        case 'minDate':
+          if ($scope.datepickerOptions[key]) {
+            $scope.$watch(function() { return $scope.datepickerOptions[key]; }, function(value) {
+              if (value) {
+                if (angular.isDate(value)) {
+                  self[key] = dateParser.fromTimezone(new Date(value), ngModelOptions.timezone);
+                } else {
+                  self[key] = new Date(dateFilter(value, 'medium'));
+                }
+              } else {
+                self[key] = null;
+              }
 
-  if (angular.isDefined($attrs.startingDay)) {
-    self.startingDay = $scope.$parent.$eval($attrs.startingDay);
-  } else if (angular.isNumber(datepickerConfig.startingDay)) {
-    self.startingDay = datepickerConfig.startingDay;
+              self.refreshView();
+            });
+          } else {
+            self[key] = datepickerConfig[key] ? dateParser.fromTimezone(new Date(datepickerConfig[key]), ngModelOptions.timezone) : null;
+          }
+
+          break;
+        case 'maxMode':
+        case 'minMode':
+          if ($scope.datepickerOptions[key]) {
+            $scope.$watch(function() { return $scope.datepickerOptions[key]; }, function(value) {
+              self[key] = $scope[key] = angular.isDefined(value) ? value : datepickerOptions[key];
+              if (key === 'minMode' && self.modes.indexOf($scope.datepickerMode) < self.modes.indexOf(self[key]) ||
+                key === 'maxMode' && self.modes.indexOf($scope.datepickerMode) > self.modes.indexOf(self[key])) {
+                $scope.datepickerMode = self[key];
+              }
+            });
+          } else {
+            self[key] = $scope[key] = datepickerConfig[key] || null;
+          }
+
+          break;
+        case 'initDate':
+          if ($scope.datepickerOptions.initDate) {
+            this.activeDate = dateParser.fromTimezone($scope.datepickerOptions.initDate, ngModelOptions.timezone) || new Date();
+            $scope.$watch(function() { return $scope.datepickerOptions.initDate; }, function(initDate) {
+              if (initDate && (ngModelCtrl.$isEmpty(ngModelCtrl.$modelValue) || ngModelCtrl.$invalid)) {
+                self.activeDate = dateParser.fromTimezone(initDate, ngModelOptions.timezone);
+                self.refreshView();
+              }
+            });
+          } else {
+            this.activeDate = new Date();
+          }
+      }
+    });
   } else {
-    self.startingDay = ($locale.DATETIME_FORMATS.FIRSTDAYOFWEEK + 8) % 7;
-  }
+    // Interpolated configuration attributes
+    angular.forEach(['formatDay', 'formatMonth', 'formatYear', 'formatDayHeader', 'formatDayTitle', 'formatMonthTitle'], function(key) {
+      self[key] = angular.isDefined($attrs[key]) ? $interpolate($attrs[key])($scope.$parent) : datepickerConfig[key];
+    });
 
-  // Watchable date attributes
-  angular.forEach(['minDate', 'maxDate'], function(key) {
-    if ($attrs[key]) {
-      watchListeners.push($scope.$parent.$watch($attrs[key], function(value) {
-        self[key] = value ? angular.isDate(value) ? dateParser.fromTimezone(new Date(value), ngModelOptions.timezone) : new Date(dateFilter(value, 'medium')) : null;
-        self.refreshView();
-      }));
+    // Evaled configuration attributes
+    angular.forEach(['showWeeks', 'yearRows', 'yearColumns', 'shortcutPropagation'], function(key) {
+      self[key] = angular.isDefined($attrs[key]) ?
+        $scope.$parent.$eval($attrs[key]) : datepickerConfig[key];
+    });
+
+    if (angular.isDefined($attrs.startingDay)) {
+      self.startingDay = $scope.$parent.$eval($attrs.startingDay);
+    } else if (angular.isNumber(datepickerConfig.startingDay)) {
+      self.startingDay = datepickerConfig.startingDay;
     } else {
-      self[key] = datepickerConfig[key] ? dateParser.fromTimezone(new Date(datepickerConfig[key]), ngModelOptions.timezone) : null;
+      self.startingDay = ($locale.DATETIME_FORMATS.FIRSTDAYOFWEEK + 8) % 7;
     }
-  });
 
-  angular.forEach(['minMode', 'maxMode'], function(key) {
-    if ($attrs[key]) {
-      watchListeners.push($scope.$parent.$watch($attrs[key], function(value) {
-        self[key] = $scope[key] = angular.isDefined(value) ? value : $attrs[key];
-        if (key === 'minMode' && self.modes.indexOf($scope.datepickerMode) < self.modes.indexOf(self[key]) ||
-          key === 'maxMode' && self.modes.indexOf($scope.datepickerMode) > self.modes.indexOf(self[key])) {
-          $scope.datepickerMode = self[key];
+    // Watchable date attributes
+    angular.forEach(['minDate', 'maxDate'], function(key) {
+      if ($attrs[key]) {
+        watchListeners.push($scope.$parent.$watch($attrs[key], function(value) {
+          if (value) {
+            if (angular.isDate(value)) {
+              self[key] = dateParser.fromTimezone(new Date(value), ngModelOptions.timezone);
+            } else {
+              self[key] = new Date(dateFilter(value, 'medium'));
+            }
+          } else {
+            self[key] = null;
+          }
+
+          self.refreshView();
+        }));
+      } else {
+        self[key] = datepickerConfig[key] ? dateParser.fromTimezone(new Date(datepickerConfig[key]), ngModelOptions.timezone) : null;
+      }
+    });
+
+    angular.forEach(['minMode', 'maxMode'], function(key) {
+      if ($attrs[key]) {
+        watchListeners.push($scope.$parent.$watch($attrs[key], function(value) {
+          self[key] = $scope[key] = angular.isDefined(value) ? value : $attrs[key];
+          if (key === 'minMode' && self.modes.indexOf($scope.datepickerMode) < self.modes.indexOf(self[key]) ||
+            key === 'maxMode' && self.modes.indexOf($scope.datepickerMode) > self.modes.indexOf(self[key])) {
+            $scope.datepickerMode = self[key];
+          }
+        }));
+      } else {
+        self[key] = $scope[key] = datepickerConfig[key] || null;
+      }
+    });
+
+    if (angular.isDefined($attrs.initDate)) {
+      this.activeDate = dateParser.fromTimezone($scope.$parent.$eval($attrs.initDate), ngModelOptions.timezone) || new Date();
+      watchListeners.push($scope.$parent.$watch($attrs.initDate, function(initDate) {
+        if (initDate && (ngModelCtrl.$isEmpty(ngModelCtrl.$modelValue) || ngModelCtrl.$invalid)) {
+          self.activeDate = dateParser.fromTimezone(initDate, ngModelOptions.timezone);
+          self.refreshView();
         }
       }));
     } else {
-      self[key] = $scope[key] = datepickerConfig[key] || null;
+      this.activeDate = new Date();
     }
-  });
+  }
 
   $scope.datepickerMode = $scope.datepickerMode || datepickerConfig.datepickerMode;
   $scope.uniqueId = 'datepicker-' + $scope.$id + '-' + Math.floor(Math.random() * 10000);
-
-  if (angular.isDefined($attrs.initDate)) {
-    this.activeDate = dateParser.fromTimezone($scope.$parent.$eval($attrs.initDate), ngModelOptions.timezone) || new Date();
-    watchListeners.push($scope.$parent.$watch($attrs.initDate, function(initDate) {
-      if (initDate && (ngModelCtrl.$isEmpty(ngModelCtrl.$modelValue) || ngModelCtrl.$invalid)) {
-        self.activeDate = dateParser.fromTimezone(initDate, ngModelOptions.timezone);
-        self.refreshView();
-      }
-    }));
-  } else {
-    this.activeDate = new Date();
-  }
 
   $scope.disabled = angular.isDefined($attrs.disabled) || false;
   if (angular.isDefined($attrs.ngDisabled)) {
@@ -6780,7 +7709,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
     model = dateParser.fromTimezone(model, ngModelOptions.timezone);
     var dt = {
       date: date,
-      label: dateFilter(date, format.replace(/d!/, 'dd')).replace(/M!/, 'MM'),
+      label: dateParser.filter(date, format),
       selected: model && this.compare(date, model) === 0,
       disabled: this.isDisabled(date),
       current: this.compare(date, new Date()) === 0,
@@ -7127,6 +8056,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
     },
     scope: {
       datepickerMode: '=?',
+      datepickerOptions: '=?',
       dateDisabled: '&',
       customClass: '&',
       shortcutPropagation: '&?'
@@ -7367,11 +8297,14 @@ function(scope, element, attrs, $compile, $parse, $document, $rootScope, $positi
           scope.date = value;
           return value;
         }
-        scope.date = dateParser.fromTimezone(value, ngModelOptions.timezone);
-        dateFormat = dateFormat.replace(/M!/, 'MM')
-            .replace(/d!/, 'dd');
 
-        return dateFilter(scope.date, dateFormat);
+        scope.date = dateParser.fromTimezone(value, ngModelOptions.timezone);
+
+        if (angular.isNumber(scope.date)) {
+          scope.date = new Date(scope.date);
+        }
+
+        return dateParser.filter(scope.date, dateFormat);
       });
     } else {
       ngModel.$formatters.push(function(value) {
@@ -7439,7 +8372,7 @@ function(scope, element, attrs, $compile, $parse, $document, $rootScope, $positi
     if (angular.isDefined(dt)) {
       scope.date = dt;
     }
-    var date = scope.date ? dateFilter(scope.date, dateFormat) : null; // Setting to NULL is necessary for form validators to function
+    var date = scope.date ? dateParser.filter(scope.date, dateFormat) : null; // Setting to NULL is necessary for form validators to function
     element.val(date);
     ngModel.$setViewValue(date);
 
@@ -8457,7 +9390,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.stackedMap'])
               $modalStack.loadFocusElementList(modal);
               var focusChanged = false;
               if (evt.shiftKey) {
-                if ($modalStack.isFocusInFirstItem(evt)) {
+                if ($modalStack.isFocusInFirstItem(evt) || $modalStack.isModalFocused(evt, modal)) {
                   focusChanged = $modalStack.focusLastFocusableElement();
                 }
               } else {
@@ -8596,6 +9529,16 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.stackedMap'])
         if (focusableElementList.length > 0) {
           focusableElementList[focusableElementList.length - 1].focus();
           return true;
+        }
+        return false;
+      };
+
+      $modalStack.isModalFocused = function(evt, modalWindow) {
+        if (evt && modalWindow) {
+          var modalDomEl = modalWindow.value.modalDomEl;
+          if (modalDomEl && modalDomEl.length) {
+            return (evt.target || evt.srcElement) === modalDomEl[0];
+          }
         }
         return false;
       };
@@ -9601,18 +10544,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
             }
 
             appendToBody = angular.isDefined(appendToBodyVal) ? appendToBodyVal : appendToBody;
-
-            // if a tooltip is attached to <body> we need to remove it on
-            // location change as its parent scope will probably not be destroyed
-            // by the change.
-            if (appendToBody) {
-              scope.$on('$locationChangeSuccess', function closeTooltipOnLocationChangeSuccess() {
-                if (ttScope.isOpen) {
-                  hide();
-                }
-              });
-            }
-
+            
             // Make sure tooltip is destroyed and removed.
             scope.$on('$destroy', function onDestroyTooltip() {
               unregisterTriggers();
@@ -10989,10 +11921,11 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
 
             if (showHint) {
               var firstLabel = scope.matches[0].label;
-              if (inputValue.length > 0 && firstLabel.slice(0, inputValue.length).toUpperCase() === inputValue.toUpperCase()) {
+              if (angular.isString(inputValue) &&
+                inputValue.length > 0 &&
+                firstLabel.slice(0, inputValue.length).toUpperCase() === inputValue.toUpperCase()) {
                 hintInputElem.val(inputValue + firstLabel.slice(inputValue.length));
-              }
-              else {
+              } else {
                 hintInputElem.val('');
               }
             }
@@ -11391,13 +12324,13 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
 angular.module("uib/template/accordion/accordion-group.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("uib/template/accordion/accordion-group.html",
     "<div class=\"panel\" ng-class=\"panelClass || 'panel-default'\">\n" +
-    "  <div class=\"panel-heading\" ng-keypress=\"toggleOpen($event)\">\n" +
+    "  <div role=\"tab\" id=\"{{::headingId}}\" aria-selected=\"{{isOpen}}\" class=\"panel-heading\" ng-keypress=\"toggleOpen($event)\">\n" +
     "    <h4 class=\"panel-title\">\n" +
-    "      <a href tabindex=\"0\" class=\"accordion-toggle\" ng-click=\"toggleOpen()\" uib-accordion-transclude=\"heading\"><span ng-class=\"{'text-muted': isDisabled}\">{{heading}}</span></a>\n" +
+    "      <a role=\"button\" data-toggle=\"collapse\" href aria-expanded=\"{{isOpen}}\" aria-controls=\"{{::panelId}}\" tabindex=\"0\" class=\"accordion-toggle\" ng-click=\"toggleOpen()\" uib-accordion-transclude=\"heading\"><span ng-class=\"{'text-muted': isDisabled}\">{{heading}}</span></a>\n" +
     "    </h4>\n" +
     "  </div>\n" +
-    "  <div class=\"panel-collapse collapse\" uib-collapse=\"!isOpen\">\n" +
-    "	  <div class=\"panel-body\" ng-transclude></div>\n" +
+    "  <div id=\"{{::panelId}}\" aria-labelledby=\"{{::headingId}}\" aria-hidden=\"{{!isOpen}}\" role=\"tabpanel\" class=\"panel-collapse collapse\" uib-collapse=\"!isOpen\">\n" +
+    "    <div class=\"panel-body\" ng-transclude></div>\n" +
     "  </div>\n" +
     "</div>\n" +
     "");
@@ -11405,7 +12338,7 @@ angular.module("uib/template/accordion/accordion-group.html", []).run(["$templat
 
 angular.module("uib/template/accordion/accordion.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("uib/template/accordion/accordion.html",
-    "<div class=\"panel-group\" ng-transclude></div>");
+    "<div role=\"tablist\" class=\"panel-group\" ng-transclude></div>");
 }]);
 
 angular.module("uib/template/alert/alert.html", []).run(["$templateCache", function($templateCache) {
@@ -11811,12 +12744,12 @@ angular.module('ui.bootstrap.carousel').run(function() {!angular.$$csp().noInlin
 angular.module('ui.bootstrap.datepicker').run(function() {!angular.$$csp().noInlineStyle && angular.element(document).find('head').prepend('<style type="text/css">.uib-datepicker .uib-title{width:100%;}.uib-day button,.uib-month button,.uib-year button{min-width:100%;}.uib-datepicker-popup.dropdown-menu{display:block;}.uib-button-bar{padding:10px 9px 2px;}</style>'); });
 angular.module('ui.bootstrap.timepicker').run(function() {!angular.$$csp().noInlineStyle && angular.element(document).find('head').prepend('<style type="text/css">.uib-time input{width:50px;}</style>'); });
 angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInlineStyle && angular.element(document).find('head').prepend('<style type="text/css">[uib-typeahead-popup].dropdown-menu{display:block;}</style>'); });
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 require('./dist/ui-bootstrap-tpls');
 
 module.exports = 'ui.bootstrap';
 
-},{"./dist/ui-bootstrap-tpls":6}],8:[function(require,module,exports){
+},{"./dist/ui-bootstrap-tpls":8}],10:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.0-rc.2
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -42312,11 +43245,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],9:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":8}],10:[function(require,module,exports){
+},{"./angular":10}],12:[function(require,module,exports){
 if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.exports === exports){
   module.exports = 'highcharts-ng';
 }
@@ -42816,7 +43749,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
   }
 }());
 
-},{}],11:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 var WelcomeCtrl = function WelcomeCtrl($scope) {
     $scope.pageClass = 'page-home';
@@ -42825,19 +43758,29 @@ var WelcomeCtrl = function WelcomeCtrl($scope) {
 
 module.exports = WelcomeCtrl;
 
-},{}],12:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
-var AlertasController = function AlertasController($scope, $http, high) {};
+var AlertasController = function AlertasController($scope, $http, $routeParams) {
+    $scope.parameters = $routeParams.id;
+    $http.get('api/alertas/' + $scope.parameters).then(function successfunction(request) {
+        $scope.alerta = request.data;
+        $scope.body = $scope.alerta.body;
+    });
+};
 
 module.exports = AlertasController;
 
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
-var ListadoController = function ListadoController($scope, $http, high) {};
+var ListadoController = function ListadoController($scope, $http, high) {
+   $http.get('api/alertas/listado').then(function successfunction(response) {
+      $scope.alertas = response.data;
+   });
+};
 
 module.exports = ListadoController;
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 "use strict";
 
 var menuController = function menuController($scope, $location) {
@@ -42849,7 +43792,7 @@ var menuController = function menuController($scope, $location) {
 
 module.exports = menuController;
 
-},{}],15:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 var AgresionesDirectasController = function AgresionesDirectasController($scope, $http, high) {
 
@@ -42923,7 +43866,7 @@ var AgresionesDirectasController = function AgresionesDirectasController($scope,
 
 module.exports = AgresionesDirectasController;
 
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 var AgresionesIndirectasController = function AgresionesIndirectasController($scope, $http, high) {
     $scope.chartConfig = {
@@ -42996,7 +43939,7 @@ var AgresionesIndirectasController = function AgresionesIndirectasController($sc
 
 module.exports = AgresionesIndirectasController;
 
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 var LocacionController = function LocacionController($scope, $http, high) {
 
@@ -43076,7 +44019,7 @@ var LocacionController = function LocacionController($scope, $http, high) {
 };
 module.exports = LocacionController;
 
-},{}],18:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 var OcurrenciaMensualController = function OcurrenciaMensualController($scope, $http, high) {
 
@@ -43152,13 +44095,88 @@ var OcurrenciaMensualController = function OcurrenciaMensualController($scope, $
 };
 module.exports = OcurrenciaMensualController;
 
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 var SujetoAgredidoGeneroController = function SujetoAgredidoGeneroController($scope, $http, high) {
 
     $http.get("api/reportes/years").success(function (data) {
         $scope.years = data;
     });
+
+    $scope.chartConfig = {
+        options: {
+            chart: {
+                type: 'column',
+                height: 600
+            },
+            title: { text: 'Estadisticas por Agresiones Indirectas' },
+            subtitle: { text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>' },
+            xAxis: {
+                categories: ["Hombres", "Mujeres", "LGTBI", "N/A (Edificios)"]
+            },
+            style: {
+                fontSize: '20px',
+                fontFamily: 'proxima-nova,helvetica,arial,sans-seri',
+                whiteSpace: 'nowrap',
+                paddingLeft: '10px',
+                paddingRight: '10px',
+                paddingTop: '10px',
+                paddingBottom: '10px'
+            },
+            plotOptions: {
+                series: {
+                    pointWidth: 10
+                },
+                bar: {
+                    groupPadding: 0,
+                    pointPadding: 0,
+                    dataLabels: {
+                        enabled: false
+                    }
+                }
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Conteo de Agresiones'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -40,
+                y: 80,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: Highcharts.theme && Highcharts.theme.legendBackgroundColor || '#FFFFFF',
+                shadow: true
+            },
+
+            credits: { enabled: true }
+        },
+
+        series: [{
+            name: 'Año 2015',
+            data: [115, 27, 2, 74]
+        }, {
+            name: 'Año 2014',
+            data: [58, 9, 1, 20]
+        }, {
+            name: 'Año 2013',
+            data: [50, 10, 0, 18]
+        }, {
+            name: 'Año 2012',
+            data: [49, 11, 1, 21]
+        }]
+
+    };
 
     $scope.getData = function ($year) {
         $http.get('api/reportes/sujeto-agredido-por-genero/' + $year).success(function (data) {
@@ -43172,11 +44190,11 @@ var SujetoAgredidoGeneroController = function SujetoAgredidoGeneroController($sc
         });
     };
 
-    $scope.getData(2016);
+    $scope.getData(2015);
 };
 module.exports = SujetoAgredidoGeneroController;
 
-},{}],20:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 var TipoAgresorController = function TipoAgresorController($scope, $http, high) {
 
@@ -43255,7 +44273,7 @@ var TipoAgresorController = function TipoAgresorController($scope, $http, high) 
 };
 module.exports = TipoAgresorController;
 
-},{}],21:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 var TipoMedioController = function TipoMedioController($scope, $http, high) {
 
@@ -43338,7 +44356,7 @@ var TipoMedioController = function TipoMedioController($scope, $http, high) {
 };
 module.exports = TipoMedioController;
 
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 var TipoSujetoAgredidoController = function TipoSujetoAgredidoController($scope, $http, yearsService, high) {
 
@@ -43423,7 +44441,7 @@ var TipoSujetoAgredidoController = function TipoSujetoAgredidoController($scope,
 };
 module.exports = TipoSujetoAgredidoController;
 
-},{}],23:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 var TipoSujetoAgredidoTestController = function TipoSujetoAgredidoTestController($scope, $http, high) {
     $http.get('api/reportes/tipo-sujeto-agredido-test').success(function (data) {
@@ -43442,7 +44460,7 @@ var TipoSujetoAgredidoTestController = function TipoSujetoAgredidoTestController
 
 module.exports = TipoSujetoAgredidoTestController;
 
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 var menu = function menu() {
@@ -43461,7 +44479,7 @@ var menu = function menu() {
 
 module.exports = menu;
 
-},{}],25:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 'use strict';
 var years = function years() {
     return {

@@ -1,44 +1,54 @@
 <div class="col-md-12">
-    <h3>Reporte por Tipo de Sujeto Agredido por Genero</h3>
     <div class="row">
+
         <div class="col-md-12">
-            <ul class="nav nav-pills">
-                <li ng-repeat="year in years" role="presentation"  ng-click="addOrRemoveClassFromYear($index)" ng-class="{active: selectedYears[$index]}">
-                    <a ng-click="getData(year.year)" >{{ year.year }}</a>
-                </li>
-            </ul>
+            <highchart id="chart1" styles="heigh: 800px" config="chartConfig"></highchart>
         </div>
 
-        <hr />
-        <div class="col-md-12">
-            <uib-tabset>
+    </div>
 
-                <uib-tab  heading="Listados">
-                    <table class="table-hover table-bordered table">
-                        <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Tipo de Sujeto Agredido</th>
-                            <th>Hombre</th>
-                            <th>Mujer</th>
-                            <th>LGTBI</th>
-                            <th>N/A</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="datos in datos">
-                                <td>{{ datos.sid }}</td>
-                                <td>{{ datos.tiposujetoagredido }}</td>
-                                <td>{{ datos.male }}</td>
-                                <td>{{ datos.female }}</td>
-                                <td>{{ datos.lgtbi }}</td>
-                                <td>{{ datos.none }}</td>
+    <div class="row">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-pills">
+                    <li ng-repeat="year in years" role="presentation"  ng-click="addOrRemoveClassFromYear($index)" ng-class="{active: selectedYears[$index]}">
+                        <a ng-click="getData(year.year)" >{{ year.year }}</a>
+                    </li>
+                </ul>
+            </div>
+
+            <hr />
+            <div class="col-md-12">
+                <uib-tabset>
+
+                    <uib-tab  heading="Listados">
+                        <table class="table-hover table-bordered table">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Tipo de Sujeto Agredido</th>
+                                <th>Hombre</th>
+                                <th>Mujer</th>
+                                <th>LGTBI</th>
+                                <th>N/A</th>
                             </tr>
-                        </tbody>
-                    </table>
-                </uib-tab>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="datos in datos">
+                                    <td>{{ datos.sid }}</td>
+                                    <td>{{ datos.tiposujetoagredido }}</td>
+                                    <td>{{ datos.male }}</td>
+                                    <td>{{ datos.female }}</td>
+                                    <td>{{ datos.lgtbi }}</td>
+                                    <td>{{ datos.none }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </uib-tab>
 
-            </uib-tabset>
+                </uib-tabset>
+            </div>
         </div>
+
     </div>
 </div>

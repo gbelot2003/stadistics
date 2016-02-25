@@ -1,1 +1,9 @@
-<h3>Alertas {{ param1 }}</h3>
+<article class="row">
+    <header class="col-md-12">
+        <h1 class="title">{{ alerta.title}}</h1>
+        <p>No. Alerta: <strong><small>{{ alerta.number }}</small></strong></p>
+    </header>
+    <div class="col-md-12" ng-bind-html="body">
+        {{ body }}
+    </div>
+</article>

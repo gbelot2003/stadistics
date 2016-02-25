@@ -4,12 +4,13 @@ require('angular');
 
 /** libraries injected require **/
 var routes = require('angular-route');
+var sanitize = require('angular-sanitize');
 var animate = require('angular-animate');
 var uibs = require('angular-ui-bootstrap');
 var high = require('highcharts-ng');
 
 /** Main instance **/
-var app = angular.module('adminApp', [routes, animate, uibs, high]);
+var app = angular.module('adminApp', [routes, sanitize, animate, uibs, high]);
 
 /** Controllers **/
 var menuController = require('./controllers/menuController');
@@ -37,7 +38,7 @@ app.config(function($routeProvider, $locationProvider){
 
     $routeProvider
         .when('/', { controller: 'WelcomeCtrl', templateUrl: './js/app/views/index.html' })
-        .when('/alertas/:id',{ controller: 'AlertasController', templateUrl: './js/app/views/alertas/alertas.html'})
+        .when('/alertas/detalle/:id',{ controller: 'AlertasController', templateUrl: './js/app/views/alertas/alertas.html'})
         .when('/alertas/listado',{ controller: 'ListadoController', templateUrl: './js/app/views/alertas/listado.html'})
         .when('/reportes/tipo-sujeto-agredido',{ controller: 'TipoSujetoAgredidoController', templateUrl: './js/app/views/reportes/tipoSujetoAgredido.html' })
         .when('/reportes/sujeto-agredido-por-genero',{ controller: 'SujetoAgredidoGeneroController', templateUrl: './js/app/views/reportes/sujetoAgredidoGenero.html' })
@@ -56,8 +57,8 @@ app.config(function($routeProvider, $locationProvider){
 /** Instances **/
 app.controller('menuController', ['$scope', menuController]);
 app.controller('WelcomeCtrl', ['$scope', WelcomeCtrl]);
-app.controller('AlertasController', ['$scope', AlertasCtrl]);
-app.controller('ListadoController', ['$scope', ListadoCrtl]);
+app.controller('AlertasController', ['$scope', '$http', '$routeParams' ,AlertasCtrl]);
+app.controller('ListadoController', ['$scope', '$http', ListadoCrtl]);
 app.controller('TipoSujetoAgredidoController', ['$scope', '$http', 'yearsService' ,TipoSujetoAgredido]);
 app.controller('SujetoAgredidoGeneroController', ['$scope', '$http', SujetoAgredidoGenero]);
 app.controller('TipoMedioController', ['$scope', '$http', TipoMedio]);
