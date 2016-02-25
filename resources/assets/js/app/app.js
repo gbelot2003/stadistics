@@ -15,10 +15,9 @@ var app = angular.module('adminApp', [routes, animate, uibs, high]);
 var menuController = require('./controllers/menuController');
 var WelcomeCtrl = require('./controllers/WelcomeCtrl');
 var AlertasCtrl = require('./controllers/alertas/AlertasController');
-var Reportes = require('./controllers/ReportesController');
+var ListadoCrtl = require('./controllers/alertas/ListadoController');
 var TipoSujetoAgredido = require('./controllers/reportes/TipoSujetoAgredidoController');
 var SujetoAgredidoGenero = require('./controllers/reportes/SujetoAgredidoGeneroController');
-var MedioSistema = require('./controllers/reportes/MedioSistemaController');
 var TipoMedio = require('./controllers/reportes/TipoMedioController');
 var AgresionesDirectas = require('./controllers/reportes/AgresionesDirectasController');
 var AgresionesIndirectas = require('./controllers/reportes/AgresionesIndirectasController');
@@ -38,12 +37,10 @@ app.config(function($routeProvider, $locationProvider){
 
     $routeProvider
         .when('/', { controller: 'WelcomeCtrl', templateUrl: './js/app/views/index.html' })
-        .when('/alertas/',{ controller: 'AlertasController', templateUrl: './js/app/views/alertas/alertas.html'})
-
-        .when('/reportes', { controller: 'ReportesController', templateUrl: './js/app/views/reportes/index.html' })
+        .when('/alertas/:id',{ controller: 'AlertasController', templateUrl: './js/app/views/alertas/alertas.html'})
+        .when('/alertas/listado',{ controller: 'ListadoController', templateUrl: './js/app/views/alertas/listado.html'})
         .when('/reportes/tipo-sujeto-agredido',{ controller: 'TipoSujetoAgredidoController', templateUrl: './js/app/views/reportes/tipoSujetoAgredido.html' })
         .when('/reportes/sujeto-agredido-por-genero',{ controller: 'SujetoAgredidoGeneroController', templateUrl: './js/app/views/reportes/sujetoAgredidoGenero.html' })
-        .when('/reportes/medio-o-sistema', { controller:'MedioSistemaController', templateUrl:'./js/app/views/reportes/medioSistema.html' })
         .when('/reportes/tipo-de-medio', { controller:'TipoMedioController', templateUrl:'./js/app/views/reportes/tipoMedio.html' })
         .when('/reportes/agresiones-directas', { controller:'AgresionesDirectasController', templateUrl:'./js/app/views/reportes/agresionDirecta.html' })
         .when('/reportes/agresiones-indirectas', { controller:'AgresionesIndirectasController', templateUrl:'./js/app/views/reportes/agresionIndirecta.html' })
@@ -60,10 +57,9 @@ app.config(function($routeProvider, $locationProvider){
 app.controller('menuController', ['$scope', menuController]);
 app.controller('WelcomeCtrl', ['$scope', WelcomeCtrl]);
 app.controller('AlertasController', ['$scope', AlertasCtrl]);
-app.controller('ReportesController', ['$scope', '$http', Reportes]);
+app.controller('ListadoController', ['$scope', ListadoCrtl]);
 app.controller('TipoSujetoAgredidoController', ['$scope', '$http', 'yearsService' ,TipoSujetoAgredido]);
 app.controller('SujetoAgredidoGeneroController', ['$scope', '$http', SujetoAgredidoGenero]);
-app.controller('MedioSistemaController', ['$scope', '$http', MedioSistema]);
 app.controller('TipoMedioController', ['$scope', '$http', TipoMedio]);
 app.controller('AgresionesDirectasController', ['$scope', '$http', AgresionesDirectas]);
 app.controller('AgresionesIndirectasController', ['$scope', '$http', AgresionesIndirectas]);

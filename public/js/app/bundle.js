@@ -16,10 +16,9 @@ var app = angular.module('adminApp', [routes, animate, uibs, high]);
 var menuController = require('./controllers/menuController');
 var WelcomeCtrl = require('./controllers/WelcomeCtrl');
 var AlertasCtrl = require('./controllers/alertas/AlertasController');
-var Reportes = require('./controllers/ReportesController');
+var ListadoCrtl = require('./controllers/alertas/ListadoController');
 var TipoSujetoAgredido = require('./controllers/reportes/TipoSujetoAgredidoController');
 var SujetoAgredidoGenero = require('./controllers/reportes/SujetoAgredidoGeneroController');
-var MedioSistema = require('./controllers/reportes/MedioSistemaController');
 var TipoMedio = require('./controllers/reportes/TipoMedioController');
 var AgresionesDirectas = require('./controllers/reportes/AgresionesDirectasController');
 var AgresionesIndirectas = require('./controllers/reportes/AgresionesIndirectasController');
@@ -37,7 +36,7 @@ app.directive('yearsNav', years);
 /** Config **/
 app.config(function ($routeProvider, $locationProvider) {
 
-    $routeProvider.when('/', { controller: 'WelcomeCtrl', templateUrl: './js/app/views/index.html' }).when('/alertas/', { controller: 'AlertasController', templateUrl: './js/app/views/alertas/alertas.html' }).when('/reportes', { controller: 'ReportesController', templateUrl: './js/app/views/reportes/index.html' }).when('/reportes/tipo-sujeto-agredido', { controller: 'TipoSujetoAgredidoController', templateUrl: './js/app/views/reportes/tipoSujetoAgredido.html' }).when('/reportes/sujeto-agredido-por-genero', { controller: 'SujetoAgredidoGeneroController', templateUrl: './js/app/views/reportes/sujetoAgredidoGenero.html' }).when('/reportes/medio-o-sistema', { controller: 'MedioSistemaController', templateUrl: './js/app/views/reportes/medioSistema.html' }).when('/reportes/tipo-de-medio', { controller: 'TipoMedioController', templateUrl: './js/app/views/reportes/tipoMedio.html' }).when('/reportes/agresiones-directas', { controller: 'AgresionesDirectasController', templateUrl: './js/app/views/reportes/agresionDirecta.html' }).when('/reportes/agresiones-indirectas', { controller: 'AgresionesIndirectasController', templateUrl: './js/app/views/reportes/agresionIndirecta.html' }).when('/reportes/tipo-de-agresor', { controller: 'TipoAgresorController', templateUrl: './js/app/views/reportes/tipoAgresor.html' }).when('/reportes/locacion', { controller: 'LocacionController', templateUrl: './js/app/views/reportes/locacion.html' }).when('/reportes/ocurrencias-menuales', { controller: 'OcurrenciaMensualController', templateUrl: './js/app/views/reportes/ocurrenciaMensual.html' }).when('/reportes/test', { controller: 'TipoSujetoAgredidoTestController', templateUrl: './js/app/views/test1.html' }).otherwise({ redirectTo: '/' });
+    $routeProvider.when('/', { controller: 'WelcomeCtrl', templateUrl: './js/app/views/index.html' }).when('/alertas/:id', { controller: 'AlertasController', templateUrl: './js/app/views/alertas/alertas.html' }).when('/alertas/listado', { controller: 'ListadoController', templateUrl: './js/app/views/alertas/listado.html' }).when('/reportes/tipo-sujeto-agredido', { controller: 'TipoSujetoAgredidoController', templateUrl: './js/app/views/reportes/tipoSujetoAgredido.html' }).when('/reportes/sujeto-agredido-por-genero', { controller: 'SujetoAgredidoGeneroController', templateUrl: './js/app/views/reportes/sujetoAgredidoGenero.html' }).when('/reportes/tipo-de-medio', { controller: 'TipoMedioController', templateUrl: './js/app/views/reportes/tipoMedio.html' }).when('/reportes/agresiones-directas', { controller: 'AgresionesDirectasController', templateUrl: './js/app/views/reportes/agresionDirecta.html' }).when('/reportes/agresiones-indirectas', { controller: 'AgresionesIndirectasController', templateUrl: './js/app/views/reportes/agresionIndirecta.html' }).when('/reportes/tipo-de-agresor', { controller: 'TipoAgresorController', templateUrl: './js/app/views/reportes/tipoAgresor.html' }).when('/reportes/locacion', { controller: 'LocacionController', templateUrl: './js/app/views/reportes/locacion.html' }).when('/reportes/ocurrencias-menuales', { controller: 'OcurrenciaMensualController', templateUrl: './js/app/views/reportes/ocurrenciaMensual.html' }).when('/reportes/test', { controller: 'TipoSujetoAgredidoTestController', templateUrl: './js/app/views/test1.html' }).otherwise({ redirectTo: '/' });
 
     $locationProvider.html5Mode(false);
 });
@@ -46,10 +45,9 @@ app.config(function ($routeProvider, $locationProvider) {
 app.controller('menuController', ['$scope', menuController]);
 app.controller('WelcomeCtrl', ['$scope', WelcomeCtrl]);
 app.controller('AlertasController', ['$scope', AlertasCtrl]);
-app.controller('ReportesController', ['$scope', '$http', Reportes]);
+app.controller('ListadoController', ['$scope', ListadoCrtl]);
 app.controller('TipoSujetoAgredidoController', ['$scope', '$http', 'yearsService', TipoSujetoAgredido]);
 app.controller('SujetoAgredidoGeneroController', ['$scope', '$http', SujetoAgredidoGenero]);
-app.controller('MedioSistemaController', ['$scope', '$http', MedioSistema]);
 app.controller('TipoMedioController', ['$scope', '$http', TipoMedio]);
 app.controller('AgresionesDirectasController', ['$scope', '$http', AgresionesDirectas]);
 app.controller('AgresionesIndirectasController', ['$scope', '$http', AgresionesIndirectas]);
@@ -66,7 +64,7 @@ app.factory('yearsService', function () {
     };
 });
 
-},{"./controllers/ReportesController":11,"./controllers/WelcomeCtrl":12,"./controllers/alertas/AlertasController":13,"./controllers/menuController":14,"./controllers/reportes/AgresionesDirectasController":15,"./controllers/reportes/AgresionesIndirectasController":16,"./controllers/reportes/LocacionController":17,"./controllers/reportes/MedioSistemaController":18,"./controllers/reportes/OcurrenciaMensualController":19,"./controllers/reportes/SujetoAgredidoGeneroController":20,"./controllers/reportes/TipoAgresorController":21,"./controllers/reportes/TipoMedioController":22,"./controllers/reportes/TipoSujetoAgredidoController":23,"./controllers/reportes/TipoSujetoAgredidoTestController":24,"./directives/menu":25,"./directives/years":26,"angular":9,"angular-animate":3,"angular-route":5,"angular-ui-bootstrap":7,"highcharts-ng":10}],2:[function(require,module,exports){
+},{"./controllers/WelcomeCtrl":11,"./controllers/alertas/AlertasController":12,"./controllers/alertas/ListadoController":13,"./controllers/menuController":14,"./controllers/reportes/AgresionesDirectasController":15,"./controllers/reportes/AgresionesIndirectasController":16,"./controllers/reportes/LocacionController":17,"./controllers/reportes/OcurrenciaMensualController":18,"./controllers/reportes/SujetoAgredidoGeneroController":19,"./controllers/reportes/TipoAgresorController":20,"./controllers/reportes/TipoMedioController":21,"./controllers/reportes/TipoSujetoAgredidoController":22,"./controllers/reportes/TipoSujetoAgredidoTestController":23,"./directives/menu":24,"./directives/years":25,"angular":9,"angular-animate":3,"angular-route":5,"angular-ui-bootstrap":7,"highcharts-ng":10}],2:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.9
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -4947,7 +4945,7 @@ module.exports = 'ngRoute';
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
 
- * Version: 1.1.2 - 2016-02-01
+ * Version: 1.1.1 - 2016-01-25
  * License: MIT
  */angular.module("ui.bootstrap", ["ui.bootstrap.tpls", "ui.bootstrap.collapse","ui.bootstrap.accordion","ui.bootstrap.alert","ui.bootstrap.buttons","ui.bootstrap.carousel","ui.bootstrap.dateparser","ui.bootstrap.isClass","ui.bootstrap.position","ui.bootstrap.datepicker","ui.bootstrap.debounce","ui.bootstrap.dropdown","ui.bootstrap.stackedMap","ui.bootstrap.modal","ui.bootstrap.paging","ui.bootstrap.pager","ui.bootstrap.pagination","ui.bootstrap.tooltip","ui.bootstrap.popover","ui.bootstrap.progressbar","ui.bootstrap.rating","ui.bootstrap.tabs","ui.bootstrap.timepicker","ui.bootstrap.typeahead"]);
 angular.module("ui.bootstrap.tpls", ["uib/template/accordion/accordion-group.html","uib/template/accordion/accordion.html","uib/template/alert/alert.html","uib/template/carousel/carousel.html","uib/template/carousel/slide.html","uib/template/datepicker/datepicker.html","uib/template/datepicker/day.html","uib/template/datepicker/month.html","uib/template/datepicker/popup.html","uib/template/datepicker/year.html","uib/template/modal/backdrop.html","uib/template/modal/window.html","uib/template/pager/pager.html","uib/template/pagination/pagination.html","uib/template/tooltip/tooltip-html-popup.html","uib/template/tooltip/tooltip-popup.html","uib/template/tooltip/tooltip-template-popup.html","uib/template/popover/popover-html.html","uib/template/popover/popover-template.html","uib/template/popover/popover.html","uib/template/progressbar/bar.html","uib/template/progressbar/progress.html","uib/template/progressbar/progressbar.html","uib/template/rating/rating.html","uib/template/tabs/tab.html","uib/template/tabs/tabset.html","uib/template/timepicker/timepicker.html","uib/template/typeahead/typeahead-match.html","uib/template/typeahead/typeahead-popup.html"]);
@@ -5146,10 +5144,6 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
           }
         }
       };
-
-      var id = 'accordiongroup-' + scope.$id + '-' + Math.floor(Math.random() * 10000);
-      scope.headingId = id + '-tab';
-      scope.panelId = id + '-panel';
     }
   };
 })
@@ -5641,7 +5635,7 @@ function($animateCss) {
 
 angular.module('ui.bootstrap.dateparser', [])
 
-.service('uibDateParser', ['$log', '$locale', 'dateFilter', 'orderByFilter', function($log, $locale, dateFilter, orderByFilter) {
+.service('uibDateParser', ['$log', '$locale', 'orderByFilter', function($log, $locale, orderByFilter) {
   // Pulled from https://github.com/mbostock/d3/blob/master/src/format/requote.js
   var SPECIAL_CHARACTERS_REGEXP = /[\\\^\$\*\+\?\|\[\]\(\)\.\{\}]/g;
 
@@ -5652,164 +5646,115 @@ angular.module('ui.bootstrap.dateparser', [])
     localeId = $locale.id;
 
     this.parsers = {};
-    this.formatters = {};
 
     formatCodeToRegex = [
       {
         key: 'yyyy',
         regex: '\\d{4}',
-        apply: function(value) { this.year = +value; },
-        formatter: function(date) {
-          var _date = new Date();
-          _date.setFullYear(Math.abs(date.getFullYear()));
-          return dateFilter(_date, 'yyyy');
-        }
+        apply: function(value) { this.year = +value; }
       },
       {
         key: 'yy',
         regex: '\\d{2}',
-        apply: function(value) { this.year = +value + 2000; },
-        formatter: function(date) {
-          var _date = new Date();
-          _date.setFullYear(Math.abs(date.getFullYear()));
-          return dateFilter(_date, 'yy');
-        }
+        apply: function(value) { this.year = +value + 2000; }
       },
       {
         key: 'y',
         regex: '\\d{1,4}',
-        apply: function(value) { this.year = +value; },
-        formatter: function(date) {
-          var _date = new Date();
-          _date.setFullYear(Math.abs(date.getFullYear()));
-          return dateFilter(_date, 'y');
-        }
+        apply: function(value) { this.year = +value; }
       },
       {
         key: 'M!',
         regex: '0?[1-9]|1[0-2]',
-        apply: function(value) { this.month = value - 1; },
-        formatter: function(date) {
-          var value = date.getMonth();
-          if (/^[0-9]$/.test(value)) {
-            return dateFilter(date, 'MM');
-          }
-
-          return dateFilter(date, 'M');
-        }
+        apply: function(value) { this.month = value - 1; }
       },
       {
         key: 'MMMM',
         regex: $locale.DATETIME_FORMATS.MONTH.join('|'),
-        apply: function(value) { this.month = $locale.DATETIME_FORMATS.MONTH.indexOf(value); },
-        formatter: function(date) { return dateFilter(date, 'MMMM'); }
+        apply: function(value) { this.month = $locale.DATETIME_FORMATS.MONTH.indexOf(value); }
       },
       {
         key: 'MMM',
         regex: $locale.DATETIME_FORMATS.SHORTMONTH.join('|'),
-        apply: function(value) { this.month = $locale.DATETIME_FORMATS.SHORTMONTH.indexOf(value); },
-        formatter: function(date) { return dateFilter(date, 'MMM'); }
+        apply: function(value) { this.month = $locale.DATETIME_FORMATS.SHORTMONTH.indexOf(value); }
       },
       {
         key: 'MM',
         regex: '0[1-9]|1[0-2]',
-        apply: function(value) { this.month = value - 1; },
-        formatter: function(date) { return dateFilter(date, 'MM'); }
+        apply: function(value) { this.month = value - 1; }
       },
       {
         key: 'M',
         regex: '[1-9]|1[0-2]',
-        apply: function(value) { this.month = value - 1; },
-        formatter: function(date) { return dateFilter(date, 'M'); }
+        apply: function(value) { this.month = value - 1; }
       },
       {
         key: 'd!',
         regex: '[0-2]?[0-9]{1}|3[0-1]{1}',
-        apply: function(value) { this.date = +value; },
-        formatter: function(date) {
-          var value = date.getDate();
-          if (/^[1-9]$/.test(value)) {
-            return dateFilter(date, 'dd');
-          }
-
-          return dateFilter(date, 'd');
-        }
+        apply: function(value) { this.date = +value; }
       },
       {
         key: 'dd',
         regex: '[0-2][0-9]{1}|3[0-1]{1}',
-        apply: function(value) { this.date = +value; },
-        formatter: function(date) { return dateFilter(date, 'dd'); }
+        apply: function(value) { this.date = +value; }
       },
       {
         key: 'd',
         regex: '[1-2]?[0-9]{1}|3[0-1]{1}',
-        apply: function(value) { this.date = +value; },
-        formatter: function(date) { return dateFilter(date, 'd'); }
+        apply: function(value) { this.date = +value; }
       },
       {
         key: 'EEEE',
-        regex: $locale.DATETIME_FORMATS.DAY.join('|'),
-        formatter: function(date) { return dateFilter(date, 'EEEE'); }
+        regex: $locale.DATETIME_FORMATS.DAY.join('|')
       },
       {
         key: 'EEE',
-        regex: $locale.DATETIME_FORMATS.SHORTDAY.join('|'),
-        formatter: function(date) { return dateFilter(date, 'EEE'); }
+        regex: $locale.DATETIME_FORMATS.SHORTDAY.join('|')
       },
       {
         key: 'HH',
         regex: '(?:0|1)[0-9]|2[0-3]',
-        apply: function(value) { this.hours = +value; },
-        formatter: function(date) { return dateFilter(date, 'HH'); }
+        apply: function(value) { this.hours = +value; }
       },
       {
         key: 'hh',
         regex: '0[0-9]|1[0-2]',
-        apply: function(value) { this.hours = +value; },
-        formatter: function(date) { return dateFilter(date, 'hh'); }
+        apply: function(value) { this.hours = +value; }
       },
       {
         key: 'H',
         regex: '1?[0-9]|2[0-3]',
-        apply: function(value) { this.hours = +value; },
-        formatter: function(date) { return dateFilter(date, 'H'); }
+        apply: function(value) { this.hours = +value; }
       },
       {
         key: 'h',
         regex: '[0-9]|1[0-2]',
-        apply: function(value) { this.hours = +value; },
-        formatter: function(date) { return dateFilter(date, 'h'); }
+        apply: function(value) { this.hours = +value; }
       },
       {
         key: 'mm',
         regex: '[0-5][0-9]',
-        apply: function(value) { this.minutes = +value; },
-        formatter: function(date) { return dateFilter(date, 'mm'); }
+        apply: function(value) { this.minutes = +value; }
       },
       {
         key: 'm',
         regex: '[0-9]|[1-5][0-9]',
-        apply: function(value) { this.minutes = +value; },
-        formatter: function(date) { return dateFilter(date, 'm'); }
+        apply: function(value) { this.minutes = +value; }
       },
       {
         key: 'sss',
         regex: '[0-9][0-9][0-9]',
-        apply: function(value) { this.milliseconds = +value; },
-        formatter: function(date) { return dateFilter(date, 'sss'); }
+        apply: function(value) { this.milliseconds = +value; }
       },
       {
         key: 'ss',
         regex: '[0-5][0-9]',
-        apply: function(value) { this.seconds = +value; },
-        formatter: function(date) { return dateFilter(date, 'ss'); }
+        apply: function(value) { this.seconds = +value; }
       },
       {
         key: 's',
         regex: '[0-9]|[1-5][0-9]',
-        apply: function(value) { this.seconds = +value; },
-        formatter: function(date) { return dateFilter(date, 's'); }
+        apply: function(value) { this.seconds = +value; }
       },
       {
         key: 'a',
@@ -5822,8 +5767,7 @@ angular.module('ui.bootstrap.dateparser', [])
           if (value === 'PM') {
             this.hours += 12;
           }
-        },
-        formatter: function(date) { return dateFilter(date, 'a'); }
+        }
       },
       {
         key: 'Z',
@@ -5835,47 +5779,38 @@ angular.module('ui.bootstrap.dateparser', [])
             minutes = matches[3];
           this.hours += toInt(sign + hours);
           this.minutes += toInt(sign + minutes);
-        },
-        formatter: function(date) {
-          return dateFilter(date, 'Z');
         }
       },
       {
         key: 'ww',
-        regex: '[0-4][0-9]|5[0-3]',
-        formatter: function(date) { return dateFilter(date, 'ww'); }
+        regex: '[0-4][0-9]|5[0-3]'
       },
       {
         key: 'w',
-        regex: '[0-9]|[1-4][0-9]|5[0-3]',
-        formatter: function(date) { return dateFilter(date, 'w'); }
+        regex: '[0-9]|[1-4][0-9]|5[0-3]'
       },
       {
         key: 'GGGG',
-        regex: $locale.DATETIME_FORMATS.ERANAMES.join('|').replace(/\s/g, '\\s'),
-        formatter: function(date) { return dateFilter(date, 'GGGG'); }
+        regex: $locale.DATETIME_FORMATS.ERANAMES.join('|').replace(/\s/g, '\\s')
       },
       {
         key: 'GGG',
-        regex: $locale.DATETIME_FORMATS.ERAS.join('|'),
-        formatter: function(date) { return dateFilter(date, 'GGG'); }
+        regex: $locale.DATETIME_FORMATS.ERAS.join('|')
       },
       {
         key: 'GG',
-        regex: $locale.DATETIME_FORMATS.ERAS.join('|'),
-        formatter: function(date) { return dateFilter(date, 'GG'); }
+        regex: $locale.DATETIME_FORMATS.ERAS.join('|')
       },
       {
         key: 'G',
-        regex: $locale.DATETIME_FORMATS.ERAS.join('|'),
-        formatter: function(date) { return dateFilter(date, 'G'); }
+        regex: $locale.DATETIME_FORMATS.ERAS.join('|')
       }
     ];
   };
 
   this.init();
 
-  function createParser(format, func) {
+  function createParser(format) {
     var map = [], regex = format.split('');
 
     // check for literal values
@@ -5923,8 +5858,7 @@ angular.module('ui.bootstrap.dateparser', [])
 
         map.push({
           index: index,
-          key: data.key,
-          apply: data[func],
+          apply: data.apply,
           matcher: data.regex
         });
       }
@@ -5935,41 +5869,6 @@ angular.module('ui.bootstrap.dateparser', [])
       map: orderByFilter(map, 'index')
     };
   }
-
-  this.filter = function(date, format) {
-    if (!angular.isDate(date) || isNaN(date) || !format) {
-      return '';
-    }
-
-    format = $locale.DATETIME_FORMATS[format] || format;
-
-    if ($locale.id !== localeId) {
-      this.init();
-    }
-
-    if (!this.formatters[format]) {
-      this.formatters[format] = createParser(format, 'formatter');
-    }
-
-    var parser = this.formatters[format],
-      map = parser.map;
-
-    var _format = format;
-
-    return map.reduce(function(str, mapper, i) {
-      var match = _format.match(new RegExp('(.*)' + mapper.key));
-      if (match && angular.isString(match[1])) {
-        str += match[1];
-        _format = _format.replace(match[1] + mapper.key, '');
-      }
-
-      if (mapper.apply) {
-        return str + mapper.apply.call(null, date);
-      }
-
-      return str;
-    }, '');
-  };
 
   this.parse = function(input, format, baseDate) {
     if (!angular.isString(input) || !format) {
@@ -5984,7 +5883,7 @@ angular.module('ui.bootstrap.dateparser', [])
     }
 
     if (!this.parsers[format]) {
-      this.parsers[format] = createParser(format, 'apply');
+      this.parsers[format] = createParser(format);
     }
 
     var parser = this.parsers[format],
@@ -6072,7 +5971,7 @@ angular.module('ui.bootstrap.dateparser', [])
   this.timezoneToOffset = timezoneToOffset;
   this.addDateMinutes = addDateMinutes;
   this.convertTimezoneToLocal = convertTimezoneToLocal;
-
+  
   function toTimezone(date, timezone) {
     return date && timezone ? convertTimezoneToLocal(date, timezone) : date;
   }
@@ -6758,171 +6657,65 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
   // Modes chain
   this.modes = ['day', 'month', 'year'];
 
-  if ($attrs.datepickerOptions) {
-    angular.forEach([
-      'formatDay',
-      'formatDayHeader',
-      'formatDayTitle',
-      'formatMonth',
-      'formatMonthTitle',
-      'formatYear',
-      'initDate',
-      'maxDate',
-      'maxMode',
-      'minDate',
-      'minMode',
-      'showWeeks',
-      'shortcutPropagation',
-      'startingDay',
-      'yearColumns',
-      'yearRows'
-    ], function(key) {
-      switch (key) {
-        case 'formatDay':
-        case 'formatDayHeader':
-        case 'formatDayTitle':
-        case 'formatMonth':
-        case 'formatMonthTitle':
-        case 'formatYear':
-          self[key] = angular.isDefined($scope.datepickerOptions[key]) ? $interpolate($scope.datepickerOptions[key])($scope.$parent) : datepickerConfig[key];
-          break;
-        case 'showWeeks':
-        case 'shortcutPropagation':
-        case 'yearColumns':
-        case 'yearRows':
-          self[key] = angular.isDefined($scope.datepickerOptions[key]) ?
-            $scope.datepickerOptions[key] : datepickerConfig[key];
-          break;
-        case 'startingDay':
-          if (angular.isDefined($scope.datepickerOptions.startingDay)) {
-            self.startingDay = $scope.datepickerOptions.startingDay;
-          } else if (angular.isNumber(datepickerConfig.startingDay)) {
-            self.startingDay = datepickerConfig.startingDay;
-          } else {
-            self.startingDay = ($locale.DATETIME_FORMATS.FIRSTDAYOFWEEK + 8) % 7;
-          }
+  // Interpolated configuration attributes
+  angular.forEach(['formatDay', 'formatMonth', 'formatYear', 'formatDayHeader', 'formatDayTitle', 'formatMonthTitle'], function(key) {
+    self[key] = angular.isDefined($attrs[key]) ? $interpolate($attrs[key])($scope.$parent) : datepickerConfig[key];
+  });
 
-          break;
-        case 'maxDate':
-        case 'minDate':
-          if ($scope.datepickerOptions[key]) {
-            $scope.$watch(function() { return $scope.datepickerOptions[key]; }, function(value) {
-              if (value) {
-                if (angular.isDate(value)) {
-                  self[key] = dateParser.fromTimezone(new Date(value), ngModelOptions.timezone);
-                } else {
-                  self[key] = new Date(dateFilter(value, 'medium'));
-                }
-              } else {
-                self[key] = null;
-              }
+  // Evaled configuration attributes
+  angular.forEach(['showWeeks', 'yearRows', 'yearColumns', 'shortcutPropagation'], function(key) {
+    self[key] = angular.isDefined($attrs[key]) ?
+      $scope.$parent.$eval($attrs[key]) : datepickerConfig[key];
+  });
 
-              self.refreshView();
-            });
-          } else {
-            self[key] = datepickerConfig[key] ? dateParser.fromTimezone(new Date(datepickerConfig[key]), ngModelOptions.timezone) : null;
-          }
-
-          break;
-        case 'maxMode':
-        case 'minMode':
-          if ($scope.datepickerOptions[key]) {
-            $scope.$watch(function() { return $scope.datepickerOptions[key]; }, function(value) {
-              self[key] = $scope[key] = angular.isDefined(value) ? value : datepickerOptions[key];
-              if (key === 'minMode' && self.modes.indexOf($scope.datepickerMode) < self.modes.indexOf(self[key]) ||
-                key === 'maxMode' && self.modes.indexOf($scope.datepickerMode) > self.modes.indexOf(self[key])) {
-                $scope.datepickerMode = self[key];
-              }
-            });
-          } else {
-            self[key] = $scope[key] = datepickerConfig[key] || null;
-          }
-
-          break;
-        case 'initDate':
-          if ($scope.datepickerOptions.initDate) {
-            this.activeDate = dateParser.fromTimezone($scope.datepickerOptions.initDate, ngModelOptions.timezone) || new Date();
-            $scope.$watch(function() { return $scope.datepickerOptions.initDate; }, function(initDate) {
-              if (initDate && (ngModelCtrl.$isEmpty(ngModelCtrl.$modelValue) || ngModelCtrl.$invalid)) {
-                self.activeDate = dateParser.fromTimezone(initDate, ngModelOptions.timezone);
-                self.refreshView();
-              }
-            });
-          } else {
-            this.activeDate = new Date();
-          }
-      }
-    });
+  if (angular.isDefined($attrs.startingDay)) {
+    self.startingDay = $scope.$parent.$eval($attrs.startingDay);
+  } else if (angular.isNumber(datepickerConfig.startingDay)) {
+    self.startingDay = datepickerConfig.startingDay;
   } else {
-    // Interpolated configuration attributes
-    angular.forEach(['formatDay', 'formatMonth', 'formatYear', 'formatDayHeader', 'formatDayTitle', 'formatMonthTitle'], function(key) {
-      self[key] = angular.isDefined($attrs[key]) ? $interpolate($attrs[key])($scope.$parent) : datepickerConfig[key];
-    });
+    self.startingDay = ($locale.DATETIME_FORMATS.FIRSTDAYOFWEEK + 8) % 7;
+  }
 
-    // Evaled configuration attributes
-    angular.forEach(['showWeeks', 'yearRows', 'yearColumns', 'shortcutPropagation'], function(key) {
-      self[key] = angular.isDefined($attrs[key]) ?
-        $scope.$parent.$eval($attrs[key]) : datepickerConfig[key];
-    });
-
-    if (angular.isDefined($attrs.startingDay)) {
-      self.startingDay = $scope.$parent.$eval($attrs.startingDay);
-    } else if (angular.isNumber(datepickerConfig.startingDay)) {
-      self.startingDay = datepickerConfig.startingDay;
+  // Watchable date attributes
+  angular.forEach(['minDate', 'maxDate'], function(key) {
+    if ($attrs[key]) {
+      watchListeners.push($scope.$parent.$watch($attrs[key], function(value) {
+        self[key] = value ? angular.isDate(value) ? dateParser.fromTimezone(new Date(value), ngModelOptions.timezone) : new Date(dateFilter(value, 'medium')) : null;
+        self.refreshView();
+      }));
     } else {
-      self.startingDay = ($locale.DATETIME_FORMATS.FIRSTDAYOFWEEK + 8) % 7;
+      self[key] = datepickerConfig[key] ? dateParser.fromTimezone(new Date(datepickerConfig[key]), ngModelOptions.timezone) : null;
     }
+  });
 
-    // Watchable date attributes
-    angular.forEach(['minDate', 'maxDate'], function(key) {
-      if ($attrs[key]) {
-        watchListeners.push($scope.$parent.$watch($attrs[key], function(value) {
-          if (value) {
-            if (angular.isDate(value)) {
-              self[key] = dateParser.fromTimezone(new Date(value), ngModelOptions.timezone);
-            } else {
-              self[key] = new Date(dateFilter(value, 'medium'));
-            }
-          } else {
-            self[key] = null;
-          }
-
-          self.refreshView();
-        }));
-      } else {
-        self[key] = datepickerConfig[key] ? dateParser.fromTimezone(new Date(datepickerConfig[key]), ngModelOptions.timezone) : null;
-      }
-    });
-
-    angular.forEach(['minMode', 'maxMode'], function(key) {
-      if ($attrs[key]) {
-        watchListeners.push($scope.$parent.$watch($attrs[key], function(value) {
-          self[key] = $scope[key] = angular.isDefined(value) ? value : $attrs[key];
-          if (key === 'minMode' && self.modes.indexOf($scope.datepickerMode) < self.modes.indexOf(self[key]) ||
-            key === 'maxMode' && self.modes.indexOf($scope.datepickerMode) > self.modes.indexOf(self[key])) {
-            $scope.datepickerMode = self[key];
-          }
-        }));
-      } else {
-        self[key] = $scope[key] = datepickerConfig[key] || null;
-      }
-    });
-
-    if (angular.isDefined($attrs.initDate)) {
-      this.activeDate = dateParser.fromTimezone($scope.$parent.$eval($attrs.initDate), ngModelOptions.timezone) || new Date();
-      watchListeners.push($scope.$parent.$watch($attrs.initDate, function(initDate) {
-        if (initDate && (ngModelCtrl.$isEmpty(ngModelCtrl.$modelValue) || ngModelCtrl.$invalid)) {
-          self.activeDate = dateParser.fromTimezone(initDate, ngModelOptions.timezone);
-          self.refreshView();
+  angular.forEach(['minMode', 'maxMode'], function(key) {
+    if ($attrs[key]) {
+      watchListeners.push($scope.$parent.$watch($attrs[key], function(value) {
+        self[key] = $scope[key] = angular.isDefined(value) ? value : $attrs[key];
+        if (key === 'minMode' && self.modes.indexOf($scope.datepickerMode) < self.modes.indexOf(self[key]) ||
+          key === 'maxMode' && self.modes.indexOf($scope.datepickerMode) > self.modes.indexOf(self[key])) {
+          $scope.datepickerMode = self[key];
         }
       }));
     } else {
-      this.activeDate = new Date();
+      self[key] = $scope[key] = datepickerConfig[key] || null;
     }
-  }
+  });
 
   $scope.datepickerMode = $scope.datepickerMode || datepickerConfig.datepickerMode;
   $scope.uniqueId = 'datepicker-' + $scope.$id + '-' + Math.floor(Math.random() * 10000);
+
+  if (angular.isDefined($attrs.initDate)) {
+    this.activeDate = dateParser.fromTimezone($scope.$parent.$eval($attrs.initDate), ngModelOptions.timezone) || new Date();
+    watchListeners.push($scope.$parent.$watch($attrs.initDate, function(initDate) {
+      if (initDate && (ngModelCtrl.$isEmpty(ngModelCtrl.$modelValue) || ngModelCtrl.$invalid)) {
+        self.activeDate = dateParser.fromTimezone(initDate, ngModelOptions.timezone);
+        self.refreshView();
+      }
+    }));
+  } else {
+    this.activeDate = new Date();
+  }
 
   $scope.disabled = angular.isDefined($attrs.disabled) || false;
   if (angular.isDefined($attrs.ngDisabled)) {
@@ -6987,7 +6780,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
     model = dateParser.fromTimezone(model, ngModelOptions.timezone);
     var dt = {
       date: date,
-      label: dateParser.filter(date, format),
+      label: dateFilter(date, format.replace(/d!/, 'dd')).replace(/M!/, 'MM'),
       selected: model && this.compare(date, model) === 0,
       disabled: this.isDisabled(date),
       current: this.compare(date, new Date()) === 0,
@@ -7334,7 +7127,6 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
     },
     scope: {
       datepickerMode: '=?',
-      datepickerOptions: '=?',
       dateDisabled: '&',
       customClass: '&',
       shortcutPropagation: '&?'
@@ -7575,14 +7367,11 @@ function(scope, element, attrs, $compile, $parse, $document, $rootScope, $positi
           scope.date = value;
           return value;
         }
-
         scope.date = dateParser.fromTimezone(value, ngModelOptions.timezone);
+        dateFormat = dateFormat.replace(/M!/, 'MM')
+            .replace(/d!/, 'dd');
 
-        if (angular.isNumber(scope.date)) {
-          scope.date = new Date(scope.date);
-        }
-
-        return dateParser.filter(scope.date, dateFormat);
+        return dateFilter(scope.date, dateFormat);
       });
     } else {
       ngModel.$formatters.push(function(value) {
@@ -7650,7 +7439,7 @@ function(scope, element, attrs, $compile, $parse, $document, $rootScope, $positi
     if (angular.isDefined(dt)) {
       scope.date = dt;
     }
-    var date = scope.date ? dateParser.filter(scope.date, dateFormat) : null; // Setting to NULL is necessary for form validators to function
+    var date = scope.date ? dateFilter(scope.date, dateFormat) : null; // Setting to NULL is necessary for form validators to function
     element.val(date);
     ngModel.$setViewValue(date);
 
@@ -8668,7 +8457,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.stackedMap'])
               $modalStack.loadFocusElementList(modal);
               var focusChanged = false;
               if (evt.shiftKey) {
-                if ($modalStack.isFocusInFirstItem(evt) || $modalStack.isModalFocused(evt, modal)) {
+                if ($modalStack.isFocusInFirstItem(evt)) {
                   focusChanged = $modalStack.focusLastFocusableElement();
                 }
               } else {
@@ -8807,16 +8596,6 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.stackedMap'])
         if (focusableElementList.length > 0) {
           focusableElementList[focusableElementList.length - 1].focus();
           return true;
-        }
-        return false;
-      };
-
-      $modalStack.isModalFocused = function(evt, modalWindow) {
-        if (evt && modalWindow) {
-          var modalDomEl = modalWindow.value.modalDomEl;
-          if (modalDomEl && modalDomEl.length) {
-            return (evt.target || evt.srcElement) === modalDomEl[0];
-          }
         }
         return false;
       };
@@ -9822,7 +9601,18 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
             }
 
             appendToBody = angular.isDefined(appendToBodyVal) ? appendToBodyVal : appendToBody;
-            
+
+            // if a tooltip is attached to <body> we need to remove it on
+            // location change as its parent scope will probably not be destroyed
+            // by the change.
+            if (appendToBody) {
+              scope.$on('$locationChangeSuccess', function closeTooltipOnLocationChangeSuccess() {
+                if (ttScope.isOpen) {
+                  hide();
+                }
+              });
+            }
+
             // Make sure tooltip is destroyed and removed.
             scope.$on('$destroy', function onDestroyTooltip() {
               unregisterTriggers();
@@ -11199,11 +10989,10 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
 
             if (showHint) {
               var firstLabel = scope.matches[0].label;
-              if (angular.isString(inputValue) &&
-                inputValue.length > 0 &&
-                firstLabel.slice(0, inputValue.length).toUpperCase() === inputValue.toUpperCase()) {
+              if (inputValue.length > 0 && firstLabel.slice(0, inputValue.length).toUpperCase() === inputValue.toUpperCase()) {
                 hintInputElem.val(inputValue + firstLabel.slice(inputValue.length));
-              } else {
+              }
+              else {
                 hintInputElem.val('');
               }
             }
@@ -11602,13 +11391,13 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
 angular.module("uib/template/accordion/accordion-group.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("uib/template/accordion/accordion-group.html",
     "<div class=\"panel\" ng-class=\"panelClass || 'panel-default'\">\n" +
-    "  <div role=\"tab\" id=\"{{::headingId}}\" aria-selected=\"{{isOpen}}\" class=\"panel-heading\" ng-keypress=\"toggleOpen($event)\">\n" +
+    "  <div class=\"panel-heading\" ng-keypress=\"toggleOpen($event)\">\n" +
     "    <h4 class=\"panel-title\">\n" +
-    "      <a role=\"button\" data-toggle=\"collapse\" href aria-expanded=\"{{isOpen}}\" aria-controls=\"{{::panelId}}\" tabindex=\"0\" class=\"accordion-toggle\" ng-click=\"toggleOpen()\" uib-accordion-transclude=\"heading\"><span ng-class=\"{'text-muted': isDisabled}\">{{heading}}</span></a>\n" +
+    "      <a href tabindex=\"0\" class=\"accordion-toggle\" ng-click=\"toggleOpen()\" uib-accordion-transclude=\"heading\"><span ng-class=\"{'text-muted': isDisabled}\">{{heading}}</span></a>\n" +
     "    </h4>\n" +
     "  </div>\n" +
-    "  <div id=\"{{::panelId}}\" aria-labelledby=\"{{::headingId}}\" aria-hidden=\"{{!isOpen}}\" role=\"tabpanel\" class=\"panel-collapse collapse\" uib-collapse=\"!isOpen\">\n" +
-    "    <div class=\"panel-body\" ng-transclude></div>\n" +
+    "  <div class=\"panel-collapse collapse\" uib-collapse=\"!isOpen\">\n" +
+    "	  <div class=\"panel-body\" ng-transclude></div>\n" +
     "  </div>\n" +
     "</div>\n" +
     "");
@@ -11616,7 +11405,7 @@ angular.module("uib/template/accordion/accordion-group.html", []).run(["$templat
 
 angular.module("uib/template/accordion/accordion.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("uib/template/accordion/accordion.html",
-    "<div role=\"tablist\" class=\"panel-group\" ng-transclude></div>");
+    "<div class=\"panel-group\" ng-transclude></div>");
 }]);
 
 angular.module("uib/template/alert/alert.html", []).run(["$templateCache", function($templateCache) {
@@ -43029,67 +42818,6 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
 
 },{}],11:[function(require,module,exports){
 'use strict';
-var ReportesController = function ReportesController($scope, $http, high) {
-    $scope.pageClass = 'page-clientes';
-    $scope.testVar = 'Esta es el area de clientes Controller!';
-
-    $http.get('api/reportes/tipo-sujeto-agredido').success(function (data) {
-
-        $scope.data = data;
-
-        var agresion = [];
-        var _2010 = [];
-        var _2011 = [];
-        var _2012 = [];
-        var _2013 = [];
-
-        $scope.data.forEach(function (e) {
-            agresion.push(e.agresion);
-            _2010.push(parseInt(e.ddiez));
-            _2011.push(parseInt(e.donce));
-            _2012.push(parseInt(e.ddoce));
-            _2013.push(parseInt(e.dtrece));
-        });
-
-        console.log(_2012);
-
-        $scope.chartConfig = {
-            options: {
-                chart: {
-                    type: 'bar'
-                }
-            },
-            title: {
-                text: 'Tipo Sujeto Agredido'
-            },
-            xAxis: {
-                categories: agresion
-            },
-            plotOptions: {
-                line: {
-                    dataLabels: {
-                        enabled: true
-                    },
-                    enableMouseTracking: false
-                }
-            },
-            series: [{
-                name: "Año 2010", data: _2010
-            }, {
-                name: "Año 2011", data: _2011
-            }, {
-                name: "Año 2012", data: _2012
-            }, {
-                name: "Año 2013", data: _2013
-            }]
-        };
-    });
-};
-
-module.exports = ReportesController;
-
-},{}],12:[function(require,module,exports){
-'use strict';
 var WelcomeCtrl = function WelcomeCtrl($scope) {
     $scope.pageClass = 'page-home';
     $scope.testVar = 'We are up and running from a required module!';
@@ -43097,11 +42825,17 @@ var WelcomeCtrl = function WelcomeCtrl($scope) {
 
 module.exports = WelcomeCtrl;
 
-},{}],13:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 var AlertasController = function AlertasController($scope, $http, high) {};
 
 module.exports = AlertasController;
+
+},{}],13:[function(require,module,exports){
+'use strict';
+var ListadoController = function ListadoController($scope, $http, high) {};
+
+module.exports = ListadoController;
 
 },{}],14:[function(require,module,exports){
 "use strict";
@@ -43344,30 +43078,6 @@ module.exports = LocacionController;
 
 },{}],18:[function(require,module,exports){
 'use strict';
-var MedioSistemaController = function MedioSistemaController($scope, $http, high) {
-
-    $http.get("api/reportes/years").success(function (data) {
-        $scope.years = data;
-    });
-
-    $scope.getData = function ($year) {
-        $http.get('api/reportes/medio-o-sistema/' + $year).success(function (data) {
-
-            $scope.datos = data;
-
-            $scope._total = 0;
-            $scope.datos.forEach(function (e) {
-                $scope._total += e.total;
-            });
-        });
-    };
-
-    $scope.getData(2016);
-};
-module.exports = MedioSistemaController;
-
-},{}],19:[function(require,module,exports){
-'use strict';
 var OcurrenciaMensualController = function OcurrenciaMensualController($scope, $http, high) {
 
     $scope.meses = [{ "meses": "Enero", "dquince": 11, "dcatorce": 4, "dtrece": 6, "ddoce": 7 }, { "meses": "Febrero", "dquince": 11, "dcatorce": 4, "dtrece": 5, "ddoce": 8 }, { "meses": "Marzo", "dquince": 22, "dcatorce": 4, "dtrece": 1, "ddoce": 12 }, { "meses": "Abril", "dquince": 11, "dcatorce": 7, "dtrece": 7, "ddoce": 6 }, { "meses": "Mayo", "dquince": 17, "dcatorce": 7, "dtrece": 3, "ddoce": 6 }, { "meses": "Junio", "dquince": 26, "dcatorce": 8, "dtrece": 11, "ddoce": 7 }, { "meses": "Julio", "dquince": 32, "dcatorce": 4, "dtrece": 10, "ddoce": 7 }, { "meses": "Agosto", "dquince": 20, "dcatorce": 7, "dtrece": 6, "ddoce": 10 }, { "meses": "Septiembre", "dquince": 16, "dcatorce": 7, "dtrece": 11, "ddoce": 6 }, { "meses": "Octubre", "dquince": 19, "dcatorce": 10, "dtrece": 8, "ddoce": 7 }, { "meses": "Noviembre", "dquince": 23, "dcatorce": 17, "dtrece": 7, "ddoce": 3 }, { "meses": "Diciembre", "dquince": 10, "dcatorce": 12, "dtrece": 3, "ddoce": 1 }];
@@ -43442,7 +43152,7 @@ var OcurrenciaMensualController = function OcurrenciaMensualController($scope, $
 };
 module.exports = OcurrenciaMensualController;
 
-},{}],20:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 var SujetoAgredidoGeneroController = function SujetoAgredidoGeneroController($scope, $http, high) {
 
@@ -43466,7 +43176,7 @@ var SujetoAgredidoGeneroController = function SujetoAgredidoGeneroController($sc
 };
 module.exports = SujetoAgredidoGeneroController;
 
-},{}],21:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 var TipoAgresorController = function TipoAgresorController($scope, $http, high) {
 
@@ -43545,7 +43255,7 @@ var TipoAgresorController = function TipoAgresorController($scope, $http, high) 
 };
 module.exports = TipoAgresorController;
 
-},{}],22:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 var TipoMedioController = function TipoMedioController($scope, $http, high) {
 
@@ -43628,7 +43338,7 @@ var TipoMedioController = function TipoMedioController($scope, $http, high) {
 };
 module.exports = TipoMedioController;
 
-},{}],23:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 var TipoSujetoAgredidoController = function TipoSujetoAgredidoController($scope, $http, yearsService, high) {
 
@@ -43713,7 +43423,7 @@ var TipoSujetoAgredidoController = function TipoSujetoAgredidoController($scope,
 };
 module.exports = TipoSujetoAgredidoController;
 
-},{}],24:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 var TipoSujetoAgredidoTestController = function TipoSujetoAgredidoTestController($scope, $http, high) {
     $http.get('api/reportes/tipo-sujeto-agredido-test').success(function (data) {
@@ -43732,7 +43442,7 @@ var TipoSujetoAgredidoTestController = function TipoSujetoAgredidoTestController
 
 module.exports = TipoSujetoAgredidoTestController;
 
-},{}],25:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 var menu = function menu() {
@@ -43751,7 +43461,7 @@ var menu = function menu() {
 
 module.exports = menu;
 
-},{}],26:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 var years = function years() {
     return {

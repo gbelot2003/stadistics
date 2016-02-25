@@ -81,6 +81,9 @@ class Agredido extends Model
         $query->Join('alertas', 'agredidos.alertas_id', '=', 'alertas.id')
             ->where('published_state', '=', 1)
             ->select('alertas.year')
+            ->where('alertas.year', '!=', 2016)
+            ->where('alertas.year', '!=', 2010)
+            ->where('alertas.year', '!=', 2011)
             ->GroupBy('alertas.year')
             ->orderBy('alertas.year', 'DESC');
     }
@@ -118,7 +121,9 @@ class Agredido extends Model
             ->Join('tiposujetoagredidos', 'tiposujetoagredidos.id', '=', 'agredidos.tiposujetoagredidos_id')
             ->Join('alertas', 'alertas.id', '=', 'agredidos.id')
             ->where('alertas.year', '=', $years)
+            ->where('alertas.published_date', '!=', '2016')
             ->where('alertas.published_state', '=', 1)
+
             ->groupBy('agredidos.tiposujetoagredidos_id');
     }
 
