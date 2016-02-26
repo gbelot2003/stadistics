@@ -1,9 +1,88 @@
 <article class="row">
     <header class="col-md-12">
-        <h1 class="title">{{ alerta.title}}</h1>
-        <p>No. Alerta: <strong><small>{{ alerta.number }}</small></strong></p>
+        <h2 class="title">{{ alerta.title}}</h2>
+        <hr />
     </header>
-    <div class="col-md-12" ng-bind-html="body">
-        {{ body }}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="well">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Ficha de Alerta</h3>
+                    </div>
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th>Numero</th>
+                            <td>{{ alerta.number }}</td>
+                        </tr>
+                        <tr>
+                            <th>Fecha</th>
+                            <td>{{ alerta.published_date }}</td>
+                        </tr>
+                        <tr>
+                            <th>Departamento</th>
+                            <td>{{ alerta.departamentos.departamento}}</td>
+                        </tr>
+                        <tr>
+                            <th>Municipio</th>
+                            <td>{{ alerta.municipios.municipio }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Agredido(s)</h4>
+                    </div>
+                    <table class="table table-bordered table-striped" ng-repeat="agredido in alerta.agredidos">
+                        <tr>
+                            <th>Nombre</th>
+                            <td>{{ agredido.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Tipo Sujeto Agredido</th>
+                            <td>{{ agredido.tiposujetoagredido.tiposujetoagredido }}</td>
+                        </tr>
+                        <tr>
+                            <th>Medio</th>
+                            <td>Cualquiera</td>
+                        </tr>
+                        <tr>
+                            <th>Tipo de Medio</th>
+                            <td>{{ agredido.tipomedio.tiposistema }}</td>
+                        </tr>
+                        <tr>
+                            <th>Agresion recibida</th>
+                            <td>{{ agredido.agresiones.agresion}}</td>
+                        </tr>
+                        <tr>
+                            <th>Categoria</th>
+                            <td>Cualquiera</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Agresor(es)</h4>
+                    </div>
+                    <table class="table table-bordered table-striped" ng-repeat="agresor in alerta.agresores">
+                        <tr>
+                            <th>Nombre</th>
+                            <td>{{ agresor.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Tipo de Agresor</th>
+                            <td>{{ agresor.tipoagresor.tipoagresor }}</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div id="body" ng-bind-html="body">
+                {{ body }}
+            </div>
+        </div>
     </div>
 </article>

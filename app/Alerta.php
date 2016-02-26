@@ -23,15 +23,17 @@ class Alerta extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function agredidos(){
-        return $this->hasMany('App/Agredido', 'alertas_id', 'id');
+    public function agredidos()
+    {
+        return $this->hasMany('App\Agredido', 'alertas_id', 'id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function agresores(){
-        return $this->hasMany('App/Agresor', 'alertas_id', 'id');
+    public function agresores()
+    {
+        return $this->hasMany('App\Agresor', 'alertas_id', 'id');
     }
 
     /**
@@ -39,7 +41,8 @@ class Alerta extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function meses(){
+    public function meses()
+    {
         return $this->belongsTo('App\Mes', 'mes_id', 'id');
     }
 
@@ -48,7 +51,8 @@ class Alerta extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function departamentos(){
+    public function departamentos()
+    {
         return $this->belongsTo('App\Departamento', 'departamentos_id', 'id');
     }
 
@@ -57,7 +61,14 @@ class Alerta extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function municipios(){
+    public function municipios()
+    {
         return $this->belongsTo('App\Municipio', 'municipios_id', 'id');
+    }
+
+    public function scopeAlertasDetails($query)
+    {
+        $query->with('meses', 'departamentos', 'municipios', 'agredidos.tiposujetoagredido', 'agredidos.generos',
+            'agredidos.tipomedio', 'agredidos.agresiones', 'agresores.tipoagresor');
     }
 }

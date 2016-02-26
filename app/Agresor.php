@@ -38,7 +38,7 @@ class Agresor extends Model
      */
     public function tipoagresor()
     {
-        return  $this->belongsTo('App\Tipoagresors', 'tipoagresors_id', 'id');
+        return  $this->belongsTo('App\Tipoagresor', 'tipoagresors_id', 'id');
     }
 
     /**

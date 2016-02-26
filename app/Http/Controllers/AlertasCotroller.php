@@ -49,7 +49,7 @@ class AlertasCotroller extends Controller
      */
     public function show($id)
     {
-        $response = Alerta::findOrFail($id);
+        $response = Alerta::AlertasDetails()->findOrFail($id);
         return $response;
     }
 
