@@ -1,13 +1,14 @@
 'use strict';
 
 require('angular');
-
 /** libraries injected require **/
 var routes = require('angular-route');
 var sanitize = require('angular-sanitize');
 var animate = require('angular-animate');
 var uibs = require('angular-ui-bootstrap');
 var high = require('highcharts-ng');
+var moment = require('moment');
+
 
 /** Main instance **/
 var app = angular.module('adminApp', [routes, sanitize, animate, uibs, high]);
@@ -26,6 +27,9 @@ var TipoAgresorController = require('./controllers/reportes/TipoAgresorControlle
 var LocacionController = require('./controllers/reportes/LocacionController');
 var OcurrenciaMensualController = require('./controllers/reportes/OcurrenciaMensualController');
 var TipoSujetoAgredidotest = require('./controllers/reportes/TipoSujetoAgredidoTestController');
+
+
+app.constant("moment", moment);
 
 /** Directives **/
 var menu = require('./directives/menu');
@@ -54,10 +58,12 @@ app.config(function($routeProvider, $locationProvider){
     $locationProvider.html5Mode(false);
 });
 
+
+
 /** Instances **/
 app.controller('menuController', ['$scope', menuController]);
 app.controller('WelcomeCtrl', ['$scope', WelcomeCtrl]);
-app.controller('AlertasController', ['$scope', '$http', '$routeParams' ,AlertasCtrl]);
+app.controller('AlertasController', ['$scope', 'moment', '$http', '$routeParams' ,AlertasCtrl]);
 app.controller('ListadoController', ['$scope', '$http', ListadoCrtl]);
 app.controller('TipoSujetoAgredidoController', ['$scope', '$http', 'yearsService' ,TipoSujetoAgredido]);
 app.controller('SujetoAgredidoGeneroController', ['$scope', '$http', SujetoAgredidoGenero]);
