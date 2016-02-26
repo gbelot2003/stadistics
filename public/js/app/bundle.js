@@ -48,7 +48,7 @@ app.config(function ($routeProvider, $locationProvider) {
 app.controller('menuController', ['$scope', menuController]);
 app.controller('WelcomeCtrl', ['$scope', WelcomeCtrl]);
 app.controller('AlertasController', ['$scope', 'moment', '$http', '$routeParams', AlertasCtrl]);
-app.controller('ListadoController', ['$scope', '$http', ListadoCrtl]);
+app.controller('ListadoController', ['$scope', 'moment', '$http', ListadoCrtl]);
 app.controller('TipoSujetoAgredidoController', ['$scope', '$http', 'yearsService', TipoSujetoAgredido]);
 app.controller('SujetoAgredidoGeneroController', ['$scope', '$http', SujetoAgredidoGenero]);
 app.controller('TipoMedioController', ['$scope', '$http', TipoMedio]);
@@ -47589,10 +47589,14 @@ module.exports = AlertasController;
 
 },{}],16:[function(require,module,exports){
 'use strict';
-var ListadoController = function ListadoController($scope, $http, high) {
-   $http.get('api/alertas/listado').then(function successfunction(response) {
-      $scope.alertas = response.data;
-   });
+var ListadoController = function ListadoController($scope, moment, $http) {
+    $http.get('api/alertas/listado').then(function successfunction(response) {
+        $scope.alertas = response.data;
+    });
+
+    $scope.changeDate = function (date) {
+        return moment($scope.published_date).format('YYYY-MM-DD');
+    };
 };
 
 module.exports = ListadoController;

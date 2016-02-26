@@ -16,7 +16,7 @@
                 <tr ng-repeat="alertas in alertas">
                     <td>{{ alertas.number}}</td>
                     <td><a href="#/alertas/detalle/{{ alertas.id }}">{{ alertas.title }}</a></td>
-                    <td>{{ alertas.published_date }}</td>
+                    <td>{{ changeDate(alertas.published_date) }}</td>
                 </tr>
             </tbody>
         </table>

@@ -64,7 +64,7 @@ app.config(function($routeProvider, $locationProvider){
 app.controller('menuController', ['$scope', menuController]);
 app.controller('WelcomeCtrl', ['$scope', WelcomeCtrl]);
 app.controller('AlertasController', ['$scope', 'moment', '$http', '$routeParams' ,AlertasCtrl]);
-app.controller('ListadoController', ['$scope', '$http', ListadoCrtl]);
+app.controller('ListadoController', ['$scope', 'moment', '$http', ListadoCrtl]);
 app.controller('TipoSujetoAgredidoController', ['$scope', '$http', 'yearsService' ,TipoSujetoAgredido]);
 app.controller('SujetoAgredidoGeneroController', ['$scope', '$http', SujetoAgredidoGenero]);
 app.controller('TipoMedioController', ['$scope', '$http', TipoMedio]);
