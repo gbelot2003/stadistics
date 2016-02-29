@@ -8,7 +8,7 @@ var animate = require('angular-animate');
 var uibs = require('angular-ui-bootstrap');
 var high = require('highcharts-ng');
 var moment = require('moment');
-
+var groupArray = require('group-array');
 
 /** Main instance **/
 var app = angular.module('adminApp', [routes, sanitize, animate, uibs, high]);
@@ -30,6 +30,7 @@ var TipoSujetoAgredidotest = require('./controllers/reportes/TipoSujetoAgredidoT
 
 
 app.constant("moment", moment);
+app.constant("groupArray", groupArray);
 
 /** Directives **/
 var menu = require('./directives/menu');
@@ -52,7 +53,7 @@ app.config(function($routeProvider, $locationProvider){
         .when('/reportes/tipo-de-agresor', { controller:'TipoAgresorController', templateUrl:'./js/app/views/reportes/tipoAgresor.html' })
         .when('/reportes/locacion', { controller:'LocacionController', templateUrl:'./js/app/views/reportes/locacion.html' })
         .when('/reportes/ocurrencias-menuales', { controller:'OcurrenciaMensualController', templateUrl:'./js/app/views/reportes/ocurrenciaMensual.html' })
-        .when('/reportes/test', {controller:'TipoSujetoAgredidoTestController', templateUrl: './js/app/views/test1.html'})
+        .when('/reportes/test', {controller:'TipoSujetoAgredidoTestController', templateUrl: './js/app/views/reportes/tipoSujetoAgredidoTest.html'})
         .otherwise({redirectTo: '/'});
 
     $locationProvider.html5Mode(false);
@@ -73,7 +74,7 @@ app.controller('AgresionesIndirectasController', ['$scope', '$http', AgresionesI
 app.controller('TipoAgresorController', ['$scope', '$http', TipoAgresorController]);
 app.controller('LocacionController', ['$scope', '$http', LocacionController]);
 app.controller('OcurrenciaMensualController', ['$scope', '$http', OcurrenciaMensualController]);
-app.controller('TipoSujetoAgredidoTestController', ['$scope', '$http', TipoSujetoAgredidotest]);
+app.controller('TipoSujetoAgredidoTestController', ['$scope', '$http', 'groupArray', TipoSujetoAgredidotest]);
 
 /** Factorys **/
 app.factory('yearsService', function(){

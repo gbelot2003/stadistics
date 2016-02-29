@@ -25,6 +25,7 @@
     "babel-preset-es2015": "^6.3.13",
     "babel-runtime": "^5.8.34",
     "bootstrap-sass": "^3.3.6",
+    "group-array": "^0.3.0",
     "jquery": "^2.1.4",
     "moment": "^2.11.2",
     "ng-fx": "^2.0.4",
