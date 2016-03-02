@@ -81,7 +81,6 @@ class Agredido extends Model
         $query->Join('alertas', 'agredidos.alertas_id', '=', 'alertas.id')
             ->where('published_state', '=', 1)
             ->select('alertas.year')
-            ->where('alertas.year', '!=', 2016)
             ->where('alertas.year', '!=', 2010)
             ->where('alertas.year', '!=', 2011)
             ->GroupBy('alertas.year')
@@ -179,6 +178,23 @@ class Agredido extends Model
     }
 
     /**
+     * Consulta de asesinatos durante el periodo
+     *
+     * @param $query
+     * @param $years
+     */
+    public function scopeAgresioneAsesitantos($query, $years)
+    {
+
+        $query->select(DB::raw('Count(agresions.id) as counter'))
+            ->Join('alertas', 'alertas.id', '=', 'agredidos.id')
+            ->Join('agresions', 'agredidos.agresions_id', '=', 'agresions.id')
+            ->where('alertas.year', '=', $years)
+            ->where('alertas.published_state', '=', 1)
+            ->where('agresions.id', '=', 1);
+    }
+
+    /**
      * Sub Consulta de Agresiones segun Categoria
      *
      * @param $query
@@ -214,6 +230,23 @@ class Agredido extends Model
     }
 
     /**
+     * Consulta de Agresiones por Departamento Max
+     *
+     * @param $query
+     * @param $years
+     */
+    public function scopeAgredidosByDepartmentMax($query, $years)
+    {
+        $query->select('departamentos.zona as hc-key', 'departamentos.departamento as departamento', 'departamentos.id as id', DB::raw('Count(alertas.departamentos_id) AS value'))
+            ->Join('alertas', 'alertas.id', '=', 'agredidos.id')
+            ->Join('departamentos', 'alertas.departamentos_id', '=', 'departamentos.id')
+            ->where('alertas.year', '=', $years)
+            ->where('alertas.published_state', '=', 1)
+            ->orderBy('value', 'DESC')
+            ->groupBy('departamentos.departamento');
+    }
+
+    /**
      * Consulta de Agresiones por Mes
      *
      * @param $query
@@ -227,6 +260,17 @@ class Agredido extends Model
             ->where('alertas.year', '=', $years)
             ->where('alertas.published_state', '=', 1)
             ->orderBy('mes.id', 'ASC')
+            ->groupBy('mes.mes');
+    }
+
+    public function scopeAgredidosByMonthMax($query, $years)
+    {
+        $query->select('mes.id', 'mes.mes as mes', DB::raw('Count(alertas.mes_id) as contador'))
+            ->Join('alertas', 'alertas.id', '=', 'agredidos.id')
+            ->Join('mes', 'alertas.mes_id', '=', 'mes.id')
+            ->where('alertas.year', '=', $years)
+            ->where('alertas.published_state', '=', 1)
+            ->orderBy('contador', 'DESC')
             ->groupBy('mes.mes');
     }
 

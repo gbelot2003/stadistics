@@ -1,57 +1,63 @@
 'use strict';
-var WelcomeCtrl = function($scope, $http) {
+var WelcomeCtrl = function($scope, $http, yearsService) {
     $scope.pageClass = 'page-home';
-    $scope.testVar = 'Alertas';
-    $http.get('api/reportes/agredidos-por-departamento/2016').then(function successfunction(response){
-        $scope.data = response.data;
+    $scope.testVar = 'Estadisticas de agresiones';
+    $scope.peyear = yearsService.anios;
 
+    $scope.setData = function(year){
+        $scope.year = year;
 
-        console.log($scope.data);
-        $(function () {
-            // Initiate the chart
-            $('#container').highcharts('Map', {
+        $http.get('api/reportes/mainpage/' + year).then(function successfunction(response){
+            $scope.data = response.data.departamentos;
+            $scope.totalAlertas = response.data.alertas;
+            $scope.agresiones = response.data.agresiones;
+            $scope.asesinatos = response.data.asesinatos;
+            $scope.maxDepartamento = response.data.maxDepartamento;
+            $scope.maxMeses = response.data.maxMeses;
 
-                title : {
-                    text : 'Mapa de Agresiones a la libertad de expresión en Honduras año 2016'
-                },
+            $(function () {
+                // Initiate the chart
+                $('#container').highcharts('Map', {
 
-                subtitle : {
-                    text : 'Source map: <a href="https://code.highcharts.com/mapdata/countries/hn/hn-all.js">http://clibrehonduras.com</a>'
-                },
+                    title : {
+                        text : 'Mapa de Agresiones a la libertad de expresión en Honduras año ' + year
+                    },
 
-                mapNavigation: {
-                    enabled: true,
-                    buttonOptions: {
-                        verticalAlign: 'bottom'
-                    }
-                },
+                    subtitle : {
+                        text : 'Source map: <a href="https://code.highcharts.com/mapdata/countries/hn/hn-all.js">http://clibrehonduras.com</a>'
+                    },
 
-                colorAxis: {
-                    min: 0
-                },
-
-                series : [{
-                    data : $scope.data,
-                    mapData: Highcharts.maps['countries/hn/hn-all'],
-                    joinBy: 'hc-key',
-                    name: 'Random data',
-                    states: {
-                        hover: {
-                            color: '#BADA55'
+                    mapNavigation: {
+                        enabled: true,
+                        buttonOptions: {
+                            verticalAlign: 'bottom'
                         }
                     },
-                    dataLabels: {
-                        enabled: true,
-                        format: '{point.name}'
-                    }
-                }]
+
+                    colorAxis: {
+                        min: 0
+                    },
+
+                    series : [{
+                        data : $scope.data,
+                        mapData: Highcharts.maps['countries/hn/hn-all'],
+                        joinBy: 'hc-key',
+                        name: 'Random data',
+                        states: {
+                            hover: {
+                                color: '#BADA55'
+                            }
+                        },
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name}'
+                        }
+                    }]
+                });
             });
         });
-    });
-
-
-
-
+    };
+    $scope.setData(2016);
 };
 
 module.exports = WelcomeCtrl;

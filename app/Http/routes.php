@@ -3,6 +3,7 @@
 Route::get('/', function(){return view('main');});
 
 Route::get('api/alertas/listado', 'ListadoAlertasController@listado');
+Route::get('api/reportes/mainpage/{year}', 'ReportesController@dataMainPage');
 Route::get('api/reportes/alcance-años', 'ReportesController@yearscope');
 Route::get('api/reportes/years', 'ReportesController@setYears');
 Route::get('api/reportes/tipo-sujeto-agredido/{year}', 'ReportesController@tipoSujetoAgredido');
@@ -15,7 +16,6 @@ Route::get('api/reportes/agresion-indirecta/{year}', 'ReportesController@agresio
 Route::get('api/reportes/agresiones-por-categoria/{year}/{catId}', 'ReportesController@agresionesByCategory');
 Route::get('api/reportes/agredidos-por-departamento/{year}', 'ReportesController@dataByDepartamentos');
 Route::get('api/reportes/agredidos-por-mes/{year}', 'ReportesController@dataByMes');
-
 Route::resource('api/alertas', 'AlertasCotroller');
 
 

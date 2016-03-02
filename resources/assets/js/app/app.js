@@ -65,7 +65,7 @@ app.config(function($routeProvider, $locationProvider){
 
 /** Instances **/
 app.controller('menuController', ['$scope', menuController]);
-app.controller('WelcomeCtrl', ['$scope', '$http', WelcomeCtrl]);
+app.controller('WelcomeCtrl', ['$scope', '$http', 'yearsService', WelcomeCtrl]);
 app.controller('ManualCtrl', ['$scope', ManualCtrl]);
 app.controller('AlertasController', ['$scope', 'moment', '$http', '$routeParams' ,AlertasCtrl]);
 app.controller('ListadoController', ['$scope', 'moment', '$http', ListadoCrtl]);
@@ -80,9 +80,9 @@ app.controller('OcurrenciaMensualController', ['$scope', '$http', OcurrenciaMens
 app.controller('TipoSujetoAgredidoTestController', ['$scope', '$http', 'groupArray', TipoSujetoAgredidotest]);
 
 /** Factorys **/
-app.factory('yearsService', function(){
-    var tyears = [2015, 2014, 2013, 2012];
+app.factory('yearsService', ['$http', function($http){
+    var tyears = [2016, 2015, 2014, 2013, 2012];
     return {
         anios: tyears
     }
-});
+}]);

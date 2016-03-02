@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Agredido;
+use App\Agresion;
 use App\Agresor;
 use App\Alerta;
 use App\Tiposujetoagredido;
@@ -158,6 +159,43 @@ class ReportesController extends Controller
         return $response = Agredido::agredidosByMonth($years)->get();
     }
 
+    /**
+     * Resultados en Landing Page
+     *
+     * @route "api/reportes/mainpage/{year}"
+     *
+     * @param $year
+     * @return array
+     */
+    public function dataMainPage($year)
+    {
+        $location = Agredido::agredidosByDepartment($year)->get();
+
+        $totalAlertas = Alerta::where('year', '=', $year)
+            ->where('published_state', '=', 1)
+            ->count();
+
+        $totalAgresion = Agredido::join('alertas', 'alertas.id', '=', 'agredidos.alertas_id')
+            ->where('alertas.year', '=', $year)
+            ->where('published_state', '=', 1)
+            ->count();
+
+        $totalAsesinatos = Agredido::AgresioneAsesitantos($year)->first();
+
+        $maxDepartamentos = Agredido::AgredidosByDepartmentMax($year)->first();
+
+        $maxMeses = Agredido::AgredidosByMonthMax($year)->first();
+
+        return $data = [
+            'alertas' => $totalAlertas,
+            'agresiones' => $totalAgresion,
+            'departamentos' => $location,
+            'asesinatos' => $totalAsesinatos,
+            'maxDepartamento' => $maxDepartamentos,
+            'maxMeses'  => $maxMeses
+        ];
+
+    }
 
     /**
      * Test Action 1
