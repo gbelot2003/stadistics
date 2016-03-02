@@ -22,5 +22,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script src="js/app/bundle.js"></script>
 <script src="http://code.highcharts.com/stock/highstock.src.js"></script>
+<script src="http://code.highcharts.com/maps/modules/map.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/mapdata/countries/hn/hn-all.js"></script>
 </html>

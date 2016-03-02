@@ -1,49 +1,26 @@
 'use strict';
 var TipoSujetoAgredidoTestController = function($scope, $http, groupArray,  high){
 
-    function groupBy(arr, key) {
-        var newArr = [],
-            types = {},
-            newItem, i, j, cur;
-        for (i = 0, j = arr.length; i < j; i++) {
-            cur = arr[i];
-            if (!(cur[key] in types)) {
-                types[cur[key]] = { name: cur[key], data: [] };
-                newArr.push(types[cur[key]]);
-            }
-
-            var ex =  _.omit(cur, 'name');
-            var ye =  _.pluck(ex, 'x');
-            console.log(ex)
-            types[cur[key]].data.push(ye);
-        }
-        return newArr;
-    }
-
     $http.get('api/reportes/tipo-sujeto-agredido-test').then(function successfunction(response){
         var data = response.data;
-        var dseccion = [];
+        var score = [];
+        for (var i = 0; i < data.length; i++) {
+            score.push(
+                {name:data[i].name, data:[[data[i].x, data[i].y]]}
+            );
+        }
 
-        data.forEach(function(e){
-            dseccion.push(e)
-        });
-
-        var array = groupBy(dseccion, 'name');
-        var yourArray = _(array).toArray();
-
-        console.log(yourArray);
-
-        $scope.chartConfig.series = yourArray;
-
-        //$scope.chartConfig.series.joinBy = 'xAxis';
-
+        var vscore = _.groupBy(score, 'name');
+        var rscore = _.omit(vscore, 'name') ;
+        console.log(rscore);
+        $scope.chartConfig.series = vscore
     });
 
     $scope.chartConfig = {
         options: {
             chart: {
                 type: 'column',
-                height: 700,
+                height: 600,
             },
             title: {text: 'Estadisticas por Tipos de Sujetos Agredidos'},
             subtitle: {text: 'Source: <a href="http://clibrehonduras.com">clibrehonduras.com</a>'},
