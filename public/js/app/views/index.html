@@ -5,33 +5,33 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <h3>Que es una alerta</h3>
+        <h3>¿Qué es una alerta?</h3>
         <p class="text-justify">
-            Las alertas Son un mecanismo de denuncia y acción eficiente que permiten a la sociedad y a la opinión pública llamar la atención sobre un problema de interés nacional e internacional. Este Manual pretende señalar la técnicas necesarias para obtener y presentar información que constituya una acción de alerta. No pretende ser una guía única, pero sí responder a la necesidad inmediata de apuntar lo que los promotores de libertad de expresión deberían tener presente al momento de elaborar información vinculada al tema
+            Las alertas son un mecanismo de denuncia y acción eficiente que permiten a la sociedad y a la opinión pública llamar la atención sobre un problema de interés nacional e internacional. Este Manual pretende señalar las técnicas necesarias para obtener y presentar información que constituya una acción de alerta. No pretende ser una guía única, pero sí responder a la necesidad inmediata de apuntar lo que los promotores de libertad de expresión deberían tener presente al momento de elaborar información vinculada al tema
         </p>
         <hr />
     </div>
 </div>
 <div class="row">
     <div class="col-md-6">
-        <h3>Seleccione el año para ver estadisticas</h3>
+        <h3>Seleccione el año para ver estadísticas</h3>
         <ul class="nav nav-pills">
             <li role="presentation" ng-repeat="years in peyear"><a href="#/" ng-click="setData(years)">{{ years }}</a></li>
         </ul>
 
         <hr />
-        <h3>Estadisticas {{ year }}</h3>
+        <h3>Estadísticas {{ year }}</h3>
         <ul class="list-group">
             <li class="list-group-item">
-                <span class="badge">{{totalAlertas}}</span>
+                <span class="">{{totalAlertas}}</span>
                 <strong>Alertas</strong> durante el {{ year }}
             </li>
             <li class="list-group-item">
-                <span class="badge">{{agresiones}}</span>
+                <span class="">{{agresiones}}</span>
                 <strong>Agresione</strong> durante el {{ year }}
             </li>
             <li class="list-group-item">
-                <span class="badge">{{asesinatos.counter}}</span>
+                <span class="">{{asesinatos.counter}}</span>
                 <strong>Asesinatos</strong> durante el {{ year }}
             </li>
             <li class="list-group-item">

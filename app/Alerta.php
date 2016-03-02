@@ -66,6 +66,9 @@ class Alerta extends Model
         return $this->belongsTo('App\Municipio', 'municipios_id', 'id');
     }
 
+    /**
+     * @param $query
+     */
     public function scopeAlertasDetails($query)
     {
         $query->with('meses', 'departamentos', 'municipios', 'agredidos.tiposujetoagredido', 'agredidos.generos',
