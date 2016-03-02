@@ -2,85 +2,81 @@
 var WelcomeCtrl = function($scope) {
     $scope.pageClass = 'page-home';
     $scope.testVar = 'Alertas';
-
+    $scope.data = [
+        {
+            "hc-key": "hn-ib", // Islas
+            "value": 0
+        },
+        {
+            "hc-key": "hn-va", // Valle
+            "value": 1
+        },
+        {
+            "hc-key": "hn-at", // Atlantida
+            "value": 2
+        },
+        {
+            "hc-key": "hn-gd", // Gracias a Dios
+            "value": 3
+        },
+        {
+            "hc-key": "hn-cl", // Colon
+            "value": 4
+        },
+        {
+            "hc-key": "hn-ol", // Olancho
+            "value": 5
+        },
+        {
+            "hc-key": "hn-fm", // Francisco Morazan
+            "value": 6
+        },
+        {
+            "hc-key": "hn-yo", // Yoro
+            "value": 7
+        },
+        {
+            "hc-key": "hn-cm", // Comayagua
+            "value": 8
+        },
+        {
+            "hc-key": "hn-cr",  //Cortez
+            "value": 9
+        },
+        {
+            "hc-key": "hn-in", //Intibuca
+            "value": 10
+        },
+        {
+            "hc-key": "hn-lp", // La Paz
+            "value": 11
+        },
+        {
+            "hc-key": "hn-sb", // Santa Barbara
+            "value": 12
+        },
+        {
+            "hc-key": "hn-cp", //Copan
+            "value": 13
+        },
+        {
+            "hc-key": "hn-le", // Lempira
+            "value": 14
+        },
+        {
+            "hc-key": "hn-oc", // Ocotepeque
+            "value": 15
+        },
+        {
+            "hc-key": "hn-ch", // Choluteca
+            "value": 16
+        },
+        {
+            "hc-key": "hn-ep", // El Paraiso
+            "value": 17
+        }
+    ];
     $(function () {
-
-        // Prepare demo data
-        var data = [
-            {
-                "hc-key": "hn-ib",
-                "value": 0
-            },
-            {
-                "hc-key": "hn-va",
-                "value": 1
-            },
-            {
-                "hc-key": "hn-at",
-                "value": 2
-            },
-            {
-                "hc-key": "hn-gd",
-                "value": 3
-            },
-            {
-                "hc-key": "hn-cl",
-                "value": 4
-            },
-            {
-                "hc-key": "hn-ol",
-                "value": 5
-            },
-            {
-                "hc-key": "hn-fm",
-                "value": 6
-            },
-            {
-                "hc-key": "hn-yo",
-                "value": 7
-            },
-            {
-                "hc-key": "hn-cm",
-                "value": 8
-            },
-            {
-                "hc-key": "hn-cr",
-                "value": 9
-            },
-            {
-                "hc-key": "hn-in",
-                "value": 10
-            },
-            {
-                "hc-key": "hn-lp",
-                "value": 11
-            },
-            {
-                "hc-key": "hn-sb",
-                "value": 12
-            },
-            {
-                "hc-key": "hn-cp",
-                "value": 13
-            },
-            {
-                "hc-key": "hn-le",
-                "value": 14
-            },
-            {
-                "hc-key": "hn-oc",
-                "value": 15
-            },
-            {
-                "hc-key": "hn-ch",
-                "value": 16
-            },
-            {
-                "hc-key": "hn-ep",
-                "value": 17
-            }
-        ];
-
         // Initiate the chart
         $('#container').highcharts('Map', {
 
@@ -104,7 +100,7 @@ var WelcomeCtrl = function($scope) {
             },
 
             series : [{
-                data : data,
+                data : $scope.data,
                 mapData: Highcharts.maps['countries/hn/hn-all'],
                 joinBy: 'hc-key',
                 name: 'Random data',

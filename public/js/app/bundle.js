@@ -49882,66 +49882,62 @@ process.umask = function() { return 0; };
 var WelcomeCtrl = function WelcomeCtrl($scope) {
     $scope.pageClass = 'page-home';
     $scope.testVar = 'Alertas';
-
+    $scope.data = [{
+        "hc-key": "hn-ib", // Islas
+        "value": 0
+    }, {
+        "hc-key": "hn-va", // Valle
+        "value": 1
+    }, {
+        "hc-key": "hn-at", // Atlantida
+        "value": 2
+    }, {
+        "hc-key": "hn-gd", // Gracias a Dios
+        "value": 3
+    }, {
+        "hc-key": "hn-cl", // Colon
+        "value": 4
+    }, {
+        "hc-key": "hn-ol", // Olancho
+        "value": 5
+    }, {
+        "hc-key": "hn-fm", // Francisco Morazan
+        "value": 6
+    }, {
+        "hc-key": "hn-yo", // Yoro
+        "value": 7
+    }, {
+        "hc-key": "hn-cm", // Comayagua
+        "value": 8
+    }, {
+        "hc-key": "hn-cr", //Cortez
+        "value": 9
+    }, {
+        "hc-key": "hn-in", //Intibuca
+        "value": 10
+    }, {
+        "hc-key": "hn-lp", // La Paz
+        "value": 11
+    }, {
+        "hc-key": "hn-sb", // Santa Barbara
+        "value": 12
+    }, {
+        "hc-key": "hn-cp", //Copan
+        "value": 13
+    }, {
+        "hc-key": "hn-le", // Lempira
+        "value": 14
+    }, {
+        "hc-key": "hn-oc", // Ocotepeque
+        "value": 15
+    }, {
+        "hc-key": "hn-ch", // Choluteca
+        "value": 16
+    }, {
+        "hc-key": "hn-ep", // El Paraiso
+        "value": 17
+    }];
     $(function () {
-
-        // Prepare demo data
-        var data = [{
-            "hc-key": "hn-ib",
-            "value": 0
-        }, {
-            "hc-key": "hn-va",
-            "value": 1
-        }, {
-            "hc-key": "hn-at",
-            "value": 2
-        }, {
-            "hc-key": "hn-gd",
-            "value": 3
-        }, {
-            "hc-key": "hn-cl",
-            "value": 4
-        }, {
-            "hc-key": "hn-ol",
-            "value": 5
-        }, {
-            "hc-key": "hn-fm",
-            "value": 6
-        }, {
-            "hc-key": "hn-yo",
-            "value": 7
-        }, {
-            "hc-key": "hn-cm",
-            "value": 8
-        }, {
-            "hc-key": "hn-cr",
-            "value": 9
-        }, {
-            "hc-key": "hn-in",
-            "value": 10
-        }, {
-            "hc-key": "hn-lp",
-            "value": 11
-        }, {
-            "hc-key": "hn-sb",
-            "value": 12
-        }, {
-            "hc-key": "hn-cp",
-            "value": 13
-        }, {
-            "hc-key": "hn-le",
-            "value": 14
-        }, {
-            "hc-key": "hn-oc",
-            "value": 15
-        }, {
-            "hc-key": "hn-ch",
-            "value": 16
-        }, {
-            "hc-key": "hn-ep",
-            "value": 17
-        }];
-
         // Initiate the chart
         $('#container').highcharts('Map', {
 
@@ -49965,7 +49961,7 @@ var WelcomeCtrl = function WelcomeCtrl($scope) {
             },
 
             series: [{
-                data: data,
+                data: $scope.data,
                 mapData: Highcharts.maps['countries/hn/hn-all'],
                 joinBy: 'hc-key',
                 name: 'Random data',
@@ -50680,15 +50676,31 @@ var TipoSujetoAgredidoTestController = function TipoSujetoAgredidoTestController
 
     $http.get('api/reportes/tipo-sujeto-agredido-test').then(function successfunction(response) {
         var data = response.data;
-        var score = [];
-        for (var i = 0; i < data.length; i++) {
-            score.push({ name: data[i].name, data: [[data[i].x, data[i].y]] });
-        }
 
-        var vscore = _.groupBy(score, 'name');
-        var rscore = _.omit(vscore, 'name');
-        console.log(rscore);
-        $scope.chartConfig.series = vscore;
+        var anios = [];
+        var objetos = [];
+
+        data.filter(function (elem) {
+            anios.push(elem.name);
+        });
+
+        anios = _.uniq(anios);
+
+        anios.forEach(function (e) {
+            objetos.push({
+                data: (function (name) {
+                    var array = [];
+                    data.forEach(function (elem) {
+                        if (elem.name === name) {
+                            array.push(elem);
+                        }
+                    });
+                    return array;
+                })(e)
+            });
+        });
+        console.log(objetos);
+        $scope.chartConfig.series = objetos;
     });
 
     $scope.chartConfig = {

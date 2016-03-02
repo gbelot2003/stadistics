@@ -3,17 +3,31 @@ var TipoSujetoAgredidoTestController = function($scope, $http, groupArray,  high
 
     $http.get('api/reportes/tipo-sujeto-agredido-test').then(function successfunction(response){
         var data = response.data;
-        var score = [];
-        for (var i = 0; i < data.length; i++) {
-            score.push(
-                {name:data[i].name, data:[[data[i].x, data[i].y]]}
-            );
-        }
 
-        var vscore = _.groupBy(score, 'name');
-        var rscore = _.omit(vscore, 'name') ;
-        console.log(rscore);
-        $scope.chartConfig.series = vscore
+        var anios = [];
+        var objetos = [];
+
+        data.filter(function(elem) {
+            anios.push(elem.name);
+        });
+
+        anios = _.uniq(anios);
+
+        anios.forEach(function(e) {
+            objetos.push({
+                data: function(name) {
+                    var array = [];
+                    data.forEach(function (elem) {
+                        if (elem.name === name) {
+                            array.push(elem);
+                        }
+                    });
+                    return array;
+                }(e)
+            });
+        });
+        console.log(objetos);
+        $scope.chartConfig.series = objetos
     });
 
     $scope.chartConfig = {
