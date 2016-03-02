@@ -16,6 +16,7 @@ var app = angular.module('adminApp', [routes, sanitize, animate, uibs, high]);
 /** Controllers **/
 var menuController = require('./controllers/menuController');
 var WelcomeCtrl = require('./controllers/WelcomeCtrl');
+var ManualCtrl = require('./controllers/pages/ManualCtrl');
 var AlertasCtrl = require('./controllers/alertas/AlertasController');
 var ListadoCrtl = require('./controllers/alertas/ListadoController');
 var TipoSujetoAgredido = require('./controllers/reportes/TipoSujetoAgredidoController');
@@ -43,6 +44,7 @@ app.config(function($routeProvider, $locationProvider){
 
     $routeProvider
         .when('/', { controller: 'WelcomeCtrl', templateUrl: './js/app/views/index.html' })
+        .when('/manual', { controller: 'ManualCtrl', templateUrl: './js/app/views/pages/manual.html' })
         .when('/alertas/detalle/:id',{ controller: 'AlertasController', templateUrl: './js/app/views/alertas/alertas.html'})
         .when('/alertas/listado',{ controller: 'ListadoController', templateUrl: './js/app/views/alertas/listado.html'})
         .when('/reportes/tipo-sujeto-agredido',{ controller: 'TipoSujetoAgredidoController', templateUrl: './js/app/views/reportes/tipoSujetoAgredido.html' })
@@ -63,7 +65,8 @@ app.config(function($routeProvider, $locationProvider){
 
 /** Instances **/
 app.controller('menuController', ['$scope', menuController]);
-app.controller('WelcomeCtrl', ['$scope', WelcomeCtrl]);
+app.controller('WelcomeCtrl', ['$scope', '$http', WelcomeCtrl]);
+app.controller('ManualCtrl', ['$scope', ManualCtrl]);
 app.controller('AlertasController', ['$scope', 'moment', '$http', '$routeParams' ,AlertasCtrl]);
 app.controller('ListadoController', ['$scope', 'moment', '$http', ListadoCrtl]);
 app.controller('TipoSujetoAgredidoController', ['$scope', '$http', 'yearsService' ,TipoSujetoAgredido]);

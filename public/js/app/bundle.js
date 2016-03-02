@@ -17,6 +17,7 @@ var app = angular.module('adminApp', [routes, sanitize, animate, uibs, high]);
 /** Controllers **/
 var menuController = require('./controllers/menuController');
 var WelcomeCtrl = require('./controllers/WelcomeCtrl');
+var ManualCtrl = require('./controllers/pages/ManualCtrl');
 var AlertasCtrl = require('./controllers/alertas/AlertasController');
 var ListadoCrtl = require('./controllers/alertas/ListadoController');
 var TipoSujetoAgredido = require('./controllers/reportes/TipoSujetoAgredidoController');
@@ -41,14 +42,15 @@ app.directive('yearsNav', years);
 /** Config **/
 app.config(function ($routeProvider, $locationProvider) {
 
-    $routeProvider.when('/', { controller: 'WelcomeCtrl', templateUrl: './js/app/views/index.html' }).when('/alertas/detalle/:id', { controller: 'AlertasController', templateUrl: './js/app/views/alertas/alertas.html' }).when('/alertas/listado', { controller: 'ListadoController', templateUrl: './js/app/views/alertas/listado.html' }).when('/reportes/tipo-sujeto-agredido', { controller: 'TipoSujetoAgredidoController', templateUrl: './js/app/views/reportes/tipoSujetoAgredido.html' }).when('/reportes/sujeto-agredido-por-genero', { controller: 'SujetoAgredidoGeneroController', templateUrl: './js/app/views/reportes/sujetoAgredidoGenero.html' }).when('/reportes/tipo-de-medio', { controller: 'TipoMedioController', templateUrl: './js/app/views/reportes/tipoMedio.html' }).when('/reportes/agresiones-directas', { controller: 'AgresionesDirectasController', templateUrl: './js/app/views/reportes/agresionDirecta.html' }).when('/reportes/agresiones-indirectas', { controller: 'AgresionesIndirectasController', templateUrl: './js/app/views/reportes/agresionIndirecta.html' }).when('/reportes/tipo-de-agresor', { controller: 'TipoAgresorController', templateUrl: './js/app/views/reportes/tipoAgresor.html' }).when('/reportes/locacion', { controller: 'LocacionController', templateUrl: './js/app/views/reportes/locacion.html' }).when('/reportes/ocurrencias-menuales', { controller: 'OcurrenciaMensualController', templateUrl: './js/app/views/reportes/ocurrenciaMensual.html' }).when('/reportes/test', { controller: 'TipoSujetoAgredidoTestController', templateUrl: './js/app/views/reportes/tipoSujetoAgredidoTest.html' }).otherwise({ redirectTo: '/' });
+    $routeProvider.when('/', { controller: 'WelcomeCtrl', templateUrl: './js/app/views/index.html' }).when('/manual', { controller: 'ManualCtrl', templateUrl: './js/app/views/pages/manual.html' }).when('/alertas/detalle/:id', { controller: 'AlertasController', templateUrl: './js/app/views/alertas/alertas.html' }).when('/alertas/listado', { controller: 'ListadoController', templateUrl: './js/app/views/alertas/listado.html' }).when('/reportes/tipo-sujeto-agredido', { controller: 'TipoSujetoAgredidoController', templateUrl: './js/app/views/reportes/tipoSujetoAgredido.html' }).when('/reportes/sujeto-agredido-por-genero', { controller: 'SujetoAgredidoGeneroController', templateUrl: './js/app/views/reportes/sujetoAgredidoGenero.html' }).when('/reportes/tipo-de-medio', { controller: 'TipoMedioController', templateUrl: './js/app/views/reportes/tipoMedio.html' }).when('/reportes/agresiones-directas', { controller: 'AgresionesDirectasController', templateUrl: './js/app/views/reportes/agresionDirecta.html' }).when('/reportes/agresiones-indirectas', { controller: 'AgresionesIndirectasController', templateUrl: './js/app/views/reportes/agresionIndirecta.html' }).when('/reportes/tipo-de-agresor', { controller: 'TipoAgresorController', templateUrl: './js/app/views/reportes/tipoAgresor.html' }).when('/reportes/locacion', { controller: 'LocacionController', templateUrl: './js/app/views/reportes/locacion.html' }).when('/reportes/ocurrencias-menuales', { controller: 'OcurrenciaMensualController', templateUrl: './js/app/views/reportes/ocurrenciaMensual.html' }).when('/reportes/test', { controller: 'TipoSujetoAgredidoTestController', templateUrl: './js/app/views/reportes/tipoSujetoAgredidoTest.html' }).otherwise({ redirectTo: '/' });
 
     $locationProvider.html5Mode(false);
 });
 
 /** Instances **/
 app.controller('menuController', ['$scope', menuController]);
-app.controller('WelcomeCtrl', ['$scope', WelcomeCtrl]);
+app.controller('WelcomeCtrl', ['$scope', '$http', WelcomeCtrl]);
+app.controller('ManualCtrl', ['$scope', ManualCtrl]);
 app.controller('AlertasController', ['$scope', 'moment', '$http', '$routeParams', AlertasCtrl]);
 app.controller('ListadoController', ['$scope', 'moment', '$http', ListadoCrtl]);
 app.controller('TipoSujetoAgredidoController', ['$scope', '$http', 'yearsService', TipoSujetoAgredido]);
@@ -69,7 +71,7 @@ app.factory('yearsService', function () {
     };
 });
 
-},{"./controllers/WelcomeCtrl":28,"./controllers/alertas/AlertasController":29,"./controllers/alertas/ListadoController":30,"./controllers/menuController":31,"./controllers/reportes/AgresionesDirectasController":32,"./controllers/reportes/AgresionesIndirectasController":33,"./controllers/reportes/LocacionController":34,"./controllers/reportes/OcurrenciaMensualController":35,"./controllers/reportes/SujetoAgredidoGeneroController":36,"./controllers/reportes/TipoAgresorController":37,"./controllers/reportes/TipoMedioController":38,"./controllers/reportes/TipoSujetoAgredidoController":39,"./controllers/reportes/TipoSujetoAgredidoTestController":40,"./directives/menu":41,"./directives/years":42,"angular":11,"angular-animate":3,"angular-route":5,"angular-sanitize":7,"angular-ui-bootstrap":9,"group-array":12,"highcharts-ng":21,"moment":27}],2:[function(require,module,exports){
+},{"./controllers/WelcomeCtrl":28,"./controllers/alertas/AlertasController":29,"./controllers/alertas/ListadoController":30,"./controllers/menuController":31,"./controllers/pages/ManualCtrl":32,"./controllers/reportes/AgresionesDirectasController":33,"./controllers/reportes/AgresionesIndirectasController":34,"./controllers/reportes/LocacionController":35,"./controllers/reportes/OcurrenciaMensualController":36,"./controllers/reportes/SujetoAgredidoGeneroController":37,"./controllers/reportes/TipoAgresorController":38,"./controllers/reportes/TipoMedioController":39,"./controllers/reportes/TipoSujetoAgredidoController":40,"./controllers/reportes/TipoSujetoAgredidoTestController":41,"./directives/menu":42,"./directives/years":43,"angular":11,"angular-animate":3,"angular-route":5,"angular-sanitize":7,"angular-ui-bootstrap":9,"group-array":12,"highcharts-ng":21,"moment":27}],2:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.0
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -49879,102 +49881,52 @@ process.umask = function() { return 0; };
 }));
 },{}],28:[function(require,module,exports){
 'use strict';
-var WelcomeCtrl = function WelcomeCtrl($scope) {
+var WelcomeCtrl = function WelcomeCtrl($scope, $http) {
     $scope.pageClass = 'page-home';
     $scope.testVar = 'Alertas';
-    $scope.data = [{
-        "hc-key": "hn-ib", // Islas
-        "value": 0
-    }, {
-        "hc-key": "hn-va", // Valle
-        "value": 1
-    }, {
-        "hc-key": "hn-at", // Atlantida
-        "value": 2
-    }, {
-        "hc-key": "hn-gd", // Gracias a Dios
-        "value": 3
-    }, {
-        "hc-key": "hn-cl", // Colon
-        "value": 4
-    }, {
-        "hc-key": "hn-ol", // Olancho
-        "value": 5
-    }, {
-        "hc-key": "hn-fm", // Francisco Morazan
-        "value": 6
-    }, {
-        "hc-key": "hn-yo", // Yoro
-        "value": 7
-    }, {
-        "hc-key": "hn-cm", // Comayagua
-        "value": 8
-    }, {
-        "hc-key": "hn-cr", //Cortez
-        "value": 9
-    }, {
-        "hc-key": "hn-in", //Intibuca
-        "value": 10
-    }, {
-        "hc-key": "hn-lp", // La Paz
-        "value": 11
-    }, {
-        "hc-key": "hn-sb", // Santa Barbara
-        "value": 12
-    }, {
-        "hc-key": "hn-cp", //Copan
-        "value": 13
-    }, {
-        "hc-key": "hn-le", // Lempira
-        "value": 14
-    }, {
-        "hc-key": "hn-oc", // Ocotepeque
-        "value": 15
-    }, {
-        "hc-key": "hn-ch", // Choluteca
-        "value": 16
-    }, {
-        "hc-key": "hn-ep", // El Paraiso
-        "value": 17
-    }];
-    $(function () {
-        // Initiate the chart
-        $('#container').highcharts('Map', {
+    $http.get('api/reportes/agredidos-por-departamento/2016').then(function successfunction(response) {
+        $scope.data = response.data;
 
-            title: {
-                text: 'Mapa de Agresiones a la libertad de expresión en Honduras'
-            },
+        console.log($scope.data);
+        $(function () {
+            // Initiate the chart
+            $('#container').highcharts('Map', {
 
-            subtitle: {
-                text: 'Source map: <a href="https://code.highcharts.com/mapdata/countries/hn/hn-all.js">http://clibrehonduras.com</a>'
-            },
+                title: {
+                    text: 'Mapa de Agresiones a la libertad de expresión en Honduras año 2016'
+                },
 
-            mapNavigation: {
-                enabled: true,
-                buttonOptions: {
-                    verticalAlign: 'bottom'
-                }
-            },
+                subtitle: {
+                    text: 'Source map: <a href="https://code.highcharts.com/mapdata/countries/hn/hn-all.js">http://clibrehonduras.com</a>'
+                },
 
-            colorAxis: {
-                min: 0
-            },
-
-            series: [{
-                data: $scope.data,
-                mapData: Highcharts.maps['countries/hn/hn-all'],
-                joinBy: 'hc-key',
-                name: 'Random data',
-                states: {
-                    hover: {
-                        color: '#BADA55'
+                mapNavigation: {
+                    enabled: true,
+                    buttonOptions: {
+                        verticalAlign: 'bottom'
                     }
                 },
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.name}'
-                }
-            }]
+
+                colorAxis: {
+                    min: 0
+                },
+
+                series: [{
+                    data: $scope.data,
+                    mapData: Highcharts.maps['countries/hn/hn-all'],
+                    joinBy: 'hc-key',
+                    name: 'Random data',
+                    states: {
+                        hover: {
+                            color: '#BADA55'
+                        }
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}'
+                    }
+                }]
+            });
         });
     });
 };
@@ -50022,6 +49974,11 @@ var menuController = function menuController($scope, $location) {
 module.exports = menuController;
 
 },{}],32:[function(require,module,exports){
+'use strict';
+var ManualCtrl = function ManualCtrl($scope, $http) {};
+module.exports = ManualCtrl;
+
+},{}],33:[function(require,module,exports){
 'use strict';
 var AgresionesDirectasController = function AgresionesDirectasController($scope, $http, high) {
 
@@ -50095,7 +50052,7 @@ var AgresionesDirectasController = function AgresionesDirectasController($scope,
 
 module.exports = AgresionesDirectasController;
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 var AgresionesIndirectasController = function AgresionesIndirectasController($scope, $http, high) {
     $scope.chartConfig = {
@@ -50168,7 +50125,7 @@ var AgresionesIndirectasController = function AgresionesIndirectasController($sc
 
 module.exports = AgresionesIndirectasController;
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 'use strict';
 var LocacionController = function LocacionController($scope, $http, high) {
 
@@ -50248,7 +50205,7 @@ var LocacionController = function LocacionController($scope, $http, high) {
 };
 module.exports = LocacionController;
 
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict';
 var OcurrenciaMensualController = function OcurrenciaMensualController($scope, $http, high) {
 
@@ -50324,7 +50281,7 @@ var OcurrenciaMensualController = function OcurrenciaMensualController($scope, $
 };
 module.exports = OcurrenciaMensualController;
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 var SujetoAgredidoGeneroController = function SujetoAgredidoGeneroController($scope, $http, high) {
 
@@ -50423,7 +50380,7 @@ var SujetoAgredidoGeneroController = function SujetoAgredidoGeneroController($sc
 };
 module.exports = SujetoAgredidoGeneroController;
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 var TipoAgresorController = function TipoAgresorController($scope, $http, high) {
 
@@ -50502,7 +50459,7 @@ var TipoAgresorController = function TipoAgresorController($scope, $http, high) 
 };
 module.exports = TipoAgresorController;
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
 var TipoMedioController = function TipoMedioController($scope, $http, high) {
 
@@ -50585,7 +50542,7 @@ var TipoMedioController = function TipoMedioController($scope, $http, high) {
 };
 module.exports = TipoMedioController;
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 var TipoSujetoAgredidoController = function TipoSujetoAgredidoController($scope, $http, yearsService, high) {
 
@@ -50670,7 +50627,7 @@ var TipoSujetoAgredidoController = function TipoSujetoAgredidoController($scope,
 };
 module.exports = TipoSujetoAgredidoController;
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 var TipoSujetoAgredidoTestController = function TipoSujetoAgredidoTestController($scope, $http, groupArray, high) {
 
@@ -50764,7 +50721,7 @@ var TipoSujetoAgredidoTestController = function TipoSujetoAgredidoTestController
 
 module.exports = TipoSujetoAgredidoTestController;
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 'use strict';
 
 var menu = function menu() {
@@ -50783,7 +50740,7 @@ var menu = function menu() {
 
 module.exports = menu;
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 'use strict';
 var years = function years() {
     return {

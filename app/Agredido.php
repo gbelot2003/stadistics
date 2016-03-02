@@ -204,7 +204,7 @@ class Agredido extends Model
      */
     public function scopeAgredidosByDepartment($query, $years)
     {
-        $query->select('departamentos.zona as zona', 'departamentos.departamento as departamento', 'departamentos.id as id', DB::raw('Count(alertas.departamentos_id) AS contador'))
+        $query->select('departamentos.zona as hc-key', 'departamentos.departamento as departamento', 'departamentos.id as id', DB::raw('Count(alertas.departamentos_id) AS value'))
             ->Join('alertas', 'alertas.id', '=', 'agredidos.id')
             ->Join('departamentos', 'alertas.departamentos_id', '=', 'departamentos.id')
             ->where('alertas.year', '=', $years)
