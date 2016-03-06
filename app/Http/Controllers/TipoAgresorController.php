@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Alerta;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class AlertasCotroller extends Controller
+class TipoAgresorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -49,8 +48,7 @@ class AlertasCotroller extends Controller
      */
     public function show($id)
     {
-        $response = Alerta::AlertasDetails()->findOrFail($id);
-        return $response;
+        //
     }
 
     /**
